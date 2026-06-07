@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flatrim Dreshaj — RF &amp; Hardware Engineer</title>
+  <meta name="description" content="ECE student at Iowa State University. CNDE researcher building VNA-based SAR scanners, radar front-ends, and RF calibration infrastructure." />
+  <meta property="og:title" content="Flatrim Dreshaj — RF &amp; Hardware Engineer" />
+  <meta property="og:description" content="VNA systems, radar PCB design, and RF calibration. Iowa State University · CNDE." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080a0f;
+      --surface: #09090f;
+      --surface2: #0d1020;
+      --accent: #00e5ff;
+      --accent2: #7c4dff;
+      --text: #e2e8f0;
+      --muted: #475569;
+      --dim: #1e3a5a;
+      --border: #0a111e;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Sora', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    canvas#bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .site {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 8rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0 0;
+      margin-bottom: 0;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .06em;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadein .8s .1s forwards;
+    }
+
+    @keyframes fadein {
+      to { opacity: 1; transform: none; }
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      opacity: .85;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 300;
+      line-height: 1.14;
+      margin-bottom: 1.1rem;
+      letter-spacing: -.015em;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero h1 strong {
+      font-weight: 300;
+      color: #8b7de8;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: .85rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-p {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: .65rem 1.4rem;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      cursor: pointer;
+      letter-spacing: .08em;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: opacity .15s;
+    }
+
+    .btn-p:hover { opacity: .85; }
+
+    .btn-s {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: .65rem 1.4rem;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid #00e5ff33;
+      cursor: pointer;
+      letter-spacing: .08em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-s:hover { border-color: var(--accent); color: #fff; }
+
+
+    /* ── Sections ── */
+    .sec-lbl {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--dim);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin: 3.5rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+    }
+
+    .sec-lbl::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Projects ── */
+    .projects {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .proj {
+      background: var(--surface);
+      padding: 1.35rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background .15s;
+    }
+
+    .proj:hover { background: var(--surface2); }
+    .proj:hover .parr { color: var(--accent); }
+
+    .ptags {
+      display: flex;
+      gap: .4rem;
+      margin-bottom: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .ptag {
+      font-family: var(--mono);
+      font-size: 9px;
+      padding: .15rem .5rem;
+      border: 1px solid;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .t-rf  { border-color: #00e5ff1a; color: #00e5ff; }
+    .t-hw  { border-color: #7c4dff1a; color: #a07af5; }
+    .t-py  { border-color: #f0ad4e1a; color: #f0ad4e; }
+    .t-cn  { border-color: #4caf501a; color: #81c784; }
+    .t-ml  { border-color: #e9407a1a; color: #e9407a; }
+
+    .ptitle {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: .35rem;
+      color: #c8d6ef;
+    }
+
+    .pdesc {
+      font-size: 12.5px;
+      color: #2d4a6a;
+      line-height: 1.65;
+    }
+
+    .parr {
+      color: #1e2d45;
+      font-size: 18px;
+      font-family: var(--mono);
+      transition: color .15s;
+      margin-top: .1rem;
+    }
+
+    /* ── Skills ── */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .scol {
+      background: var(--surface);
+      padding: 1.25rem 1.35rem 1.5rem;
+    }
+
+    .scol h4 {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--dim);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: .85rem;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .si {
+      font-size: 12px;
+      color: #2d4a6a;
+      padding: .26rem 0;
+      border-bottom: 1px solid #08101a;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      transition: color .15s;
+    }
+
+    .si:last-child { border-bottom: none; }
+    .si:hover { color: var(--accent); }
+
+    .sd {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #00e5ff22;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+
+    .si:hover .sd { background: var(--accent); }
+
+    /* ── About ── */
+    .about {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .about { grid-template-columns: 1fr; }
+    }
+
+    .about-text h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #c8d6ef;
+      margin-bottom: .6rem;
+    }
+
+    .about-text p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .about-links { display: flex; flex-direction: column; gap: .6rem; justify-content: center; }
+
+    .alink {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: .05em;
+      border-bottom: 1px solid #00e5ff22;
+      padding-bottom: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      transition: border-color .2s;
+      width: fit-content;
+    }
+
+    .alink:hover { border-color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .ft {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #1e2d45;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .6s, transform .6s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .site { padding: 0 1.25rem 6rem; }
+      .nav-links { gap: 1.25rem; }
+      .hero { padding: 3.5rem 0 3rem; }
+      .metrics { gap: 1.5rem; }
+      .about { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="site">
+  <nav>
+    <div class="logo">FD / RF Systems</div>
+    <ul class="nav-links">
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="https://github.com/fdreshaj" target="_blank" rel="noopener">github ↗</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="eyebrow">RF &amp; Hardware Engineer · Iowa State University</div>
+    <h1>
+      Microwave circuit hardware<br>
+      <em>design from scratch</em>,<br>
+      <strong>built to transmit, receive, and match</strong>
+    </h1>
+    <p class="hero-sub">
+      BS Electrical Engineering @ Iowa State (GPA 3.55, exp. May 2027) · Researcher at the Applied Microwave Testing Lab · Building SAR scanners, VNA hardware, and RF PCBs.
+    </p>
+    <div class="hero-btns">
+      <a class="btn-p" href="https://github.com/fdreshaj" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn-s" href="#projects">View projects ↓</a>
+    </div>
+  </section>
+
+  <div id="projects" class="sec-lbl reveal">featured projects</div>
+
+  <div class="projects reveal">
+    <a class="proj" href="https://github.com/fdreshaj/PWM-Phased-Array-Radar" target="_blank" rel="noopener">
+      <div>
+        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">Hardware</span></div>
+        <div class="ptitle">PWM Phased Array Radar</div>
+        <div class="pdesc">PWM-controlled phased array radar system. Beam steering via phase-shifted PWM signals driving antenna elements.</div>
+      </div>
+      <div class="parr">→</div>
+    </a>
+    <a class="proj" href="https://github.com/fdreshaj/Scan_Controller_Probe_Main" target="_blank" rel="noopener">
+      <div>
+        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-py">Tcl</span></div>
+        <div class="ptitle">Scan Controller Probe</div>
+        <div class="pdesc">Motion and measurement controller for RF probe scanning. Coordinates probe positioning with VNA triggering for automated S-parameter collection.</div>
+      </div>
+      <div class="parr">→</div>
+    </a>
+    <a class="proj" href="https://github.com/fdreshaj/fmcw_radar_EE418" target="_blank" rel="noopener">
+      <div>
+        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB</span></div>
+        <div class="ptitle">FMCW Radar — 26.5 to 40 GHz</div>
+        <div class="pdesc">Frequency-modulated continuous wave radar design in the Ka-band (26.5–40 GHz). Full radar chain design for EE418.</div>
+      </div>
+      <div class="parr">→</div>
+    </a>
+    <a class="proj" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">
+      <div>
+        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span></div>
+        <div class="ptitle">VNA Design (0.5–10 GHz)</div>
+        <div class="pdesc">6-layer 2-port VNA targeting &gt;130 dB dynamic range. STM32H7 motherboard, high-speed dual ADC, 100 Mbps Ethernet, USB-C. Includes Colpitts VCO, hybrid couplers, balanced mixer, amplifier, and bandpass filter — all designed and simulated in Keysight ADS.</div>
+      </div>
+      <div class="parr">→</div>
+    </a>
+    <a class="proj" href="https://github.com/fdreshaj/PCB_DESIGN_WORKSHOP_STM32" target="_blank" rel="noopener">
+      <div>
+        <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-hw">STM32</span></div>
+        <div class="ptitle">PCB Design Workshop — STM32</div>
+        <div class="pdesc">STM32-based PCB design workshop project. Schematic capture, layout, and bring-up of an STM32 development board.</div>
+      </div>
+      <div class="parr">→</div>
+    </a>
+    <a class="proj" href="https://github.com/fdreshaj/EE414-514-Lab-Design-Files" target="_blank" rel="noopener">
+      <div>
+        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-ml">ADS</span></div>
+        <div class="ptitle">EE414/514 Microwave Lab Design Files</div>
+        <div class="pdesc">Fall 2025 lab design files for EE414/514 (Microwave Engineering). Includes filter, amplifier, coupler, and transmission line designs.</div>
+      </div>
+      <div class="parr">→</div>
+    </a>
+  </div>
+
+  <div id="skills" class="sec-lbl reveal">skills</div>
+
+  <div class="skills reveal">
+    <div class="scol">
+      <h4>EDA / Simulation</h4>
+      <div class="si"><span class="sd"></span>Keysight ADS</div>
+      <div class="si"><span class="sd"></span>KiCad</div>
+      <div class="si"><span class="sd"></span>Microwave CST</div>
+      <div class="si"><span class="sd"></span>ANSYS HFSS</div>
+    </div>
+    <div class="scol">
+      <h4>Languages</h4>
+      <div class="si"><span class="sd"></span>Python</div>
+      <div class="si"><span class="sd"></span>MATLAB</div>
+      <div class="si"><span class="sd"></span>C</div>
+      <div class="si"><span class="sd"></span>Tcl</div>
+    </div>
+    <div class="scol">
+      <h4>Relevant coursework</h4>
+      <div class="si"><span class="sd"></span>Microwave Engineering</div>
+      <div class="si"><span class="sd"></span>High Speed Systems Design</div>
+      <div class="si"><span class="sd"></span>Communication Systems</div>
+      <div class="si"><span class="sd"></span>Wave Propagation &amp; T-Lines</div>
+    </div>
+  </div>
+
+  <div id="about" class="sec-lbl reveal">about</div>
+
+  <div class="about reveal">
+    <div class="about-text">
+      <h3>Flatrim Dreshaj</h3>
+      <p>
+        BS Electrical Engineering, Iowa State University (GPA 3.55, exp. May 2027).
+        Researcher at the Applied Microwave Testing Lab building SAR imaging systems,
+        VNA hardware, and RF PCBs. Tools: Keysight ADS, KiCad, Microwave CST, Python, MATLAB.
+        Coursework: Microwave Engineering, High Speed Systems Design, Communication Systems,
+        Wave Propagation and Transmission Lines.
+      </p>
+    </div>
+    <div class="about-links">
+      <a class="alink" href="https://github.com/fdreshaj" target="_blank" rel="noopener">github.com/fdreshaj ↗</a>
+      <a class="alink" href="mailto:fdreshaj@iastate.edu">fdreshaj@iastate.edu ↗</a>
+      <a class="alink" href="https://www.ece.iastate.edu/" target="_blank" rel="noopener">Iowa State ECE ↗</a>
+    </div>
+  </div>
+
+  <footer>
+    <span class="ft">Flatrim Dreshaj — ECE @ Iowa State</span>
+    <span class="ft">fdreshaj@iastate.edu</span>
+  </footer>
+</div>
+
+<script>
+  /* ── RF flow-field background animation ── */
+  (function () {
+    var canvas = document.getElementById('bg');
+    var ctx = canvas.getContext('2d');
+    var W, H, t = 0;
+    var particles = [];
+    var NUM = 240;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function noise(x, y, z) {
+      var v = Math.sin(x * 1.3 + z) * Math.cos(y * 0.9 - z * 0.7);
+      v += Math.sin(x * 0.6 - z * 0.4) * Math.sin(y * 1.7 + z * 0.5) * 0.5;
+      v += Math.cos(x * 2.4 + z * 1.1) * Math.cos(y * 2.1 - z * 0.3) * 0.25;
+      return v;
+    }
+
+    function flowAngle(x, y, t) {
+      var nx = x / W * 4.5, ny = y / H * 4.5;
+      var wave = Math.sin(nx * 2.1 - t * 1.1) * Math.cos(ny * 1.4 + t * 0.6);
+      var field = noise(nx, ny, t * 0.18);
+      return (wave * 0.65 + field * 0.35) * Math.PI * 2;
+    }
+
+    function rfColor(spd, life, maxLife, x) {
+      var f = Math.max(0, Math.min(1, x / W + Math.sin(t * 0.2 + x * 0.003) * 0.3));
+      var r = Math.round(f * 124);
+      var g = Math.round(229 - f * 152);
+      var b = 255;
+      var a = Math.min((life / maxLife) * 0.45 * (0.4 + spd * 3), 0.55);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')';
+    }
+
+    function Particle() {
+      this.reset = function () {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.vx = 0; this.vy = 0;
+        this.life = 0;
+        this.maxLife = 120 + Math.random() * 220;
+        this.speed = 0.55 + Math.random() * 1.5;
+        this.width = 0.4 + Math.random() * 1.1;
+        if (Math.random() < 0.2) {
+          this.x = Math.random() < 0.5 ? 0 : W;
+          this.y = Math.random() * H;
+        }
+      };
+      this.reset();
+      this.life = Math.random() * this.maxLife;
+    }
+
+    Particle.prototype.step = function () {
+      var angle = flowAngle(this.x, this.y, t) + Math.sin(t * 2.5 + this.x * 0.008) * 0.18;
+      this.vx = this.vx * 0.72 + Math.cos(angle) * this.speed * 0.28;
+      this.vy = this.vy * 0.72 + Math.sin(angle) * this.speed * 0.28;
+      this.px = this.x; this.py = this.y;
+      this.x += this.vx; this.y += this.vy;
+      this.life++;
+      if (this.life > this.maxLife || this.x < -10 || this.x > W + 10 || this.y < -10 || this.y > H + 10) {
+        this.reset();
+      }
+    };
+
+    Particle.prototype.draw = function () {
+      var spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+      ctx.strokeStyle = rfColor(spd, this.life, this.maxLife, this.x);
+      ctx.lineWidth = this.width;
+      ctx.beginPath();
+      ctx.moveTo(this.px, this.py);
+      ctx.lineTo(this.x, this.y);
+      ctx.stroke();
+    };
+
+    for (var i = 0; i < NUM; i++) particles.push(new Particle());
+
+    function frame() {
+      ctx.fillStyle = 'rgba(8,10,15,0.045)';
+      ctx.fillRect(0, 0, W, H);
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].step();
+        particles[i].draw();
+      }
+      t += 0.012;
+      requestAnimationFrame(frame);
+    }
+
+    resize();
+    window.addEventListener('resize', function () {
+      resize();
+      ctx.fillStyle = '#080a0f';
+      ctx.fillRect(0, 0, W, H);
+    });
+    ctx.fillStyle = '#080a0f';
+    ctx.fillRect(0, 0, W, H);
+    frame();
+  })();
+
+  /* ── Scroll reveal ── */
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
