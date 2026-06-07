@@ -4,422 +4,117 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flatrim Dreshaj — RF &amp; Hardware Engineer</title>
-  <meta name="description" content="ECE student at Iowa State University. CNDE researcher building VNA-based SAR scanners, radar front-ends, and RF calibration infrastructure." />
+  <meta name="description" content="ECE student at Iowa State University. Researcher at the Applied Microwave Testing Lab." />
   <meta property="og:title" content="Flatrim Dreshaj — RF &amp; Hardware Engineer" />
-  <meta property="og:description" content="VNA systems, radar PCB design, and RF calibration. Iowa State University · CNDE." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #080a0f;
-      --surface: #09090f;
-      --surface2: #0d1020;
-      --accent: #00e5ff;
-      --accent2: #7c4dff;
-      --text: #e2e8f0;
-      --muted: #475569;
-      --dim: #1e3a5a;
-      --border: #0a111e;
-      --mono: 'Space Mono', monospace;
-      --sans: 'Sora', sans-serif;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:#080a0f;--surface:#09090f;--surface2:#0d1020;
+      --accent:#00e5ff;--text:#e2e8f0;--muted:#475569;
+      --dim:#1e3a5a;--border:#0a111e;
+      --mono:'Space Mono',monospace;--sans:'Sora',sans-serif;
     }
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden;}
+    canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+    .site{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 2rem 8rem;}
 
-    html { scroll-behavior: smooth; }
+    nav{display:flex;align-items:center;justify-content:space-between;padding:2rem 0 0;}
+    .logo{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+    .nav-links a:hover{color:var(--accent);}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 15px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    .hero{padding:5rem 0 4rem;border-bottom:1px solid var(--border);opacity:0;transform:translateY(16px);animation:fadein .8s .1s forwards;}
+    @keyframes fadein{to{opacity:1;transform:none;}}
+    .eyebrow{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:.65rem;opacity:.85;}
+    .eyebrow::before{content:'';width:24px;height:1px;background:var(--accent);flex-shrink:0;}
+    .hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:300;line-height:1.14;margin-bottom:1.1rem;letter-spacing:-.015em;}
+    .hero h1 em{font-style:normal;color:var(--accent);font-weight:500;}
+    .hero h1 strong{font-weight:300;color:#8b7de8;}
+    .hero-sub{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin-bottom:2rem;}
+    .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;}
+    .btn-p{font-family:var(--mono);font-size:11px;padding:.65rem 1.4rem;background:var(--accent);color:#000;border:none;cursor:pointer;letter-spacing:.08em;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .15s;}
+    .btn-p:hover{opacity:.85;}
+    .btn-s{font-family:var(--mono);font-size:11px;padding:.65rem 1.4rem;background:transparent;color:var(--accent);border:1px solid #00e5ff33;cursor:pointer;letter-spacing:.08em;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .2s,color .2s;}
+    .btn-s:hover{border-color:var(--accent);color:#fff;}
 
-    canvas#bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
+    .sec-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
+    .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    .site {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2rem 8rem;
-    }
+    .projects{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);}
+    .proj-item{background:var(--surface);}
+    .proj-header{padding:1.35rem 1.5rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;cursor:pointer;transition:background .15s;user-select:none;}
+    .proj-header:hover{background:var(--surface2);}
+    .proj-header:hover .parr{color:var(--accent);}
+    .proj-item.open .proj-header{background:var(--surface2);}
+    .proj-item.open .parr{color:var(--accent);transform:rotate(90deg);}
+    .ptags{display:flex;gap:.4rem;margin-bottom:.5rem;flex-wrap:wrap;}
+    .ptag{font-family:var(--mono);font-size:9px;padding:.15rem .5rem;border:1px solid;letter-spacing:.07em;text-transform:uppercase;}
+    .t-rf{border-color:#00e5ff1a;color:#00e5ff;}
+    .t-hw{border-color:#7c4dff1a;color:#a07af5;}
+    .t-py{border-color:#f0ad4e1a;color:#f0ad4e;}
+    .t-ml{border-color:#e9407a1a;color:#e9407a;}
+    .ptitle{font-size:14px;font-weight:500;margin-bottom:.35rem;color:#c8d6ef;}
+    .pdesc{font-size:12.5px;color:#2d4a6a;line-height:1.65;}
+    .parr{color:#1e2d45;font-size:16px;font-family:var(--mono);transition:color .15s,transform .25s;margin-top:.1rem;}
 
-    /* ── Nav ── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2rem 0 0;
-      margin-bottom: 0;
-    }
+    .proj-detail{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1);}
+    .proj-item.open .proj-detail{max-height:1400px;border-top:1px solid var(--border);}
+    .proj-detail-inner{padding:1.75rem 1.5rem 2rem;}
 
-    .logo {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.75rem;}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr;}}
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+    .img-placeholder{position:relative;background:#060810;border:1px solid var(--border);overflow:hidden;aspect-ratio:16/9;}
+    .img-placeholder canvas{width:100%;height:100%;display:block;}
+    .img-placeholder .img-label{position:absolute;bottom:.5rem;left:.75rem;font-family:var(--mono);font-size:9px;color:#1e3a5a;letter-spacing:.1em;text-transform:uppercase;pointer-events:none;}
 
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: .06em;
-      transition: color .2s;
-    }
+    .detail-bullets{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+    .detail-bullets li{font-size:12.5px;color:#3a5a7a;line-height:1.6;padding-left:1.2rem;position:relative;}
+    .detail-bullets li::before{content:'—';position:absolute;left:0;color:var(--accent);font-family:var(--mono);font-size:10px;}
 
-    .nav-links a:hover { color: var(--accent); }
+    .detail-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;padding-top:1.25rem;border-top:1px solid var(--border);margin-top:1.5rem;}
+    .detail-meta{font-family:var(--mono);font-size:10px;color:var(--dim);}
+    .gh-link{font-family:var(--mono);font-size:11px;color:var(--accent);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid #00e5ff33;padding-bottom:2px;transition:border-color .2s;}
+    .gh-link:hover{border-color:var(--accent);}
 
-    /* ── Hero ── */
-    .hero {
-      padding: 5rem 0 4rem;
-      border-bottom: 1px solid var(--border);
-      opacity: 0;
-      transform: translateY(16px);
-      animation: fadein .8s .1s forwards;
-    }
+    .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+    .scol{background:var(--surface);padding:1.25rem 1.35rem 1.5rem;}
+    .scol h4{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.85rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+    .si{font-size:12px;color:#2d4a6a;padding:.26rem 0;border-bottom:1px solid #08101a;display:flex;align-items:center;gap:.45rem;transition:color .15s;}
+    .si:last-child{border-bottom:none;}
+    .si:hover{color:var(--accent);}
+    .sd{width:3px;height:3px;border-radius:50%;background:#00e5ff22;flex-shrink:0;transition:background .15s;}
+    .si:hover .sd{background:var(--accent);}
 
-    @keyframes fadein {
-      to { opacity: 1; transform: none; }
-    }
+    .about{border:1px solid var(--border);background:var(--surface);padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;}
+    @media(max-width:600px){.about{grid-template-columns:1fr;}}
+    .about-text h3{font-size:1rem;font-weight:500;color:#c8d6ef;margin-bottom:.6rem;}
+    .about-text p{font-size:13px;color:var(--muted);line-height:1.75;}
+    .about-links{display:flex;flex-direction:column;gap:.6rem;justify-content:center;}
+    .alink{font-family:var(--mono);font-size:11px;color:var(--accent);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid #00e5ff22;padding-bottom:2px;display:inline-flex;align-items:center;gap:.4rem;transition:border-color .2s;width:fit-content;}
+    .alink:hover{border-color:var(--accent);}
 
-    .eyebrow {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--accent);
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: .65rem;
-      opacity: .85;
-    }
+    footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
+    .ft{font-family:var(--mono);font-size:10px;color:#1e2d45;}
 
-    .eyebrow::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s;}
+    .reveal.visible{opacity:1;transform:none;}
 
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      font-weight: 300;
-      line-height: 1.14;
-      margin-bottom: 1.1rem;
-      letter-spacing: -.015em;
-    }
-
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .hero h1 strong {
-      font-weight: 300;
-      color: #8b7de8;
-    }
-
-    .hero-sub {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 520px;
-      margin-bottom: 2rem;
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: .85rem;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
-
-    .btn-p {
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: .65rem 1.4rem;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      cursor: pointer;
-      letter-spacing: .08em;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      transition: opacity .15s;
-    }
-
-    .btn-p:hover { opacity: .85; }
-
-    .btn-s {
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: .65rem 1.4rem;
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid #00e5ff33;
-      cursor: pointer;
-      letter-spacing: .08em;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      transition: border-color .2s, color .2s;
-    }
-
-    .btn-s:hover { border-color: var(--accent); color: #fff; }
-
-
-    /* ── Sections ── */
-    .sec-lbl {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--dim);
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      margin: 3.5rem 0 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: .65rem;
-    }
-
-    .sec-lbl::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── Projects ── */
-    .projects {
-      display: grid;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-
-    .proj {
-      background: var(--surface);
-      padding: 1.35rem 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 1rem;
-      align-items: start;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      transition: background .15s;
-    }
-
-    .proj:hover { background: var(--surface2); }
-    .proj:hover .parr { color: var(--accent); }
-
-    .ptags {
-      display: flex;
-      gap: .4rem;
-      margin-bottom: .5rem;
-      flex-wrap: wrap;
-    }
-
-    .ptag {
-      font-family: var(--mono);
-      font-size: 9px;
-      padding: .15rem .5rem;
-      border: 1px solid;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-    }
-
-    .t-rf  { border-color: #00e5ff1a; color: #00e5ff; }
-    .t-hw  { border-color: #7c4dff1a; color: #a07af5; }
-    .t-py  { border-color: #f0ad4e1a; color: #f0ad4e; }
-    .t-cn  { border-color: #4caf501a; color: #81c784; }
-    .t-ml  { border-color: #e9407a1a; color: #e9407a; }
-
-    .ptitle {
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: .35rem;
-      color: #c8d6ef;
-    }
-
-    .pdesc {
-      font-size: 12.5px;
-      color: #2d4a6a;
-      line-height: 1.65;
-    }
-
-    .parr {
-      color: #1e2d45;
-      font-size: 18px;
-      font-family: var(--mono);
-      transition: color .15s;
-      margin-top: .1rem;
-    }
-
-    /* ── Skills ── */
-    .skills {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-
-    .scol {
-      background: var(--surface);
-      padding: 1.25rem 1.35rem 1.5rem;
-    }
-
-    .scol h4 {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--dim);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      margin-bottom: .85rem;
-      padding-bottom: .6rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .si {
-      font-size: 12px;
-      color: #2d4a6a;
-      padding: .26rem 0;
-      border-bottom: 1px solid #08101a;
-      display: flex;
-      align-items: center;
-      gap: .45rem;
-      transition: color .15s;
-    }
-
-    .si:last-child { border-bottom: none; }
-    .si:hover { color: var(--accent); }
-
-    .sd {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: #00e5ff22;
-      flex-shrink: 0;
-      transition: background .15s;
-    }
-
-    .si:hover .sd { background: var(--accent); }
-
-    /* ── About ── */
-    .about {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 2rem 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-    }
-
-    @media (max-width: 600px) {
-      .about { grid-template-columns: 1fr; }
-    }
-
-    .about-text h3 {
-      font-size: 1rem;
-      font-weight: 500;
-      color: #c8d6ef;
-      margin-bottom: .6rem;
-    }
-
-    .about-text p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .about-links { display: flex; flex-direction: column; gap: .6rem; justify-content: center; }
-
-    .alink {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      text-decoration: none;
-      letter-spacing: .05em;
-      border-bottom: 1px solid #00e5ff22;
-      padding-bottom: 2px;
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      transition: border-color .2s;
-      width: fit-content;
-    }
-
-    .alink:hover { border-color: var(--accent); }
-
-    /* ── Footer ── */
-    footer {
-      margin-top: 5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: .5rem;
-    }
-
-    .ft {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: #1e2d45;
-    }
-
-    /* ── Scroll reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity .6s, transform .6s;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── Mobile ── */
-    @media (max-width: 640px) {
-      .site { padding: 0 1.25rem 6rem; }
-      .nav-links { gap: 1.25rem; }
-      .hero { padding: 3.5rem 0 3rem; }
-      .metrics { gap: 1.5rem; }
-      .about { padding: 1.5rem; }
+    @media(max-width:640px){
+      .site{padding:0 1.25rem 6rem;}
+      .nav-links{gap:1.25rem;}
+      .hero{padding:3.5rem 0 3rem;}
     }
   </style>
 </head>
 <body>
-
 <canvas id="bg"></canvas>
-
 <div class="site">
   <nav>
     <div class="logo">FD / RF Systems</div>
@@ -427,6 +122,7 @@
       <li><a href="#projects">projects</a></li>
       <li><a href="#skills">skills</a></li>
       <li><a href="#about">about</a></li>
+      <li><a href="em-waves.html">notes</a></li>
       <li><a href="https://github.com/fdreshaj" target="_blank" rel="noopener">github ↗</a></li>
     </ul>
   </nav>
@@ -450,58 +146,182 @@
   <div id="projects" class="sec-lbl reveal">featured projects</div>
 
   <div class="projects reveal">
-    <a class="proj" href="https://github.com/fdreshaj/PWM-Phased-Array-Radar" target="_blank" rel="noopener">
-      <div>
-        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">Hardware</span></div>
-        <div class="ptitle">PWM Phased Array Radar</div>
-        <div class="pdesc">PWM-controlled phased array radar system. Beam steering via phase-shifted PWM signals driving antenna elements.</div>
+
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">Hardware</span></div>
+          <div class="ptitle">PWM Phased Array Radar</div>
+          <div class="pdesc">PWM-controlled phased array radar. Beam steering via phase-shifted PWM signals driving antenna elements.</div>
+        </div>
+        <div class="parr">→</div>
       </div>
-      <div class="parr">→</div>
-    </a>
-    <a class="proj" href="https://github.com/fdreshaj/Scan_Controller_Probe_Main" target="_blank" rel="noopener">
-      <div>
-        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-py">Tcl</span></div>
-        <div class="ptitle">Scan Controller Probe</div>
-        <div class="pdesc">Motion and measurement controller for RF probe scanning. Coordinates probe positioning with VNA triggering for automated S-parameter collection.</div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="radar"></canvas><div class="img-label">radar sweep — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">beam pattern — add image</div></div>
+          </div>
+          <ul class="detail-bullets">
+            <li>PWM signal generation for phase-controlled beam steering across antenna array elements</li>
+            <li>Phase shift between elements controls constructive/destructive interference to steer the beam without mechanical movement</li>
+            <li>Full radar signal chain: TX antenna excitation, RX signal path, and phase synchronization</li>
+          </ul>
+          <div class="detail-footer">
+            <span class="detail-meta">Updated 3 days ago</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/PWM-Phased-Array-Radar" target="_blank" rel="noopener">github.com/fdreshaj/PWM-Phased-Array-Radar ↗</a>
+          </div>
+        </div>
       </div>
-      <div class="parr">→</div>
-    </a>
-    <a class="proj" href="https://github.com/fdreshaj/fmcw_radar_EE418" target="_blank" rel="noopener">
-      <div>
-        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB</span></div>
-        <div class="ptitle">FMCW Radar — 26.5 to 40 GHz</div>
-        <div class="pdesc">Frequency-modulated continuous wave radar design in the Ka-band (26.5–40 GHz). Full radar chain design for EE418.</div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-py">Tcl</span></div>
+          <div class="ptitle">Scan Controller Probe</div>
+          <div class="pdesc">Motion and measurement controller for RF probe scanning. Coordinates probe positioning with VNA triggering for automated S-parameter collection.</div>
+        </div>
+        <div class="parr">→</div>
       </div>
-      <div class="parr">→</div>
-    </a>
-    <a class="proj" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">
-      <div>
-        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span></div>
-        <div class="ptitle">VNA Design (0.5–10 GHz)</div>
-        <div class="pdesc">6-layer 2-port VNA targeting &gt;130 dB dynamic range. STM32H7 motherboard, high-speed dual ADC, 100 Mbps Ethernet, USB-C. Includes Colpitts VCO, hybrid couplers, balanced mixer, amplifier, and bandpass filter — all designed and simulated in Keysight ADS.</div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="raster"></canvas><div class="img-label">scan pattern — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">S-parameter output — add image</div></div>
+          </div>
+          <ul class="detail-bullets">
+            <li>Tcl controller coordinating XY probe movement with VNA measurement triggers at each point in the scan grid</li>
+            <li>Raster scan: probe stops at each grid point, VNA takes S-parameter snapshot, probe moves to next point</li>
+            <li>Data output to HDF5 for structured storage and post-processing</li>
+          </ul>
+          <div class="detail-footer">
+            <span class="detail-meta">Updated last month</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/Scan_Controller_Probe_Main" target="_blank" rel="noopener">github.com/fdreshaj/Scan_Controller_Probe_Main ↗</a>
+          </div>
+        </div>
       </div>
-      <div class="parr">→</div>
-    </a>
-    <a class="proj" href="https://github.com/fdreshaj/PCB_DESIGN_WORKSHOP_STM32" target="_blank" rel="noopener">
-      <div>
-        <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-hw">STM32</span></div>
-        <div class="ptitle">PCB Design Workshop — STM32</div>
-        <div class="pdesc">STM32-based PCB design workshop project. Schematic capture, layout, and bring-up of an STM32 development board.</div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB</span></div>
+          <div class="ptitle">FMCW Radar — 26.5 to 40 GHz</div>
+          <div class="pdesc">Frequency-modulated continuous wave radar in the Ka-band (26.5–40 GHz). Full radar chain design for EE418.</div>
+        </div>
+        <div class="parr">→</div>
       </div>
-      <div class="parr">→</div>
-    </a>
-    <a class="proj" href="https://github.com/fdreshaj/EE414-514-Lab-Design-Files" target="_blank" rel="noopener">
-      <div>
-        <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-ml">ADS</span></div>
-        <div class="ptitle">EE414/514 Microwave Lab Design Files</div>
-        <div class="pdesc">Fall 2025 lab design files for EE414/514 (Microwave Engineering). Includes filter, amplifier, coupler, and transmission line designs.</div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="fmcw"></canvas><div class="img-label">chirp waveform — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="pcb"></canvas><div class="img-label">PCB layout — add image</div></div>
+          </div>
+          <ul class="detail-bullets">
+            <li>Ka-band FMCW radar operating 26.5–40 GHz with linear frequency chirp for range measurement</li>
+            <li>Full radar architecture: VCO chirp source, TX path with PA, RX path with LNA and mixer for IF extraction</li>
+            <li>Beat frequency between TX and RX signals extracts target range; designed for EE418 (Microwave Engineering)</li>
+          </ul>
+          <div class="detail-footer">
+            <span class="detail-meta">Updated May 4</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/fmcw_radar_EE418" target="_blank" rel="noopener">github.com/fdreshaj/fmcw_radar_EE418 ↗</a>
+          </div>
+        </div>
       </div>
-      <div class="parr">→</div>
-    </a>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span></div>
+          <div class="ptitle">VNA Design — 0.5 to 10 GHz</div>
+          <div class="pdesc">6-layer 2-port VNA targeting &gt;130 dB dynamic range. STM32H7, high-speed dual ADC, 100 Mbps Ethernet, USB-C. Full signal chain in Keysight ADS.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">S-parameter sim — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="pcb"></canvas><div class="img-label">6-layer stackup — add image</div></div>
+          </div>
+          <ul class="detail-bullets">
+            <li>6-layer 2-port VNA targeting &gt;130 dB dynamic range across 0.5–10 GHz</li>
+            <li>STM32H7 digitizes downconverter outputs via dual ADC; 100 Mbps Ethernet for S-param transfer, USB-C Full Speed, SWD debug</li>
+            <li>2.3–2.8 GHz Colpitts VCO: −1.8 to −11 dBm into 50 Ω, phase noise −169 dBc/Hz at 1 MHz offset</li>
+            <li>90° hybrid coupler at 2.45 GHz: −3 dB coupling, −44 dB isolation; 180° rat-race: −3 dB over 2 GHz BW</li>
+            <li>Balanced mixer: −5.6 dB conversion loss; amplifier: S21 = 15.47 dB, S11 = −34.3 dB</li>
+            <li>Gap-coupled BPF: 6% fractional BW, S11 = −25.7 dB, S21 = −5.33 dB in passband</li>
+          </ul>
+          <div class="detail-footer">
+            <span class="detail-meta">Updated Dec 1, 2025</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">github.com/fdreshaj/VNA_Design ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-hw">STM32</span></div>
+          <div class="ptitle">PCB Design Workshop — STM32</div>
+          <div class="pdesc">STM32-based PCB design workshop. Schematic capture, layout, and bring-up of an STM32 development board.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="pcb"></canvas><div class="img-label">schematic — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="radar"></canvas><div class="img-label">3D render — add image</div></div>
+          </div>
+          <ul class="detail-bullets">
+            <li>Full STM32 board from scratch: schematic capture in KiCad, component placement, and routed PCB layout</li>
+            <li>Power regulation, decoupling network, SWD debug header, and GPIO breakout</li>
+            <li>Board bring-up: continuity checks, power sequencing, firmware flash over SWD</li>
+          </ul>
+          <div class="detail-footer">
+            <span class="detail-meta">Updated Oct 22, 2025</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/PCB_DESIGN_WORKSHOP_STM32" target="_blank" rel="noopener">github.com/fdreshaj/PCB_DESIGN_WORKSHOP_STM32 ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-ml">ADS</span></div>
+          <div class="ptitle">EE414/514 Microwave Lab Design Files</div>
+          <div class="pdesc">Fall 2025 lab design files for EE414/514. Filters, amplifiers, couplers, and transmission line designs in ADS.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">filter response — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">amplifier S-params — add image</div></div>
+          </div>
+          <ul class="detail-bullets">
+            <li>Bandpass and lowpass filter designs: coupled resonator and stub topologies, ADS layout and EM co-simulation</li>
+            <li>Amplifier design: load-pull, stability circles, S-parameter matching network synthesis</li>
+            <li>Directional coupler and Wilkinson divider with isolation measurements</li>
+            <li>Transmission line experiments: stub matching, quarter-wave transformer, Smith chart verification</li>
+          </ul>
+          <div class="detail-footer">
+            <span class="detail-meta">Updated Oct 15, 2025</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/EE414-514-Lab-Design-Files" target="_blank" rel="noopener">github.com/fdreshaj/EE414-514-Lab-Design-Files ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div id="skills" class="sec-lbl reveal">skills</div>
-
   <div class="skills reveal">
     <div class="scol">
       <h4>EDA / Simulation</h4>
@@ -527,7 +347,6 @@
   </div>
 
   <div id="about" class="sec-lbl reveal">about</div>
-
   <div class="about reveal">
     <div class="about-text">
       <h3>Flatrim Dreshaj</h3>
@@ -553,119 +372,132 @@
 </div>
 
 <script>
-  /* ── RF flow-field background animation ── */
-  (function () {
-    var canvas = document.getElementById('bg');
-    var ctx = canvas.getContext('2d');
-    var W, H, t = 0;
-    var particles = [];
-    var NUM = 240;
+/* ── RF background flow field ── */
+(function(){
+  var canvas=document.getElementById('bg'),ctx=canvas.getContext('2d'),W,H,t=0,particles=[],NUM=240;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  function noise(x,y,z){var v=Math.sin(x*1.3+z)*Math.cos(y*0.9-z*0.7);v+=Math.sin(x*0.6-z*0.4)*Math.sin(y*1.7+z*0.5)*0.5;v+=Math.cos(x*2.4+z*1.1)*Math.cos(y*2.1-z*0.3)*0.25;return v;}
+  function flowAngle(x,y,t){var nx=x/W*4.5,ny=y/H*4.5,wave=Math.sin(nx*2.1-t*1.1)*Math.cos(ny*1.4+t*0.6),field=noise(nx,ny,t*0.18);return(wave*0.65+field*0.35)*Math.PI*2;}
+  function rfColor(spd,life,maxLife,x){var f=Math.max(0,Math.min(1,x/W+Math.sin(t*0.2+x*0.003)*0.3)),r=Math.round(f*124),g=Math.round(229-f*152),b=255,a=Math.min((life/maxLife)*0.45*(0.4+spd*3),0.55);return'rgba('+r+','+g+','+b+','+a.toFixed(3)+')';}
+  function Particle(){this.reset=function(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=0;this.vy=0;this.life=0;this.maxLife=120+Math.random()*220;this.speed=0.55+Math.random()*1.5;this.width=0.4+Math.random()*1.1;if(Math.random()<0.2){this.x=Math.random()<0.5?0:W;this.y=Math.random()*H;}};this.reset();this.life=Math.random()*this.maxLife;}
+  Particle.prototype.step=function(){var angle=flowAngle(this.x,this.y,t)+Math.sin(t*2.5+this.x*0.008)*0.18;this.vx=this.vx*0.72+Math.cos(angle)*this.speed*0.28;this.vy=this.vy*0.72+Math.sin(angle)*this.speed*0.28;this.px=this.x;this.py=this.y;this.x+=this.vx;this.y+=this.vy;this.life++;if(this.life>this.maxLife||this.x<-10||this.x>W+10||this.y<-10||this.y>H+10)this.reset();};
+  Particle.prototype.draw=function(){var spd=Math.sqrt(this.vx*this.vx+this.vy*this.vy);ctx.strokeStyle=rfColor(spd,this.life,this.maxLife,this.x);ctx.lineWidth=this.width;ctx.beginPath();ctx.moveTo(this.px,this.py);ctx.lineTo(this.x,this.y);ctx.stroke();};
+  for(var i=0;i<NUM;i++)particles.push(new Particle());
+  function frame(){ctx.fillStyle='rgba(8,10,15,0.045)';ctx.fillRect(0,0,W,H);for(var i=0;i<particles.length;i++){particles[i].step();particles[i].draw();}t+=0.012;requestAnimationFrame(frame);}
+  resize();window.addEventListener('resize',function(){resize();ctx.fillStyle='#080a0f';ctx.fillRect(0,0,W,H);});ctx.fillStyle='#080a0f';ctx.fillRect(0,0,W,H);frame();
+})();
 
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
+/* ── Toggle ── */
+function toggle(header){
+  var item=header.parentElement;
+  var wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.proj-item.open').forEach(function(el){el.classList.remove('open');});
+  if(!wasOpen){item.classList.add('open');setTimeout(function(){startAnims(item);},20);}
+}
 
-    function noise(x, y, z) {
-      var v = Math.sin(x * 1.3 + z) * Math.cos(y * 0.9 - z * 0.7);
-      v += Math.sin(x * 0.6 - z * 0.4) * Math.sin(y * 1.7 + z * 0.5) * 0.5;
-      v += Math.cos(x * 2.4 + z * 1.1) * Math.cos(y * 2.1 - z * 0.3) * 0.25;
-      return v;
-    }
+/* ── Placeholder animations ── */
+var anims={};
+function startAnims(item){
+  item.querySelectorAll('.anim-canvas').forEach(function(c){
+    if(c._running)return;
+    c._running=true;
+    var type=c.dataset.type,ctx2=c.getContext('2d'),t2=0;
+    function sz(){c.width=c.offsetWidth||300;c.height=c.offsetHeight||168;}
+    sz();
+    function frame2(){
+      if(!c._running)return;
+      var W2=c.width,H2=c.height;
+      ctx2.fillStyle='#060810';ctx2.fillRect(0,0,W2,H2);
 
-    function flowAngle(x, y, t) {
-      var nx = x / W * 4.5, ny = y / H * 4.5;
-      var wave = Math.sin(nx * 2.1 - t * 1.1) * Math.cos(ny * 1.4 + t * 0.6);
-      var field = noise(nx, ny, t * 0.18);
-      return (wave * 0.65 + field * 0.35) * Math.PI * 2;
-    }
+      if(type==='sparam'){
+        [['#00e5ff',0.3],['#7c4dff',0.5],['#4caf50',0.7]].forEach(function(pair,ci){
+          ctx2.strokeStyle=pair[0]+'99';ctx2.lineWidth=1;ctx2.beginPath();
+          for(var x=0;x<W2;x++){var f=x/W2,res=Math.exp(-Math.pow((f-pair[1])*9,2)),y=H2*0.15+H2*0.7*(1-res*(0.85+0.1*Math.sin(t2+ci)));x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}
+          ctx2.stroke();
+        });
+        ctx2.strokeStyle='#0d1728';ctx2.lineWidth=0.5;
+        [0.25,0.5,0.75].forEach(function(r){ctx2.beginPath();ctx2.moveTo(0,H2*r);ctx2.lineTo(W2,H2*r);ctx2.stroke();ctx2.beginPath();ctx2.moveTo(W2*r,0);ctx2.lineTo(W2*r,H2);ctx2.stroke();});
+        ctx2.fillStyle='#1e3a5a';ctx2.font='8px monospace';ctx2.fillText('freq →',W2-46,H2-5);
 
-    function rfColor(spd, life, maxLife, x) {
-      var f = Math.max(0, Math.min(1, x / W + Math.sin(t * 0.2 + x * 0.003) * 0.3));
-      var r = Math.round(f * 124);
-      var g = Math.round(229 - f * 152);
-      var b = 255;
-      var a = Math.min((life / maxLife) * 0.45 * (0.4 + spd * 3), 0.55);
-      return 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')';
-    }
+      }else if(type==='sweep'){
+        ['#00e5ff','#7c4dff'].forEach(function(col,ci){
+          ctx2.strokeStyle=col+'88';ctx2.lineWidth=1;ctx2.beginPath();
+          for(var x=0;x<W2;x++){var env=Math.sin((x/W2)*Math.PI),y=H2/2+env*H2*0.38*Math.sin((x/W2)*Math.PI*12+t2*2+ci*1.2);x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}
+          ctx2.stroke();
+        });
+        ctx2.strokeStyle='#0d1728';ctx2.lineWidth=0.5;ctx2.beginPath();ctx2.moveTo(0,H2/2);ctx2.lineTo(W2,H2/2);ctx2.stroke();
 
-    function Particle() {
-      this.reset = function () {
-        this.x = Math.random() * W;
-        this.y = Math.random() * H;
-        this.vx = 0; this.vy = 0;
-        this.life = 0;
-        this.maxLife = 120 + Math.random() * 220;
-        this.speed = 0.55 + Math.random() * 1.5;
-        this.width = 0.4 + Math.random() * 1.1;
-        if (Math.random() < 0.2) {
-          this.x = Math.random() < 0.5 ? 0 : W;
-          this.y = Math.random() * H;
+      }else if(type==='raster'){
+        var cols=10,rows=6,px=W2*0.08,py=H2*0.12,gw=W2*0.84,gh=H2*0.76;
+        var total=cols*rows,progress=(t2*0.35)%total;
+        for(var r=0;r<rows;r++)for(var col=0;col<cols;col++){
+          var idx=r*cols+(r%2===0?col:cols-1-col);
+          var x=px+(col/(cols-1))*gw,y=py+(r/(rows-1))*gh;
+          ctx2.beginPath();ctx2.arc(x,y,2.5,0,Math.PI*2);ctx2.fillStyle=idx<progress?'#00e5ff55':'#0d1728';ctx2.fill();
         }
-      };
-      this.reset();
-      this.life = Math.random() * this.maxLife;
-    }
+        var ci2=Math.floor(progress),ri=Math.floor(ci2/cols),coli=ci2%cols;
+        if(ri%2!==0)coli=cols-1-coli;
+        if(ri<rows){var px2=px+(coli/(cols-1))*gw,py2=py+(ri/(rows-1))*gh;ctx2.beginPath();ctx2.arc(px2,py2,5,0,Math.PI*2);ctx2.fillStyle='#00e5ff';ctx2.fill();}
 
-    Particle.prototype.step = function () {
-      var angle = flowAngle(this.x, this.y, t) + Math.sin(t * 2.5 + this.x * 0.008) * 0.18;
-      this.vx = this.vx * 0.72 + Math.cos(angle) * this.speed * 0.28;
-      this.vy = this.vy * 0.72 + Math.sin(angle) * this.speed * 0.28;
-      this.px = this.x; this.py = this.y;
-      this.x += this.vx; this.y += this.vy;
-      this.life++;
-      if (this.life > this.maxLife || this.x < -10 || this.x > W + 10 || this.y < -10 || this.y > H + 10) {
-        this.reset();
+      }else if(type==='fmcw'){
+        ctx2.strokeStyle='#00e5ffaa';ctx2.lineWidth=1;ctx2.beginPath();
+        for(var x=0;x<W2;x++){var frac=((x/W2)+t2*0.06)%1,freq=4+frac*22,phase=frac*freq*Math.PI*2,y=H2/2+H2*0.38*Math.sin(phase);x===0?ctx2.moveTo(x,y):ctx2.lineTo(x,y);}
+        ctx2.stroke();
+        ctx2.strokeStyle='#7c4dff33';ctx2.lineWidth=0.5;ctx2.beginPath();ctx2.moveTo(0,H2*0.85);ctx2.lineTo(W2,H2*0.15);ctx2.stroke();
+        ctx2.fillStyle='#1e3a5a';ctx2.font='8px monospace';ctx2.fillText('26.5 GHz',4,H2-5);ctx2.fillText('40 GHz',W2-52,H2-5);
+
+      }else if(type==='radar'){
+        var cx=W2/2,cy=H2/2,R=Math.min(W2,H2)*0.42;
+        [0.33,0.66,1].forEach(function(r){ctx2.beginPath();ctx2.arc(cx,cy,R*r,0,Math.PI*2);ctx2.strokeStyle='#0d1728';ctx2.lineWidth=0.5;ctx2.stroke();});
+        ctx2.strokeStyle='#0d1728';ctx2.lineWidth=0.5;
+        ctx2.beginPath();ctx2.moveTo(cx-R,cy);ctx2.lineTo(cx+R,cy);ctx2.stroke();
+        ctx2.beginPath();ctx2.moveTo(cx,cy-R);ctx2.lineTo(cx,cy+R);ctx2.stroke();
+        var angle=t2*1.2;
+        ctx2.save();ctx2.translate(cx,cy);ctx2.rotate(angle);
+        ctx2.beginPath();ctx2.moveTo(0,0);ctx2.arc(0,0,R,-0.7,0);ctx2.closePath();
+        ctx2.fillStyle='rgba(0,229,255,0.07)';ctx2.fill();
+        ctx2.beginPath();ctx2.moveTo(0,0);ctx2.lineTo(R,0);ctx2.strokeStyle='#00e5ffaa';ctx2.lineWidth=1.5;ctx2.stroke();
+        ctx2.restore();
+        [{a:0.9,r:0.55},{a:2.3,r:0.3},{a:4.1,r:0.7}].forEach(function(b){
+          var da=((angle-b.a)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+          var fade=da<0.3?1:Math.max(0,1-(da/(Math.PI*2))*3);
+          if(fade<0.02)return;
+          ctx2.beginPath();ctx2.arc(cx+Math.cos(b.a)*R*b.r,cy+Math.sin(b.a)*R*b.r,3,0,Math.PI*2);
+          ctx2.fillStyle='rgba(0,229,255,'+fade.toFixed(2)+')';ctx2.fill();
+        });
+
+      }else if(type==='pcb'){
+        ctx2.strokeStyle='#0a1e10';ctx2.lineWidth=1;
+        var step=18;
+        for(var x=0;x<W2;x+=step){ctx2.beginPath();ctx2.moveTo(x,0);ctx2.lineTo(x,H2);ctx2.stroke();}
+        for(var y=0;y<H2;y+=step){ctx2.beginPath();ctx2.moveTo(0,y);ctx2.lineTo(W2,y);ctx2.stroke();}
+        var traces=[{pts:[[0.08,0.3],[0.4,0.3],[0.4,0.65],[0.78,0.65],[0.78,0.4],[0.92,0.4]],col:'#00e5ff',off:0},
+                    {pts:[[0.08,0.7],[0.28,0.7],[0.28,0.18],[0.62,0.18],[0.62,0.52],[0.88,0.52]],col:'#7c4dff',off:0.5}];
+        traces.forEach(function(tr){
+          ctx2.strokeStyle=tr.col+'55';ctx2.lineWidth=1.5;ctx2.beginPath();
+          tr.pts.forEach(function(pt,i){i===0?ctx2.moveTo(pt[0]*W2,pt[1]*H2):ctx2.lineTo(pt[0]*W2,pt[1]*H2);});ctx2.stroke();
+          var prog=((t2*0.35+tr.off)%1);
+          var segs=[],total2=0;
+          for(var s=1;s<tr.pts.length;s++){var dx=(tr.pts[s][0]-tr.pts[s-1][0])*W2,dy=(tr.pts[s][1]-tr.pts[s-1][1])*H2,l=Math.sqrt(dx*dx+dy*dy);segs.push(l);total2+=l;}
+          var target=prog*total2,acc=0;
+          for(var s=0;s<segs.length;s++){if(acc+segs[s]>=target){var frac=(target-acc)/segs[s],dx=(tr.pts[s+1][0]-tr.pts[s][0])*W2,dy=(tr.pts[s+1][1]-tr.pts[s][1])*H2;ctx2.beginPath();ctx2.arc(tr.pts[s][0]*W2+dx*frac,tr.pts[s][1]*H2+dy*frac,3,0,Math.PI*2);ctx2.fillStyle=tr.col;ctx2.fill();break;}acc+=segs[s];}
+          tr.pts.forEach(function(pt,i){if(i>0&&i<tr.pts.length-1){ctx2.beginPath();ctx2.arc(pt[0]*W2,pt[1]*H2,3,0,Math.PI*2);ctx2.strokeStyle=tr.col+'77';ctx2.lineWidth=1;ctx2.stroke();}});
+        });
       }
-    };
 
-    Particle.prototype.draw = function () {
-      var spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-      ctx.strokeStyle = rfColor(spd, this.life, this.maxLife, this.x);
-      ctx.lineWidth = this.width;
-      ctx.beginPath();
-      ctx.moveTo(this.px, this.py);
-      ctx.lineTo(this.x, this.y);
-      ctx.stroke();
-    };
-
-    for (var i = 0; i < NUM; i++) particles.push(new Particle());
-
-    function frame() {
-      ctx.fillStyle = 'rgba(8,10,15,0.045)';
-      ctx.fillRect(0, 0, W, H);
-      for (var i = 0; i < particles.length; i++) {
-        particles[i].step();
-        particles[i].draw();
-      }
-      t += 0.012;
-      requestAnimationFrame(frame);
+      t2+=0.03;
+      c._raf=requestAnimationFrame(frame2);
     }
+    frame2();
+  });
+}
 
-    resize();
-    window.addEventListener('resize', function () {
-      resize();
-      ctx.fillStyle = '#080a0f';
-      ctx.fillRect(0, 0, W, H);
-    });
-    ctx.fillStyle = '#080a0f';
-    ctx.fillRect(0, 0, W, H);
-    frame();
-  })();
-
-  /* ── Scroll reveal ── */
-  (function () {
-    var els = document.querySelectorAll('.reveal');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    els.forEach(function (el) { io.observe(el); });
-  })();
+/* ── Scroll reveal ── */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.1});
+  els.forEach(function(el){io.observe(el);});
+})();
 </script>
 </body>
 </html>
