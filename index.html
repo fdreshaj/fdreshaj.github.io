@@ -133,6 +133,7 @@
     .gallery .shot{aspect-ratio:4/3;}
     .shot.fig{background:#fff;}
     .shot.fig img{object-fit:contain;}
+    .shot.fig .img-label{background:#0a0d16d9;}
     .detail-grid .shot.fig{grid-column:1/-1;aspect-ratio:auto;}
     .detail-grid .shot.fig img{height:auto;}
     .xp-date{font-family:var(--mono);font-size:11px;color:var(--accent);}
@@ -287,9 +288,9 @@
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span><span class="ptag t-py">KiCad</span></div>
-          <div class="ptitle">HUBRIS VNA — 0.5 to 10 GHz Vector Network Analyzer</div>
-          <div class="pdesc">6-layer, 2-port VNA targeting &gt;130 dB dynamic range and &lt;−110 dBc/Hz phase noise at 1 MHz offset. STM32H7, high-speed dual ADC, 100 Mbps Ethernet, USB-C. RF subsystems designed and simulated in Keysight ADS.</div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS / CST</span><span class="ptag t-py">Python</span><span class="ptag t-ml">EE 514 · EE 4900</span></div>
+          <div class="ptitle">HUBRIS VNA — Vector Network Analyzer from Scratch</div>
+          <div class="pdesc">A 2-port VNA designed layer by layer: a 2.3–2.8 GHz VCO, directional couplers, diode mixers, a 6-layer STM32H7 motherboard, and Python calibration and material-characterization software. Started in EE 514 (Fall 2025) and continued as an EE 4900 independent study with Prof. Nathan Neihart (Spring 2026). Long-term goal: 0.5–10 GHz with &gt;130 dB dynamic range.</div>
         </div>
         <div class="parr">→</div>
       </div>
@@ -298,41 +299,67 @@
           <div class="detail-grid">
             <a class="shot" href="images/vna_3d.jpg" target="_blank"><img src="images/vna_3d.jpg" alt="KiCad 3D render of the 6-layer VNA motherboard, angled" loading="lazy"><span class="img-label">VNA motherboard — KiCad 3D</span></a>
             <a class="shot" href="images/vna_top.jpg" target="_blank"><img src="images/vna_top.jpg" alt="KiCad 3D render of the VNA motherboard from the top" loading="lazy"><span class="img-label">Top view: MCU, Ethernet, downconverters</span></a>
+          </div>
+          <div class="gallery">
+            <a class="shot fig" href="images/vna/block_diagram.png" target="_blank"><img src="images/vna/block_diagram.png" alt="VNA system block diagram" loading="lazy"><span class="img-label">System block diagram</span></a>
+            <a class="shot fig" href="images/vna/stackup.png" target="_blank"><img src="images/vna/stackup.png" alt="6-layer motherboard stackup" loading="lazy"><span class="img-label">6-layer stackup</span></a>
+            <a class="shot" href="images/vna/vco_layout.jpg" target="_blank"><img src="images/vna/vco_layout.jpg" alt="2.3–2.8 GHz Colpitts VCO layout in ADS" loading="lazy"><span class="img-label">2.3–2.8 GHz VCO layout</span></a>
+            <a class="shot fig" href="images/vna/vco_waveform.png" target="_blank"><img src="images/vna/vco_waveform.png" alt="Simulated VCO output waveforms across tuning capacitance" loading="lazy"><span class="img-label">VCO output vs. tuning</span></a>
             <a class="shot" href="images/vna_vco_3d.jpg" target="_blank"><img src="images/vna_vco_3d.jpg" alt="KiCad 3D render of the VCO test board" loading="lazy"><span class="img-label">VCO test board — KiCad 3D</span></a>
-            <a class="shot" href="images/vna_vco_top.jpg" target="_blank"><img src="images/vna_vco_top.jpg" alt="KiCad 3D render of the VCO test board, top" loading="lazy"><span class="img-label">VCO test board — top</span></a>
+            <a class="shot fig" href="images/vna/dac_sweep.png" target="_blank"><img src="images/vna/dac_sweep.png" alt="Stepped DAC sweep driving the VCO tune voltage" loading="lazy"><span class="img-label">Stepped VCO tune sweep</span></a>
+            <a class="shot fig" href="images/vna/ratrace_layout.png" target="_blank"><img src="images/vna/ratrace_layout.png" alt="Rat-race coupler layout" loading="lazy"><span class="img-label">Rat-race coupler layout</span></a>
+            <a class="shot fig" href="images/vna/ratrace_sparams.png" target="_blank"><img src="images/vna/ratrace_sparams.png" alt="Rat-race coupler simulated S-parameters" loading="lazy"><span class="img-label">Rat-race S-parameters (ADS)</span></a>
+            <a class="shot" href="images/vna/ratrace_cst.jpg" target="_blank"><img src="images/vna/ratrace_cst.jpg" alt="Rat-race coupler full-wave model in CST" loading="lazy"><span class="img-label">Rat-race in CST</span></a>
+            <a class="shot" href="images/vna/edge_coupler_cst.jpg" target="_blank"><img src="images/vna/edge_coupler_cst.jpg" alt="Edge-coupled microstrip coupler in CST" loading="lazy"><span class="img-label">Edge-coupled coupler in CST</span></a>
+            <a class="shot fig" href="images/vna/mixer_sch.png" target="_blank"><img src="images/vna/mixer_sch.png" alt="Balanced 180-degree diode mixer schematic" loading="lazy"><span class="img-label">Balanced 180° diode mixer</span></a>
+            <a class="shot fig" href="images/vna/mixer_output.png" target="_blank"><img src="images/vna/mixer_output.png" alt="Mixer IF output and spectrum" loading="lazy"><span class="img-label">Mixer IF output</span></a>
+            <a class="shot" href="images/vna/plugin_gui.png" target="_blank"><img src="images/vna/plugin_gui.png" alt="VNA plugin inside the scanner GUI" loading="lazy"><span class="img-label">VNA plugin in the scanner GUI</span></a>
           </div>
           <div class="summary-grid">
             <div class="sblock">
               <h5>Description</h5>
               <ul>
-                <li>STM32H7 motherboard samples both downconverter outputs with a high-speed dual ADC (AD8138 drivers) and sends S-parameters over 100 Mbps Ethernet; USB-C Full Speed and SWD for debug</li>
-                <li>2.3–2.8 GHz common-base Colpitts VCO: −1.8 to −11 dBm into 50 Ω over 0.7–7.8 pF tuning; simulated phase noise −165 to −173 dBc/Hz at 1 MHz</li>
-                <li>2.45 GHz 90° hybrid (−3 dB coupling, −44 dB isolation), modified rat-race (−3 dB over 2 GHz), balanced mixer (−5.6 dB at IF)</li>
-                <li>2.45 GHz amplifier: S21 = 15.47 dB of 16.1 dB max stable gain, S11 = −34.3 dB; 6% gap-coupled BPF with S11 = −25.7 dB</li>
-                <li>Fast-sweep DAC board (AD3551R + transimpedance amp) to drive the VCO tune voltage; 1–10 GHz VCO board; SOLT and TRL calibration software</li>
+                <li><strong>Signal chain:</strong> VCO → directional coupler → DUT and reference downconverters → balanced 180° diode mixer (≈6 dB conversion loss) → anti-alias filter → balun → dual AD9238 ADC at 20 MSPS → STM32H7 → Ethernet → PC, where an FFT recovers magnitude and phase</li>
+                <li><strong>VCO:</strong> modified Colpitts, common-base, biased at 5 mA for minimum noise figure; two SMV1247 varactors (0.7–7 pF) tune 2.3–2.8 GHz at about 0 dBm, with simulated phase noise of −165 to −173 dBc/Hz at 1 MHz</li>
+                <li><strong>Couplers:</strong> branch-line, rat-race (Z<sub>ring</sub> = 70.7 Ω) and modified rat-race; a 10 dB edge-coupled design (Z<sub>0e</sub> = 69.4 Ω, Z<sub>0o</sub> = 36.1 Ω) hit 10 ± 0.5 dB coupling but only ≈10 dB directivity, so I derived the even/odd phase-velocity limit and wrote a Kirschning–Jansen + SciPy optimizer for gap and length</li>
+                <li><strong>Motherboard:</strong> 6-layer stackup from the STM32H7 guidelines to fan out every ADC line; USB-C, Ethernet and SWD; the tune voltage comes from my STM32F1 + DAC stepped-sweep board and power from my 20 V / 60 W USB-C PD board</li>
+                <li><strong>Software:</strong> SOLT one-port calibration (3-term error model, ideal or measured standards, coax de-embedding), NRW extraction of complex ε<sub>r</sub> and μ<sub>r</sub>, and a threaded <code>vna_plugin.py</code> that runs SOL calibration at scan start and writes raw, corrected and material data per point to the lab scanner's HDF5 files</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>Sole designer — architecture, ADS simulation and layout of each RF block, schematic, 6-layer stackup and motherboard layout, and the calibration software. Next step: wideband coupler and mixer, likely using integrated parts.</p>
-            </div>
-            <div class="sblock">
-              <h5>Skills &amp; knowledge gained</h5>
+              <p>Sole designer across every layer of the instrument — RF circuits in ADS and CST, the motherboard in KiCad, firmware protocol, calibration math, and the scanner integration.</p>
+              <h5 style="margin-top:1.25rem">Skills &amp; knowledge gained</h5>
               <ul>
-                <li>Heterodyne receiver architecture and dynamic-range budgeting</li>
-                <li>Oscillator, coupler, mixer, amplifier and filter design with EM co-simulation</li>
-                <li>Mixed-signal layout: split analog/digital supplies, ferrite isolation, controlled-impedance stackup</li>
-                <li>VNA error models and SOLT/TRL calibration</li>
+                <li>Even/odd-mode coupler analysis and why microstrip limits directivity</li>
+                <li>Oscillator design against the Barkhausen criterion and varactor tuning</li>
+                <li>VNA error models, SOLT calibration and de-embedding</li>
+                <li>Knowing when full-wave simulation disagrees with circuit models — and why (port impedance, conductor loss)</li>
+                <li>Mixed-signal layout for high-speed ADCs</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>Resources used</h5>
-              <p>Keysight ADS, KiCad 9, Pozar's <em>Microwave Engineering</em>, Analog Devices / ST datasheets and application notes, EE 414/514 lab equipment.</p>
+              <p>Keysight ADS, CST Microwave Studio, KiCad 9, Python (NumPy, SciPy, scikit-rf); R. K. Mongia's <em>RF and Microwave Coupled-Line Circuits</em>, Pozar's <em>Microwave Engineering</em>, Kirschning &amp; Jansen coupled-line models, Skyworks, Analog Devices and ST datasheets; guidance from Prof. Nathan Neihart.</p>
             </div>
+            <div class="sblock">
+              <h5>Next steps</h5>
+              <ul>
+                <li>Fabricate and measure the VCO and coupler boards</li>
+                <li>Lange coupler or capacitive compensation for better directivity</li>
+                <li>End-to-end validation of the full chain, then an FPGA back end for N-port measurements</li>
+                <li>ADAR2001/2004 front ends to reach Ka-band</li>
+              </ul>
+            </div>
+          </div>
+          <div class="doclinks">
+            <h5>Supporting documents</h5>
+            <a class="gh-link" href="docs/vna/EE514_VNA_Final_Report.pdf" target="_blank" rel="noopener">EE 514 final report (PDF) ↗</a>
+            <a class="gh-link" href="docs/vna/EE4900_VNA_Independent_Study.pdf" target="_blank" rel="noopener">EE 4900 independent study report (PDF) ↗</a>
+            <a class="gh-link" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">github.com/fdreshaj/VNA_Design ↗</a>
           </div>
           <div class="detail-footer">
             <span class="detail-meta">Aug 2025 – present</span>
-            <a class="gh-link" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">github.com/fdreshaj/VNA_Design ↗</a>
           </div>
         </div>
       </div>
@@ -344,7 +371,7 @@
         <div>
           <div class="ptags"><span class="ptag t-rf">RF · Ka-band</span><span class="ptag t-hw">4-layer PCB</span><span class="ptag t-py">EE 418</span></div>
           <div class="ptitle">Phased-Array FMCW Radar — Up/Down Converter</div>
-          <div class="pdesc">Four-channel Ka-band FMCW radar built around an ADAR2001/ADAR2004 up/down-converter board, with a controller board and a USB-C power delivery board. With Justin Adrowski and Durotimi Johnson.</div>
+          <div class="pdesc">Four-channel Ka-band FMCW radar built around an ADAR2001/ADAR2004 up/down-converter board, with a VCO sweep board and a USB-C power delivery board. With Justin Adrowski and Durotimi Johnson.</div>
         </div>
         <div class="parr">→</div>
       </div>
@@ -353,7 +380,7 @@
           <div class="detail-grid">
             <a class="shot wide" href="images/fmcw_updown_3d.jpg" target="_blank"><img src="images/fmcw_updown_3d.jpg" alt="KiCad 3D render of the up/down converter board" loading="lazy"><span class="img-label">Up/down converter board — KiCad 3D</span></a>
             <a class="shot" href="images/fmcw_updown_iso.jpg" target="_blank"><img src="images/fmcw_updown_iso.jpg" alt="KiCad 3D render of the up/down converter board, angled" loading="lazy"><span class="img-label">Up/down converter — angled</span></a>
-            <a class="shot" href="images/fmcw_3d.jpg" target="_blank"><img src="images/fmcw_3d.jpg" alt="KiCad 3D render of the FMCW radar controller board" loading="lazy"><span class="img-label">Controller board — KiCad 3D</span></a>
+            <a class="shot" href="images/fmcw_3d.jpg" target="_blank"><img src="images/fmcw_3d.jpg" alt="KiCad 3D render of the STM32F1 VCO sweep board" loading="lazy"><span class="img-label">STM32F1 VCO sweep board — KiCad 3D</span></a>
             <a class="shot" href="images/fmcw_power_3d.jpg" target="_blank"><img src="images/fmcw_power_3d.jpg" alt="KiCad 3D render of the USB-C power delivery board" loading="lazy"><span class="img-label">USB-C PD power board — KiCad 3D</span></a>
             <a class="shot" href="images/fmcw_diff_vivaldi.jpg" target="_blank"><img src="images/fmcw_diff_vivaldi.jpg" alt="KiCad 3D render of the differential Vivaldi antenna" loading="lazy"><span class="img-label">Differential Vivaldi antenna</span></a>
             <a class="shot fig" href="images/fmcw_block.png" target="_blank"><img src="images/fmcw_block.png" alt="Bistatic FMCW radar block diagram" loading="lazy"><span class="img-label">Bistatic block diagram</span></a>
@@ -365,7 +392,7 @@
                 <li>The up/down converter is the heart of the radar: an ADF4372 synthesizer (62.5 MHz–8 GHz and 8–16 GHz outputs) provides the LO, an ADAR2001 drives four differential RF outputs and an ADAR2004 receives four differential inputs</li>
                 <li>All eight RF pairs are meandered to equal length so the channels stay in phase for beam steering</li>
                 <li>LT3045 ultra-low-noise LDOs for the RF rails, RJ45 jacks for SPI and the differential IF out, USB-C and 20 V input</li>
-                <li>Separate STM32 controller board and a 60–100 W USB-C Power Delivery board; differential Vivaldi antennas for the array</li>
+                <li>STM32F1 + DAC VCO sweep board (also reused as the VNA's stepped-frequency source), a 20 V USB-C Power Delivery board (60 W, 100 W with a few part swaps), and differential Vivaldi antennas for the array</li>
               </ul>
             </div>
             <div class="sblock">
