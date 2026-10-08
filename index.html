@@ -7,19 +7,18 @@
   <meta name="description" content="ECE student at Iowa State University. Researcher at the Applied Microwave Testing Lab." />
   <meta property="og:title" content="Flatrim Dreshaj — RF &amp; Hardware Engineer" />
   <meta property="og:type" content="website" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" href="fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     :root{
       --bg:#080a0f;--surface:#09090f;--surface2:#0d1020;
-      --accent:#00e5ff;--text:#e2e8f0;--muted:#475569;
+      --accent:#00e5ff;--text:#e2e8f0;--muted:#8b9ab0;
       --dim:#1e3a5a;--border:#0a111e;
-      --mono:'Space Mono',monospace;--sans:'Sora',sans-serif;
+      --mono:'CMU Typewriter Text','Latin Modern Mono','Courier New',monospace;--sans:'CMU Serif','Latin Modern Roman','Computer Modern',Georgia,serif;
     }
     html{scroll-behavior:smooth;}
-    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden;}
     canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
     .site{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 2rem 8rem;}
 
@@ -33,9 +32,9 @@
     @keyframes fadein{to{opacity:1;transform:none;}}
     .eyebrow{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:.65rem;opacity:.85;}
     .eyebrow::before{content:'';width:24px;height:1px;background:var(--accent);flex-shrink:0;}
-    .hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:300;line-height:1.14;margin-bottom:1.1rem;letter-spacing:-.015em;}
+    .hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:400;line-height:1.14;margin-bottom:1.1rem;letter-spacing:-.015em;}
     .hero h1 em{font-style:normal;color:var(--accent);font-weight:500;}
-    .hero h1 strong{font-weight:300;color:#8b7de8;}
+    .hero h1 strong{font-weight:400;color:#8b7de8;}
     .hero-sub{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin-bottom:2rem;}
     .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;}
     .btn-p{font-family:var(--mono);font-size:11px;padding:.65rem 1.4rem;background:var(--accent);color:#000;border:none;cursor:pointer;letter-spacing:.08em;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .15s;}
@@ -111,7 +110,7 @@
     .panel{border:1px solid var(--border);background:var(--surface);padding:2rem;}
     .panel p{font-size:13.5px;color:#8a9bb4;line-height:1.8;margin-bottom:.9rem;}
     .panel p:last-child{margin-bottom:0;}
-    .panel .lead{font-size:16px;color:#c8d6ef;font-weight:300;line-height:1.6;}
+    .panel .lead{font-size:16px;color:#c8d6ef;font-weight:400;line-height:1.6;}
     .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 2rem;}
     @media(max-width:600px){.summary-grid{grid-template-columns:1fr;}}
     .sblock h5,.doclinks h5{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-weight:400;margin-bottom:.6rem;opacity:.85;}
@@ -127,10 +126,17 @@
     .shot{position:relative;display:block;background:#060810;border:1px solid var(--border);overflow:hidden;aspect-ratio:16/10;}
     .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
     .shot:hover img{transform:scale(1.03);}
-    .shot.wide{grid-column:1/-1;aspect-ratio:auto;background:#fff;}
-    .shot.wide img{object-fit:contain;height:auto;}
+    .shot.wide{grid-column:1/-1;aspect-ratio:4/3;}
     .shot .img-label{position:absolute;bottom:0;left:0;right:0;padding:.4rem .75rem;font-family:var(--mono);font-size:9px;color:#c8d6ef;letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(transparent,#000c);pointer-events:none;}
     .detail-grid + .summary-grid{margin-top:.25rem;}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem;margin-bottom:1.75rem;}
+    .gallery .shot{aspect-ratio:4/3;}
+    .shot.fig{background:#fff;}
+    .shot.fig img{object-fit:contain;}
+    .shot.fig .img-label{background:#0a0d16d9;}
+    .detail-grid .shot.fig{grid-column:1/-1;aspect-ratio:auto;}
+    .detail-grid .shot.fig img{height:auto;}
+    .xp-date{font-family:var(--mono);font-size:11px;color:var(--accent);}
     .xp-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;}
     .xp-head h3{font-size:1rem;font-weight:500;color:#c8d6ef;}
     .xp-meta{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:.2rem;}
@@ -212,43 +218,62 @@
     <div class="proj-item open">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-rf">Radar</span><span class="ptag t-hw">FPGA / VHDL</span><span class="ptag t-py">Senior Design · 2025–26</span></div>
-          <div class="ptitle">SD26 — Flying Radar</div>
-          <div class="pdesc">Iowa State EE 4910/4920 senior design team project. Radar system with an FPGA-based digital back end.</div>
+          <div class="ptags"><span class="ptag t-rf">Radar · 24–40 GHz</span><span class="ptag t-hw">PCB / KiCad</span><span class="ptag t-py">sdmay27-11 · Team Leader</span></div>
+          <div class="ptitle">MIMO FMCW Radar — 24 to 40 GHz</div>
+          <div class="pdesc">EE 4910/4920 senior design, team sdmay27-11 (seven students). Client and faculty advisor: Dr. Mohammed Tayeb Al Qaseer.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="gallery">
+            <a class="shot fig" href="images/sd/block_diagram.png" target="_blank"><img src="images/sd/block_diagram.png" alt="System block diagram of the MIMO FMCW radar" loading="lazy"><span class="img-label">System block diagram</span></a>
+            <a class="shot" href="images/sd/dac_fast_sweep_3d.jpg" target="_blank"><img src="images/sd/dac_fast_sweep_3d.jpg" alt="AD3551R fast-sweep DAC board, KiCad 3D" loading="lazy"><span class="img-label">AD3551R fast-sweep DAC — 3D</span></a>
+            <a class="shot fig" href="images/sd/dac_fast_sweep_sheet.jpg" target="_blank"><img src="images/sd/dac_fast_sweep_sheet.jpg" alt="AD3551R board schematic sheet: RJ45 inputs, level shifters, DAC and SMA output" loading="lazy"><span class="img-label">AD3551R board — top sheet</span></a>
+            <a class="shot fig" href="images/sd/dac_fast_sweep_main.jpg" target="_blank"><img src="images/sd/dac_fast_sweep_main.jpg" alt="AD3551R DAC main sheet with AD8065 output buffer and layout notes" loading="lazy"><span class="img-label">AD3551R + AD8065 buffer</span></a>
+            <a class="shot" href="images/sd/dac_simple_3d.jpg" target="_blank"><img src="images/sd/dac_simple_3d.jpg" alt="Simplified 0–10 V STM32 DAC sweeper board, KiCad 3D" loading="lazy"><span class="img-label">Simplified 0–10 V sweeper — 3D</span></a>
+            <a class="shot" href="images/sd/dac_simple_layout.jpg" target="_blank"><img src="images/sd/dac_simple_layout.jpg" alt="Simplified DAC sweeper layout" loading="lazy"><span class="img-label">Simplified sweeper — layout</span></a>
+            <a class="shot fig" href="images/sd/dac_simple_sch.jpg" target="_blank"><img src="images/sd/dac_simple_sch.jpg" alt="Simplified DAC sweeper schematic" loading="lazy"><span class="img-label">Simplified sweeper — schematic</span></a>
+          </div>
           <div class="summary-grid">
             <div class="sblock">
               <h5>Description</h5>
-              <p>Flying Radar is our senior design project: a radar system whose digital back end runs on an FPGA, with peripherals (ADC/DAC, synthesizer) configured over SPI from VHDL.</p>
-              <p class="todo">To add: one-paragraph description of the system — what it detects or images, the platform it flies on, frequency band, and the client/advisor.</p>
+              <p>A homodyne MIMO FMCW radar that sweeps the full 24–40 GHz band. A DAC ramp tunes a wideband VCO to make a linear chirp, which is up-converted, sent out through a waveguide antenna, and mixed with the returning echo. The beat frequency between the two chirps gives range; sweeping 16 GHz gives a range resolution of ΔR = c/2B ≈ 9.4 mm.</p>
+              <p>My hardware on the project is the sweep source — the DAC boards that generate the VCO tuning ramp:</p>
+              <ul>
+                <li><strong>AD3551R fast-sweep DAC:</strong> hierarchical KiCad design with SPI over shielded RJ45, per-line TXB0101 3.3 V→1.8 V translators, an AD8065 transimpedance output buffer, 5 V switcher + 1.8 V LDO, and jumpers to bring up each rail one at a time</li>
+                <li><strong>Simplified sweeper:</strong> after reviewing risk, I replaced the current-output DAC with a voltage-output DAC driven by a small STM32 over SPI, amplified ×3 by a non-inverting stage for a 0–10 V tuning sweep — a minimum viable board that is far easier to bring up</li>
+              </ul>
             </div>
             <div class="sblock">
-              <h5>My role</h5>
-              <p>FPGA firmware — writing the VHDL SPI interface that configures the radar's mixed-signal peripherals.</p>
-              <p class="todo">To add: your official team role(s) and the subsystems you owned.</p>
+              <h5>My role — Team Leader</h5>
+              <ul>
+                <li>Came up with the project with Dr. Tayeb over the summer and got the team started at the beginning of the semester</li>
+                <li>Defined the system block diagram and selected the main IC for each block</li>
+                <li>Split the radar into subsystems with owners (RF boards, VCO/PLL, antenna, signal processing, FPGA), set weekly plans, and tracked status in the weekly reports</li>
+                <li>Led the shift to a minimum-viable-product plan to cut risk; designed both DAC boards</li>
+              </ul>
             </div>
             <div class="sblock">
               <h5>Skills &amp; knowledge gained</h5>
               <ul>
-                <li>VHDL design and simulation of serial peripheral interfaces</li>
-                <li>Radar system-level requirements and link budgets</li>
-                <li>Working within a multi-discipline team with a client, schedule, and design reviews</li>
+                <li>Leading a seven-person team: delegating subsystems, keeping work moving, and reporting progress to a client</li>
+                <li>Scoping down to a minimum viable product when the first design is more than the project needs</li>
+                <li>Precision DAC layout: extended QFN pads, short low-capacitance output traces, level translation and staged power bring-up</li>
               </ul>
-              <p class="todo">To add: anything else specific you learned this year.</p>
             </div>
             <div class="sblock">
               <h5>Big-picture contribution</h5>
-              <p class="todo">To add: why this project matters — who uses the result, and what it enables that wasn't possible or affordable before.</p>
+              <p class="todo">Draft — please check: Wideband mm-wave radars are expensive and closed. This project gives the lab an open, millimeter-resolution 24–40 GHz radar built from off-the-shelf parts that future teams can extend to more channels and MIMO imaging.</p>
             </div>
           </div>
           <div class="doclinks">
             <h5>Supporting documents</h5>
-            <a class="gh-link" href="https://github.com/fdreshaj/SD26_Flying_Radar" target="_blank" rel="noopener">Source repository ↗</a>
-            <span class="todo inline">To add: team website, design document, and poster/presentation links</span>
+            <a class="gh-link" href="docs/sd/SDMay27-11_Report1.pdf" target="_blank" rel="noopener">Weekly report 1 (PDF) ↗</a>
+            <a class="gh-link" href="docs/sd/SDMay27-11_Report2.pdf" target="_blank" rel="noopener">Weekly report 2 (PDF) ↗</a>
+            <a class="gh-link" href="docs/sd/SDMay27-11_Report3.pdf" target="_blank" rel="noopener">Weekly report 3 (PDF) ↗</a>
+            <a class="gh-link" href="https://github.com/fdreshaj/fmcw_radar_EE418" target="_blank" rel="noopener">Earlier FMCW radar boards ↗</a>
+            <span class="todo inline">To add: team website and design document links</span>
           </div>
         </div>
       </div>
@@ -263,9 +288,9 @@
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span><span class="ptag t-py">KiCad</span></div>
-          <div class="ptitle">VNA Design — 0.5 to 10 GHz</div>
-          <div class="pdesc">6-layer 2-port vector network analyzer targeting &gt;130 dB dynamic range. STM32H7, high-speed dual ADC, 100 Mbps Ethernet, USB-C. RF subsystems designed and simulated in Keysight ADS.</div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS / CST</span><span class="ptag t-py">Python</span><span class="ptag t-ml">EE 514 · EE 4900</span></div>
+          <div class="ptitle">HUBRIS VNA — Vector Network Analyzer from Scratch</div>
+          <div class="pdesc">A 2-port VNA designed layer by layer: a 2.3–2.8 GHz VCO, directional couplers, diode mixers, a 6-layer STM32H7 motherboard, and Python calibration and material-characterization software. Started in EE 514 (Fall 2025) and continued as an EE 4900 independent study with Prof. Nathan Neihart (Spring 2026). Long-term goal: 0.5–10 GHz with &gt;130 dB dynamic range.</div>
         </div>
         <div class="parr">→</div>
       </div>
@@ -275,36 +300,66 @@
             <a class="shot" href="images/vna_3d.jpg" target="_blank"><img src="images/vna_3d.jpg" alt="KiCad 3D render of the 6-layer VNA motherboard, angled" loading="lazy"><span class="img-label">VNA motherboard — KiCad 3D</span></a>
             <a class="shot" href="images/vna_top.jpg" target="_blank"><img src="images/vna_top.jpg" alt="KiCad 3D render of the VNA motherboard from the top" loading="lazy"><span class="img-label">Top view: MCU, Ethernet, downconverters</span></a>
           </div>
+          <div class="gallery">
+            <a class="shot fig" href="images/vna/block_diagram.png" target="_blank"><img src="images/vna/block_diagram.png" alt="VNA system block diagram" loading="lazy"><span class="img-label">System block diagram</span></a>
+            <a class="shot fig" href="images/vna/stackup.png" target="_blank"><img src="images/vna/stackup.png" alt="6-layer motherboard stackup" loading="lazy"><span class="img-label">6-layer stackup</span></a>
+            <a class="shot" href="images/vna/vco_layout.jpg" target="_blank"><img src="images/vna/vco_layout.jpg" alt="2.3–2.8 GHz Colpitts VCO layout in ADS" loading="lazy"><span class="img-label">2.3–2.8 GHz VCO layout</span></a>
+            <a class="shot fig" href="images/vna/vco_waveform.png" target="_blank"><img src="images/vna/vco_waveform.png" alt="Simulated VCO output waveforms across tuning capacitance" loading="lazy"><span class="img-label">VCO output vs. tuning</span></a>
+            <a class="shot" href="images/vna_vco_3d.jpg" target="_blank"><img src="images/vna_vco_3d.jpg" alt="KiCad 3D render of the VCO test board" loading="lazy"><span class="img-label">VCO test board — KiCad 3D</span></a>
+            <a class="shot fig" href="images/vna/dac_sweep.png" target="_blank"><img src="images/vna/dac_sweep.png" alt="Stepped DAC sweep driving the VCO tune voltage" loading="lazy"><span class="img-label">Stepped VCO tune sweep</span></a>
+            <a class="shot fig" href="images/vna/ratrace_layout.png" target="_blank"><img src="images/vna/ratrace_layout.png" alt="Rat-race coupler layout" loading="lazy"><span class="img-label">Rat-race coupler layout</span></a>
+            <a class="shot fig" href="images/vna/ratrace_sparams.png" target="_blank"><img src="images/vna/ratrace_sparams.png" alt="Rat-race coupler simulated S-parameters" loading="lazy"><span class="img-label">Rat-race S-parameters (ADS)</span></a>
+            <a class="shot" href="images/vna/ratrace_cst.jpg" target="_blank"><img src="images/vna/ratrace_cst.jpg" alt="Rat-race coupler full-wave model in CST" loading="lazy"><span class="img-label">Rat-race in CST</span></a>
+            <a class="shot" href="images/vna/edge_coupler_cst.jpg" target="_blank"><img src="images/vna/edge_coupler_cst.jpg" alt="Edge-coupled microstrip coupler in CST" loading="lazy"><span class="img-label">Edge-coupled coupler in CST</span></a>
+            <a class="shot fig" href="images/vna/mixer_sch.png" target="_blank"><img src="images/vna/mixer_sch.png" alt="Balanced 180-degree diode mixer schematic" loading="lazy"><span class="img-label">Balanced 180° diode mixer</span></a>
+            <a class="shot fig" href="images/vna/mixer_output.png" target="_blank"><img src="images/vna/mixer_output.png" alt="Mixer IF output and spectrum" loading="lazy"><span class="img-label">Mixer IF output</span></a>
+            <a class="shot" href="images/vna/plugin_gui.png" target="_blank"><img src="images/vna/plugin_gui.png" alt="VNA plugin inside the scanner GUI" loading="lazy"><span class="img-label">VNA plugin in the scanner GUI</span></a>
+          </div>
           <div class="summary-grid">
             <div class="sblock">
               <h5>Description</h5>
               <ul>
-                <li>2-port VNA covering 0.5–10 GHz on a 6-layer board; STM32H7 digitizes the downconverter IF through a dual high-speed ADC (AD8138 differential drivers) and streams S-parameters over 100 Mbps Ethernet or USB-C</li>
-                <li>2.3–2.8 GHz Colpitts VCO: −1.8 to −11 dBm into 50 Ω, phase noise −169 dBc/Hz at 1 MHz offset</li>
-                <li>90° hybrid at 2.45 GHz (−3 dB coupling, −44 dB isolation); 180° rat-race (−3 dB over 2 GHz BW)</li>
-                <li>Balanced mixer −5.6 dB conversion loss; amplifier S21 = 15.47 dB, S11 = −34.3 dB; gap-coupled BPF with 6% fractional BW</li>
+                <li><strong>Signal chain:</strong> VCO → directional coupler → DUT and reference downconverters → balanced 180° diode mixer (≈6 dB conversion loss) → anti-alias filter → balun → dual AD9238 ADC at 20 MSPS → STM32H7 → Ethernet → PC, where an FFT recovers magnitude and phase</li>
+                <li><strong>VCO:</strong> modified Colpitts, common-base, biased at 5 mA for minimum noise figure; two SMV1247 varactors (0.7–7 pF) tune 2.3–2.8 GHz at about 0 dBm, with simulated phase noise of −165 to −173 dBc/Hz at 1 MHz</li>
+                <li><strong>Couplers:</strong> branch-line, rat-race (Z<sub>ring</sub> = 70.7 Ω) and modified rat-race; a 10 dB edge-coupled design (Z<sub>0e</sub> = 69.4 Ω, Z<sub>0o</sub> = 36.1 Ω) hit 10 ± 0.5 dB coupling but only ≈10 dB directivity, so I derived the even/odd phase-velocity limit and wrote a Kirschning–Jansen + SciPy optimizer for gap and length</li>
+                <li><strong>Motherboard:</strong> 6-layer stackup from the STM32H7 guidelines to fan out every ADC line; USB-C, Ethernet and SWD; the tune voltage comes from my STM32F1 + DAC stepped-sweep board and power from my 20 V / 60 W USB-C PD board</li>
+                <li><strong>Software:</strong> SOLT one-port calibration (3-term error model, ideal or measured standards, coax de-embedding), NRW extraction of complex ε<sub>r</sub> and μ<sub>r</sub>, and a threaded <code>vna_plugin.py</code> that runs SOL calibration at scan start and writes raw, corrected and material data per point to the lab scanner's HDF5 files</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>Sole designer — system architecture, ADS simulation of every RF subsystem, schematic capture, 6-layer stackup, and motherboard layout.</p>
-            </div>
-            <div class="sblock">
-              <h5>Skills &amp; knowledge gained</h5>
+              <p>Sole designer across every layer of the instrument — RF circuits in ADS and CST, the motherboard in KiCad, firmware protocol, calibration math, and the scanner integration.</p>
+              <h5 style="margin-top:1.25rem">Skills &amp; knowledge gained</h5>
               <ul>
-                <li>Heterodyne receiver architecture and dynamic-range budgeting</li>
-                <li>Oscillator, coupler, mixer, and filter design with EM co-simulation</li>
-                <li>Mixed-signal layout: split analog/digital supplies, ferrite isolation, controlled-impedance stackup</li>
+                <li>Even/odd-mode coupler analysis and why microstrip limits directivity</li>
+                <li>Oscillator design against the Barkhausen criterion and varactor tuning</li>
+                <li>VNA error models, SOLT calibration and de-embedding</li>
+                <li>Knowing when full-wave simulation disagrees with circuit models — and why (port impedance, conductor loss)</li>
+                <li>Mixed-signal layout for high-speed ADCs</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>Resources used</h5>
-              <p>Keysight ADS, KiCad 9, Pozar's <em>Microwave Engineering</em>, Analog Devices / ST datasheets and application notes, EE 414/514 lab equipment.</p>
+              <p>Keysight ADS, CST Microwave Studio, KiCad 9, Python (NumPy, SciPy, scikit-rf); R. K. Mongia's <em>RF and Microwave Coupled-Line Circuits</em>, Pozar's <em>Microwave Engineering</em>, Kirschning &amp; Jansen coupled-line models, Skyworks, Analog Devices and ST datasheets; guidance from Prof. Nathan Neihart.</p>
+            </div>
+            <div class="sblock">
+              <h5>Next steps</h5>
+              <ul>
+                <li>Fabricate and measure the VCO and coupler boards</li>
+                <li>Lange coupler or capacitive compensation for better directivity</li>
+                <li>End-to-end validation of the full chain, then an FPGA back end for N-port measurements</li>
+                <li>ADAR2001/2004 front ends to reach Ka-band</li>
+              </ul>
             </div>
           </div>
-          <div class="detail-footer">
-            <span class="detail-meta">Ongoing · last update Dec 2025</span>
+          <div class="doclinks">
+            <h5>Supporting documents</h5>
+            <a class="gh-link" href="docs/vna/EE514_VNA_Final_Report.pdf" target="_blank" rel="noopener">EE 514 final report (PDF) ↗</a>
+            <a class="gh-link" href="docs/vna/EE4900_VNA_Independent_Study.pdf" target="_blank" rel="noopener">EE 4900 independent study report (PDF) ↗</a>
             <a class="gh-link" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">github.com/fdreshaj/VNA_Design ↗</a>
+          </div>
+          <div class="detail-footer">
+            <span class="detail-meta">Aug 2025 – present</span>
           </div>
         </div>
       </div>
@@ -314,43 +369,47 @@
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB</span><span class="ptag t-py">EE 418</span></div>
-          <div class="ptitle">FMCW Radar — 26.5 to 40 GHz</div>
-          <div class="pdesc">Ka-band frequency-modulated continuous-wave radar. Full TX/RX chain, up/down-converter board, and power delivery board for EE 418.</div>
+          <div class="ptags"><span class="ptag t-rf">RF · Ka-band</span><span class="ptag t-hw">4-layer PCB</span><span class="ptag t-py">EE 418</span></div>
+          <div class="ptitle">Phased-Array FMCW Radar — Up/Down Converter</div>
+          <div class="pdesc">Four-channel Ka-band FMCW radar built around an ADAR2001/ADAR2004 up/down-converter board, with a VCO sweep board and a USB-C power delivery board. With Justin Adrowski and Durotimi Johnson.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
           <div class="detail-grid">
-            <a class="shot" href="images/fmcw_3d.jpg" target="_blank"><img src="images/fmcw_3d.jpg" alt="KiCad 3D render of the FMCW radar main board" loading="lazy"><span class="img-label">Radar main board — KiCad 3D</span></a>
+            <a class="shot wide" href="images/fmcw_updown_3d.jpg" target="_blank"><img src="images/fmcw_updown_3d.jpg" alt="KiCad 3D render of the up/down converter board" loading="lazy"><span class="img-label">Up/down converter board — KiCad 3D</span></a>
+            <a class="shot" href="images/fmcw_updown_iso.jpg" target="_blank"><img src="images/fmcw_updown_iso.jpg" alt="KiCad 3D render of the up/down converter board, angled" loading="lazy"><span class="img-label">Up/down converter — angled</span></a>
+            <a class="shot" href="images/fmcw_3d.jpg" target="_blank"><img src="images/fmcw_3d.jpg" alt="KiCad 3D render of the STM32F1 VCO sweep board" loading="lazy"><span class="img-label">STM32F1 VCO sweep board — KiCad 3D</span></a>
             <a class="shot" href="images/fmcw_power_3d.jpg" target="_blank"><img src="images/fmcw_power_3d.jpg" alt="KiCad 3D render of the USB-C power delivery board" loading="lazy"><span class="img-label">USB-C PD power board — KiCad 3D</span></a>
-            <a class="shot wide" href="images/fmcw_block.png" target="_blank"><img src="images/fmcw_block.png" alt="Bistatic FMCW radar block diagram" loading="lazy"><span class="img-label">Bistatic block diagram</span></a>
+            <a class="shot" href="images/fmcw_diff_vivaldi.jpg" target="_blank"><img src="images/fmcw_diff_vivaldi.jpg" alt="KiCad 3D render of the differential Vivaldi antenna" loading="lazy"><span class="img-label">Differential Vivaldi antenna</span></a>
+            <a class="shot fig" href="images/fmcw_block.png" target="_blank"><img src="images/fmcw_block.png" alt="Bistatic FMCW radar block diagram" loading="lazy"><span class="img-label">Bistatic block diagram</span></a>
           </div>
           <div class="summary-grid">
             <div class="sblock">
               <h5>Description</h5>
               <ul>
-                <li>Linear-chirp FMCW radar across 26.5–40 GHz; the beat frequency between TX and RX gives target range</li>
-                <li>Chain: ADF4371 synthesizer → ADAR2001 upconverter → PA → 20 dB coupler → TX antenna; RX antenna → LNA → ADAR2004 downconverter → IF filter/amp → AD4080 20-bit ADC → STM32H730</li>
-                <li>Separate USB-C Power Delivery board (60–100 W input) generating the 2.5 V / 1.8 V / 3.3 V analog and digital rails, plus a differential Vivaldi antenna</li>
+                <li>The up/down converter is the heart of the radar: an ADF4372 synthesizer (62.5 MHz–8 GHz and 8–16 GHz outputs) provides the LO, an ADAR2001 drives four differential RF outputs and an ADAR2004 receives four differential inputs</li>
+                <li>All eight RF pairs are meandered to equal length so the channels stay in phase for beam steering</li>
+                <li>LT3045 ultra-low-noise LDOs for the RF rails, RJ45 jacks for SPI and the differential IF out, USB-C and 20 V input</li>
+                <li>STM32F1 + DAC VCO sweep board (also reused as the VNA's stepped-frequency source), a 20 V USB-C Power Delivery board (60 W, 100 W with a few part swaps), and differential Vivaldi antennas for the array</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>System architect and board designer — part selection, block diagrams (bistatic and monostatic), schematics, and layout of all three boards.</p>
+              <p>System architect and lead board designer on a three-person team — part selection, block diagrams, the up/down converter and power boards, and RF layout.</p>
             </div>
             <div class="sblock">
               <h5>Skills &amp; knowledge gained</h5>
               <ul>
                 <li>Millimeter-wave part selection and link-budget trade-offs</li>
-                <li>Differential IF routing, ESD protection, and multi-rail power sequencing</li>
-                <li>Splitting a large design into hierarchical boards</li>
+                <li>Phase-matched differential routing, low-noise power, ESD protection and power sequencing</li>
+                <li>Splitting a large design into boards that can be brought up one at a time</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>Resources used</h5>
-              <p>KiCad 9, STM32CubeIDE, Analog Devices / MACOM / Mini-Circuits datasheets, EE 418 course material.</p>
+              <p>KiCad 9, STM32CubeIDE, Analog Devices / MACOM / Mini-Circuits datasheets and eval boards, EE 418 course material.</p>
             </div>
           </div>
           <div class="detail-footer">
@@ -365,45 +424,50 @@
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">Hardware</span></div>
-          <div class="ptitle">PWM Phased Array Radar</div>
-          <div class="pdesc">Phased array radar steered by phase-shifted PWM signals, with printed Vivaldi antenna elements on the same board.</div>
+          <div class="ptags"><span class="ptag t-rf">RF / Antennas</span><span class="ptag t-hw">Hardware</span><span class="ptag t-py">Python</span></div>
+          <div class="ptitle">PWM Phased Array Radar &amp; Vivaldi Generator</div>
+          <div class="pdesc">Phased array radar steered by phase-shifted PWM signals, with Vivaldi antennas generated straight into KiCad by my own parametric Python tool.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
           <div class="detail-grid">
-            <a class="shot" href="images/pwm_radar_3d.jpg" target="_blank"><img src="images/pwm_radar_3d.jpg" alt="KiCad 3D render of the PWM radar phase-control board" loading="lazy"><span class="img-label">Phase-control board — KiCad 3D</span></a>
-            <a class="shot" href="images/pwm_radar_ant_3d.jpg" target="_blank"><img src="images/pwm_radar_ant_3d.jpg" alt="KiCad 3D render of PWM Radar V1 with integrated antenna" loading="lazy"><span class="img-label">V1 with integrated antenna — KiCad 3D</span></a>
+            <a class="shot" href="images/pwm_radar_3d.jpg" target="_blank"><img src="images/pwm_radar_3d.jpg" alt="KiCad 3D render of the PWM radar phase-control board" loading="lazy"><span class="img-label">Phase-control board (4-layer)</span></a>
+            <a class="shot" href="images/pwm_radar_ant_3d.jpg" target="_blank"><img src="images/pwm_radar_ant_3d.jpg" alt="KiCad 3D render of PWM Radar V1 with integrated antenna" loading="lazy"><span class="img-label">V1 with integrated antenna</span></a>
+            <a class="shot" href="images/pwm_vivaldi_top.jpg" target="_blank"><img src="images/pwm_vivaldi_top.jpg" alt="Generated Vivaldi antenna, top copper" loading="lazy"><span class="img-label">Generated Vivaldi — flare side</span></a>
+            <a class="shot" href="images/pwm_vivaldi_bottom.jpg" target="_blank"><img src="images/pwm_vivaldi_bottom.jpg" alt="Generated Vivaldi antenna, microstrip feed side" loading="lazy"><span class="img-label">Generated Vivaldi — feed side</span></a>
+            <a class="shot" href="images/pwm_rev0_3d.jpg" target="_blank"><img src="images/pwm_rev0_3d.jpg" alt="KiCad 3D render of PWM radar rev 0" loading="lazy"><span class="img-label">Rev 0</span></a>
+            <a class="shot" href="images/pwm_rev0_top.jpg" target="_blank"><img src="images/pwm_rev0_top.jpg" alt="KiCad 3D render of PWM radar rev 0, top" loading="lazy"><span class="img-label">Rev 0 — top</span></a>
           </div>
           <div class="summary-grid">
             <div class="sblock">
               <h5>Description</h5>
               <ul>
-                <li>PWM signals with controlled phase offsets drive each antenna element; the relative phase sets where the array's beam points, with no moving parts</li>
-                <li>Printed Vivaldi elements and coax feeds integrated on the board; several layout revisions tracked in the repo</li>
+                <li>PWM signals with controlled phase offsets drive each element; the relative phase sets where the beam points, with no moving parts</li>
+                <li><strong>Antenna generator:</strong> a KiCad (pcbnew) Python script draws an exponentially tapered Vivaldi with a microstrip-to-slotline feed and radial stub (λ/4 at 17 GHz) directly onto the board; a PyQt GUI previews the geometry live as parameters change</li>
+                <li>Several board revisions tracked in the repo, from Rev 0 to V1 with the antenna on the same PCB</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>Sole designer — beam-steering concept, antenna design, schematic, and PCB revisions.</p>
+              <p>Sole designer — beam-steering concept, antenna design and generator tooling, schematic, and every PCB revision. The antenna work builds on the 9–20 GHz Vivaldis I designed and measured with Anritsu VNAs in the lab.</p>
             </div>
             <div class="sblock">
               <h5>Skills &amp; knowledge gained</h5>
               <ul>
                 <li>Array factor and phase-steering theory applied to real hardware</li>
-                <li>Printed antenna (Vivaldi) layout and feed design</li>
+                <li>Vivaldi flare and slotline feed design; scripting KiCad's API to make geometry reproducible</li>
                 <li>Iterating a board across revisions and documenting changes</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>Resources used</h5>
-              <p>KiCad 9, Balanis' <em>Antenna Theory</em>, EM simulation, online application notes on phased arrays.</p>
+              <p>KiCad 9 and its Python API, PyQt, CST for antenna simulation, Anritsu VNAs, Balanis' <em>Antenna Theory</em>.</p>
             </div>
           </div>
           <div class="detail-footer">
-            <span class="detail-meta">Ongoing · 2026</span>
+            <span class="detail-meta">2026</span>
             <a class="gh-link" href="https://github.com/fdreshaj/PWM-Phased-Array-Radar" target="_blank" rel="noopener">github.com/fdreshaj/PWM-Phased-Array-Radar ↗</a>
           </div>
         </div>
@@ -415,8 +479,8 @@
       <div class="proj-header" onclick="toggle(this)">
         <div>
           <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-rf">GNSS</span><span class="ptag t-py">ESP32-S3</span></div>
-          <div class="ptitle">ESP32 Scan Position Monitor</div>
-          <div class="pdesc">ESP32-S3 sensor board with GNSS and a 6-axis IMU for tracking the position of a scanning probe. Wireless, USB-C powered.</div>
+          <div class="ptitle">Motion Tracker V1 — ESP32 Scan Position Monitor</div>
+          <div class="pdesc">4-layer ESP32-S3 board with GNSS and a 6-axis IMU that tracks the position of a scanning probe for the lab's imaging systems.</div>
         </div>
         <div class="parr">→</div>
       </div>
@@ -437,7 +501,7 @@
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>Sole designer — schematic, RF front end, and 4-layer layout for the lab's scanning setup.</p>
+              <p>Sole designer — schematic, RF front end, and 4-layer layout for the AMNTL scanning setup.</p>
             </div>
             <div class="sblock">
               <h5>Skills &amp; knowledge gained</h5>
@@ -466,7 +530,7 @@
         <div>
           <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-py">Python</span><span class="ptag t-ml">Research</span></div>
           <div class="ptitle">SAR Microwave Imager &amp; Scan Controller</div>
-          <div class="pdesc">Desktop app that moves an RF probe across a raster grid, triggers a VNA at every point, and reconstructs a synthetic aperture radar image.</div>
+          <div class="pdesc">Python application that moves an RF probe across a raster grid, triggers a VNA at every point, and reconstructs 3D synthetic aperture radar images — replacing the lab's LabVIEW program.</div>
         </div>
         <div class="parr">→</div>
       </div>
@@ -480,30 +544,32 @@
             <div class="sblock">
               <h5>Description</h5>
               <ul>
-                <li>PySide6 GUI coordinating XY motion with VNA measurements at each point of a generated raster pattern</li>
-                <li>Plugin architecture: G-code (BigTreeTech) and Gecko motion drivers; Anritsu ShockLine / 37397C VNA drivers over PyVISA</li>
-                <li>Data saved to HDF5 and processed with a SAR reconstruction algorithm; live S-parameter and 3D views</li>
+                <li>Controls Anritsu and Keysight VNAs and custom radar hardware over PyVISA, sockets and FTDI for 0–240 GHz imaging; data saved to HDF5</li>
+                <li>Drives GM215 and Octopus Pro motor controllers point-to-point in a raster pattern, triggering a measurement at each stop</li>
+                <li>A threaded pipeline writes VNA data while the motors move, cutting total scan time compared with the old LabVIEW program</li>
+                <li>SAR algorithms turn the S-parameter data into 3D images at each depth slice of a material</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>Lead developer for the lab — architecture, instrument drivers, GUI, data pipeline, and user manual.</p>
+              <p>Designed and wrote the program for the lab — architecture, instrument and motion drivers, plugin system, GUI, imaging algorithms and user manual.</p>
             </div>
             <div class="sblock">
               <h5>Skills &amp; knowledge gained</h5>
               <ul>
                 <li>Instrument control (SCPI / VISA) and motion control</li>
-                <li>SAR imaging fundamentals and handling large measurement datasets</li>
-                <li>Writing software other researchers depend on: documentation, plugins, testing</li>
+                <li>SAR imaging and handling large measurement datasets</li>
+                <li>Concurrency for real-time data acquisition</li>
+                <li>Writing software other researchers depend on</li>
               </ul>
             </div>
             <div class="sblock">
               <h5>Resources used</h5>
-              <p>Python (NumPy, SciPy, scikit-rf, h5py, PyVista), Anritsu programming manuals, lab mentors and published SAR imaging papers.</p>
+              <p>Python (NumPy, SciPy, scikit-rf, h5py, PySide6, PyVista), Anritsu and Keysight programming manuals, lab mentors and published SAR imaging papers.</p>
             </div>
           </div>
           <div class="detail-footer">
-            <span class="detail-meta">Applied Microwave Testing Lab · 2025–26</span>
+            <span class="detail-meta">AMNTL · May 2025 – present</span>
             <a class="gh-link" href="https://github.com/fdreshaj/SAR-Microwave-Imager" target="_blank" rel="noopener">github.com/fdreshaj/SAR-Microwave-Imager ↗</a>
           </div>
         </div>
@@ -613,42 +679,57 @@
   <div class="panel reveal">
     <div class="xp-head">
       <div>
-        <h3>Undergraduate Researcher — Applied Microwave Testing Lab</h3>
-        <div class="xp-meta">Iowa State University · Ames, IA</div>
+        <h3>Undergraduate Researcher — Applied Microwave Testing Lab (AMNTL)</h3>
+        <div class="xp-meta">Center for Nondestructive Evaluation, Iowa State University · Ames, IA</div>
       </div>
-      <span class="todo inline">To add: start date – present</span>
+      <span class="xp-date">May 2025 – present</span>
     </div>
     <div class="summary-grid">
       <div class="sblock">
-        <h5>Duties &amp; projects</h5>
+        <h5>Imaging systems</h5>
         <ul>
-          <li>Built the SAR microwave imaging scanner software: motion control, VNA integration, HDF5 data pipeline</li>
-          <li>Designed RF hardware for the lab: VNA motherboard and ESP32 probe position monitor</li>
-          <li>Wrote a user manual so other researchers can run scans independently</li>
+          <li>Designed and wrote a Python SAR scanner program that drives VNAs and motor controllers for 0–240 GHz microwave imaging</li>
+          <li>Built a 3D imaging system for structures with arbitrary curvature, a novel 4-axis system for ongoing SVD imaging research, and a 2 m scanner for large structures such as concrete blocks</li>
+          <li>Developed SAR algorithms that turn S-parameter data into 3D images at each depth slice</li>
+          <li>Threaded data transfer during motor moves, cutting scan time versus the previous LabVIEW program</li>
         </ul>
       </div>
       <div class="sblock">
-        <h5>Technical skills</h5>
+        <h5>RF &amp; electromagnetic design</h5>
         <ul>
-          <li>VNA measurement and calibration, SAR imaging</li>
-          <li>Python instrument automation (PyVISA, SCPI)</li>
-          <li>RF PCB design in KiCad and ADS</li>
+          <li>Designed and measured 9–20 GHz Vivaldi antennas with Anritsu VNAs; designed 1–100 GHz antipodal Vivaldis</li>
+          <li>Simulated S-, X-, Ku- and Ka-band waveguides, SMA/V/K connectors, magnetrons, coax-to-waveguide and microstrip-to-slotline transitions, and traveling-wave tube amplifiers</li>
+          <li>Built a research FMCW radar from ADAR2001/2004 eval boards and an Anritsu signal generator, measured with Signal Hound analyzers and PicoScope (IF carried over Ethernet cable)</li>
+          <li>Implemented the Nicolson-Ross-Weir method to extract complex permittivity and permeability from calibrated S-parameters</li>
         </ul>
       </div>
       <div class="sblock">
-        <h5>Soft skills</h5>
+        <h5>Technical skills learned</h5>
+        <ul>
+          <li>VNA measurement and calibration, SAR and SVD imaging</li>
+          <li>Python instrument automation (PyVISA, sockets, FTDI) and motion control</li>
+          <li>Full-wave EM simulation in CST; RF PCB design in KiCad and ADS</li>
+        </ul>
+      </div>
+      <div class="sblock">
+        <h5>Soft skills learned</h5>
         <ul>
           <li>Turning loosely defined research needs into working tools</li>
           <li>Explaining design choices to faculty and graduate students</li>
           <li>Managing my own schedule across research and coursework</li>
         </ul>
       </div>
+    </div>
+    <div class="summary-grid" style="margin-top:1.5rem">
       <div class="sblock">
-        <h5>Evaluations &amp; presentations</h5>
-        <p class="todo">To add: supervisor evaluation or feedback, and any lab meetings, posters, or talks you presented.</p>
+        <h5>Evaluations</h5>
+        <p class="todo">To add: supervisor evaluation or feedback.</p>
+      </div>
+      <div class="sblock">
+        <h5>Presentations</h5>
+        <p class="todo">To add: lab meetings, posters, or talks you presented.</p>
       </div>
     </div>
-    <p class="todo" style="margin-top:1rem">To add: any internship or co-op (company, dates, duties, skills learned, evaluation).</p>
   </div>
 
   <!-- ───────────── SKILLS ───────────── -->
@@ -693,25 +774,29 @@
       <div class="sblock">
         <h5>Education</h5>
         <p>B.S. Electrical Engineering, Iowa State University — expected May 2027 · GPA 3.55</p>
+        <p>Relevant classes: Microwave Engineering, High Speed Systems Design, Communication Systems, Wave Propagation and Transmission Lines</p>
       </div>
       <div class="sblock">
-        <h5>Research</h5>
-        <p>Applied Microwave Testing Lab — SAR imaging systems, VNA hardware, RF PCBs.</p>
-        <p class="todo">To add: published papers or conference submissions, if any.</p>
+        <h5>Experience</h5>
+        <p>Researcher, Applied Microwave Testing Lab — May 2025 to present</p>
+        <p>Team Leader, sdmay27-11 MIMO FMCW Radar senior design — 2026–27</p>
       </div>
       <div class="sblock">
-        <h5>Awards</h5>
-        <p class="todo">To add: scholarships, Dean's List semesters, competitions.</p>
+        <h5>Projects</h5>
+        <p>VNA PCB design (Aug 2025 – present), phased-array FMCW radar, PWM phased array radar, ESP32 motion tracker, SAR imaging software.</p>
       </div>
       <div class="sblock">
-        <h5>Activities</h5>
-        <p class="todo">To add: student organizations, workshops, volunteering.</p>
+        <h5>Skills</h5>
+        <p>Keysight ADS, KiCad, CST Microwave Studio, Python, MATLAB.</p>
+      </div>
+      <div class="sblock">
+        <h5>Awards &amp; activities</h5>
+        <p class="todo">To add: scholarships, Dean's List, student organizations, published papers (none are on the current resume).</p>
       </div>
     </div>
     <div class="hero-btns" style="margin-top:1.5rem">
       <a class="btn-p" href="docs/Flatrim_Dreshaj_Resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a>
     </div>
-    <p class="todo" style="margin-top:.75rem">To add: put your resume at <code>docs/Flatrim_Dreshaj_Resume.pdf</code>.</p>
   </div>
 
   <!-- ───────────── REFLECTIONS ───────────── -->
