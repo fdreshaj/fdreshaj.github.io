@@ -1,0 +1,9 @@
+/* Computer Modern Unicode (the LaTeX typeface), self-hosted.
+   Fonts by Donald Knuth / Andrey V. Panov, SIL Open Font License 1.1.
+   Subset to Latin, Greek and common math symbols. */
+@font-face{font-family:"CMU Serif";font-style:normal;font-weight:400 500;font-display:swap;src:url("cmu-serif-500-roman.woff2") format("woff2");}
+@font-face{font-family:"CMU Serif";font-style:italic;font-weight:400 500;font-display:swap;src:url("cmu-serif-500-italic.woff2") format("woff2");}
+@font-face{font-family:"CMU Serif";font-style:normal;font-weight:600 700;font-display:swap;src:url("cmu-serif-700-roman.woff2") format("woff2");}
+@font-face{font-family:"CMU Serif";font-style:italic;font-weight:600 700;font-display:swap;src:url("cmu-serif-700-italic.woff2") format("woff2");}
+@font-face{font-family:"CMU Typewriter Text";font-style:normal;font-weight:400 500;font-display:swap;src:url("cmu-typewriter-text-500-roman.woff2") format("woff2");}
+@font-face{font-family:"CMU Typewriter Text";font-style:normal;font-weight:600 700;font-display:swap;src:url("cmu-typewriter-text-700-roman.woff2") format("woff2");}
