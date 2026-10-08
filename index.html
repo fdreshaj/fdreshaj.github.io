@@ -43,7 +43,7 @@
     .btn-s{font-family:var(--mono);font-size:11px;padding:.65rem 1.4rem;background:transparent;color:var(--accent);border:1px solid #00e5ff33;cursor:pointer;letter-spacing:.08em;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .2s,color .2s;}
     .btn-s:hover{border-color:var(--accent);color:#fff;}
 
-    .sec-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
+    .sec-lbl{font-family:var(--mono);font-size:10px;color:#4f7fa8;letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
     .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
 
     .projects{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);}
@@ -60,7 +60,7 @@
     .t-py{border-color:#f0ad4e1a;color:#f0ad4e;}
     .t-ml{border-color:#e9407a1a;color:#e9407a;}
     .ptitle{font-size:14px;font-weight:500;margin-bottom:.35rem;color:#c8d6ef;}
-    .pdesc{font-size:12.5px;color:#2d4a6a;line-height:1.65;}
+    .pdesc{font-size:12.5px;color:#6b7f99;line-height:1.65;}
     .parr{color:#1e2d45;font-size:16px;font-family:var(--mono);transition:color .15s,transform .25s;margin-top:.1rem;}
 
     .proj-detail{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1);}
@@ -79,14 +79,14 @@
     .detail-bullets li::before{content:'—';position:absolute;left:0;color:var(--accent);font-family:var(--mono);font-size:10px;}
 
     .detail-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;padding-top:1.25rem;border-top:1px solid var(--border);margin-top:1.5rem;}
-    .detail-meta{font-family:var(--mono);font-size:10px;color:var(--dim);}
+    .detail-meta{font-family:var(--mono);font-size:10px;color:var(--muted);}
     .gh-link{font-family:var(--mono);font-size:11px;color:var(--accent);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid #00e5ff33;padding-bottom:2px;transition:border-color .2s;}
     .gh-link:hover{border-color:var(--accent);}
 
     .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
     .scol{background:var(--surface);padding:1.25rem 1.35rem 1.5rem;}
-    .scol h4{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.85rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
-    .si{font-size:12px;color:#2d4a6a;padding:.26rem 0;border-bottom:1px solid #08101a;display:flex;align-items:center;gap:.45rem;transition:color .15s;}
+    .scol h4{font-family:var(--mono);font-size:9px;color:#4f7fa8;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.85rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+    .si{font-size:12px;color:#6b7f99;padding:.26rem 0;border-bottom:1px solid #08101a;display:flex;align-items:center;gap:.45rem;transition:color .15s;}
     .si:last-child{border-bottom:none;}
     .si:hover{color:var(--accent);}
     .sd{width:3px;height:3px;border-radius:50%;background:#00e5ff22;flex-shrink:0;transition:background .15s;}
@@ -103,6 +103,44 @@
     footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
     .ft{font-family:var(--mono);font-size:10px;color:#1e2d45;}
 
+
+    /* portfolio sections */
+    .hero-contact{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:.6rem;margin:-0.75rem 0 2rem;}
+    .hero-contact a{color:var(--accent);text-decoration:none;}
+    .hero-contact a:hover{text-decoration:underline;}
+    .panel{border:1px solid var(--border);background:var(--surface);padding:2rem;}
+    .panel p{font-size:13.5px;color:#8a9bb4;line-height:1.8;margin-bottom:.9rem;}
+    .panel p:last-child{margin-bottom:0;}
+    .panel .lead{font-size:16px;color:#c8d6ef;font-weight:300;line-height:1.6;}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 2rem;}
+    @media(max-width:600px){.summary-grid{grid-template-columns:1fr;}}
+    .sblock h5,.doclinks h5{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-weight:400;margin-bottom:.6rem;opacity:.85;}
+    .sblock p{font-size:12.5px;color:#7d90aa;line-height:1.7;margin-bottom:.5rem;}
+    .sblock ul{list-style:none;display:flex;flex-direction:column;gap:.45rem;}
+    .sblock li{font-size:12.5px;color:#7d90aa;line-height:1.6;padding-left:1.2rem;position:relative;}
+    .sblock li::before{content:'—';position:absolute;left:0;color:var(--accent);font-family:var(--mono);font-size:10px;}
+    .doclinks{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1.25rem;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);}
+    .doclinks h5{margin:0;width:100%;}
+    .todo{font-size:12px !important;color:#f0ad4e !important;border:1px dashed #f0ad4e55;background:#f0ad4e0a;padding:.5rem .75rem;line-height:1.6;}
+    .todo.inline{display:inline-block;padding:.25rem .6rem;font-family:var(--mono);font-size:10px !important;}
+    .todo code{font-family:var(--mono);font-size:11px;}
+    .shot{position:relative;display:block;background:#060810;border:1px solid var(--border);overflow:hidden;aspect-ratio:16/10;}
+    .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+    .shot:hover img{transform:scale(1.03);}
+    .shot.wide{grid-column:1/-1;aspect-ratio:auto;background:#fff;}
+    .shot.wide img{object-fit:contain;height:auto;}
+    .shot .img-label{position:absolute;bottom:0;left:0;right:0;padding:.4rem .75rem;font-family:var(--mono);font-size:9px;color:#c8d6ef;letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(transparent,#000c);pointer-events:none;}
+    .detail-grid + .summary-grid{margin-top:.25rem;}
+    .xp-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;}
+    .xp-head h3{font-size:1rem;font-weight:500;color:#c8d6ef;}
+    .xp-meta{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:.2rem;}
+    .prose p{font-size:13px;color:#8a9bb4;line-height:1.8;margin-bottom:1rem;}
+    .prompts{padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+    .prompts li{font-size:12.5px;color:#7d90aa;line-height:1.6;}
+    .proj-item.open .proj-detail{max-height:4000px;}
+    .nav-links{flex-wrap:wrap;justify-content:flex-end;gap:.5rem 1.5rem;}
+    .projects{grid-template-columns:minmax(0,1fr);}
+    .gh-link{overflow-wrap:anywhere;}
     .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s;}
     .reveal.visible{opacity:1;transform:none;}
 
@@ -119,208 +157,501 @@
   <nav>
     <div class="logo">FD / RF Systems</div>
     <ul class="nav-links">
+      <li><a href="#objective">objective</a></li>
+      <li><a href="#senior-design">senior design</a></li>
       <li><a href="#projects">projects</a></li>
-      <li><a href="#skills">skills</a></li>
-      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#resume">resume</a></li>
+      <li><a href="#reflections">reflections</a></li>
       <li><a href="em-waves.html">notes</a></li>
-      <li><a href="https://github.com/fdreshaj" target="_blank" rel="noopener">github ↗</a></li>
+      <li><a href="#contact">contact</a></li>
     </ul>
   </nav>
 
   <section class="hero">
-    <div class="eyebrow">RF &amp; Hardware Engineer · Iowa State University</div>
+    <div class="eyebrow">Flatrim Dreshaj · RF &amp; Hardware Engineer · Iowa State University</div>
     <h1>
       Microwave circuit hardware<br>
       <em>design from scratch</em>,<br>
       <strong>built to transmit, receive, and match</strong>
     </h1>
     <p class="hero-sub">
-      BS Electrical Engineering @ Iowa State (GPA 3.55, exp. May 2027) · Researcher at the Applied Microwave Testing Lab · Building SAR scanners, VNA hardware, and RF PCBs.
+      Welcome — I'm Flatrim, an Electrical Engineering student at Iowa State (GPA 3.55, exp. May 2027) and a researcher at the Applied Microwave Testing Lab. I design radar front-ends, VNA hardware, and RF PCBs, then write the software that drives them on the bench. Open any project below to see the board, my role, and what I learned building it.
     </p>
+    <div class="hero-contact">
+      <a href="mailto:fdreshaj@iastate.edu">fdreshaj@iastate.edu</a>
+      <span>·</span>
+      <a href="https://github.com/fdreshaj" target="_blank" rel="noopener">github.com/fdreshaj</a>
+      <span>·</span>
+      <span>Ames, Iowa</span>
+    </div>
     <div class="hero-btns">
-      <a class="btn-p" href="https://github.com/fdreshaj" target="_blank" rel="noopener">GitHub ↗</a>
-      <a class="btn-s" href="#projects">View projects ↓</a>
+      <a class="btn-p" href="#projects">View projects ↓</a>
+      <a class="btn-s" href="#resume">Resume</a>
+      <a class="btn-s" href="https://github.com/fdreshaj" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
   </section>
 
-  <div id="projects" class="sec-lbl reveal">featured projects</div>
+  <!-- ───────────── CAREER OBJECTIVE ───────────── -->
+  <div id="objective" class="sec-lbl reveal">career objective</div>
+  <div class="panel reveal">
+    <p class="lead">
+      I want to build the hardware that lets systems see and talk at microwave frequencies — radar front-ends, test instruments, and the mixed-signal boards that connect them to software.
+    </p>
+    <p>
+      Most of what I've learned has come from carrying a design the whole way: block diagram, simulation in ADS, schematic and stackup in KiCad, layout, and then the slow part — bring-up and measurement in the lab. After graduating I want to join an RF/microwave hardware team (radar, test &amp; measurement, or wireless) where I can keep doing that full loop on harder problems and learn from engineers who have shipped real products.
+    </p>
+    <p>
+      Longer term I'd like to grow toward graduate-level depth in electromagnetics and microwave circuit design and lead the design of measurement systems — like the VNA and SAR imaging scanner I work on now — that make high-frequency hardware cheaper and easier to test.
+    </p>
+  </div>
 
+  <!-- ───────────── SENIOR DESIGN ───────────── -->
+  <div id="senior-design" class="sec-lbl reveal">senior design project</div>
+  <div class="projects reveal">
+    <div class="proj-item open">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">Radar</span><span class="ptag t-hw">FPGA / VHDL</span><span class="ptag t-py">Senior Design · 2025–26</span></div>
+          <div class="ptitle">SD26 — Flying Radar</div>
+          <div class="pdesc">Iowa State EE 4910/4920 senior design team project. Radar system with an FPGA-based digital back end.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <p>Flying Radar is our senior design project: a radar system whose digital back end runs on an FPGA, with peripherals (ADC/DAC, synthesizer) configured over SPI from VHDL.</p>
+              <p class="todo">To add: one-paragraph description of the system — what it detects or images, the platform it flies on, frequency band, and the client/advisor.</p>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>FPGA firmware — writing the VHDL SPI interface that configures the radar's mixed-signal peripherals.</p>
+              <p class="todo">To add: your official team role(s) and the subsystems you owned.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>VHDL design and simulation of serial peripheral interfaces</li>
+                <li>Radar system-level requirements and link budgets</li>
+                <li>Working within a multi-discipline team with a client, schedule, and design reviews</li>
+              </ul>
+              <p class="todo">To add: anything else specific you learned this year.</p>
+            </div>
+            <div class="sblock">
+              <h5>Big-picture contribution</h5>
+              <p class="todo">To add: why this project matters — who uses the result, and what it enables that wasn't possible or affordable before.</p>
+            </div>
+          </div>
+          <div class="doclinks">
+            <h5>Supporting documents</h5>
+            <a class="gh-link" href="https://github.com/fdreshaj/SD26_Flying_Radar" target="_blank" rel="noopener">Source repository ↗</a>
+            <span class="todo inline">To add: team website, design document, and poster/presentation links</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────── PROJECTS ───────────── -->
+  <div id="projects" class="sec-lbl reveal">featured projects</div>
   <div class="projects reveal">
 
+    <!-- VNA -->
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">Hardware</span></div>
-          <div class="ptitle">PWM Phased Array Radar</div>
-          <div class="pdesc">PWM-controlled phased array radar. Beam steering via phase-shifted PWM signals driving antenna elements.</div>
-        </div>
-        <div class="parr">→</div>
-      </div>
-      <div class="proj-detail">
-        <div class="proj-detail-inner">
-          <div class="detail-grid">
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="radar"></canvas><div class="img-label">radar sweep — add image</div></div>
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">beam pattern — add image</div></div>
-          </div>
-          <ul class="detail-bullets">
-            <li>PWM signal generation for phase-controlled beam steering across antenna array elements</li>
-            <li>Phase shift between elements controls constructive/destructive interference to steer the beam without mechanical movement</li>
-            <li>Full radar signal chain: TX antenna excitation, RX signal path, and phase synchronization</li>
-          </ul>
-          <div class="detail-footer">
-            <span class="detail-meta">Updated 3 days ago</span>
-            <a class="gh-link" href="https://github.com/fdreshaj/PWM-Phased-Array-Radar" target="_blank" rel="noopener">github.com/fdreshaj/PWM-Phased-Array-Radar ↗</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="proj-item">
-      <div class="proj-header" onclick="toggle(this)">
-        <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-py">Tcl</span></div>
-          <div class="ptitle">Scan Controller Probe</div>
-          <div class="pdesc">Motion and measurement controller for RF probe scanning. Coordinates probe positioning with VNA triggering for automated S-parameter collection.</div>
-        </div>
-        <div class="parr">→</div>
-      </div>
-      <div class="proj-detail">
-        <div class="proj-detail-inner">
-          <div class="detail-grid">
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="raster"></canvas><div class="img-label">scan pattern — add image</div></div>
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">S-parameter output — add image</div></div>
-          </div>
-          <ul class="detail-bullets">
-            <li>Tcl controller coordinating XY probe movement with VNA measurement triggers at each point in the scan grid</li>
-            <li>Raster scan: probe stops at each grid point, VNA takes S-parameter snapshot, probe moves to next point</li>
-            <li>Data output to HDF5 for structured storage and post-processing</li>
-          </ul>
-          <div class="detail-footer">
-            <span class="detail-meta">Updated last month</span>
-            <a class="gh-link" href="https://github.com/fdreshaj/Scan_Controller_Probe_Main" target="_blank" rel="noopener">github.com/fdreshaj/Scan_Controller_Probe_Main ↗</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="proj-item">
-      <div class="proj-header" onclick="toggle(this)">
-        <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB</span></div>
-          <div class="ptitle">FMCW Radar — 26.5 to 40 GHz</div>
-          <div class="pdesc">Frequency-modulated continuous wave radar in the Ka-band (26.5–40 GHz). Full radar chain design for EE418.</div>
-        </div>
-        <div class="parr">→</div>
-      </div>
-      <div class="proj-detail">
-        <div class="proj-detail-inner">
-          <div class="detail-grid">
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="fmcw"></canvas><div class="img-label">chirp waveform — add image</div></div>
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="pcb"></canvas><div class="img-label">PCB layout — add image</div></div>
-          </div>
-          <ul class="detail-bullets">
-            <li>Ka-band FMCW radar operating 26.5–40 GHz with linear frequency chirp for range measurement</li>
-            <li>Full radar architecture: VCO chirp source, TX path with PA, RX path with LNA and mixer for IF extraction</li>
-            <li>Beat frequency between TX and RX signals extracts target range; designed for EE418 (Microwave Engineering)</li>
-          </ul>
-          <div class="detail-footer">
-            <span class="detail-meta">Updated May 4</span>
-            <a class="gh-link" href="https://github.com/fdreshaj/fmcw_radar_EE418" target="_blank" rel="noopener">github.com/fdreshaj/fmcw_radar_EE418 ↗</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="proj-item">
-      <div class="proj-header" onclick="toggle(this)">
-        <div>
-          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span></div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span><span class="ptag t-py">KiCad</span></div>
           <div class="ptitle">VNA Design — 0.5 to 10 GHz</div>
-          <div class="pdesc">6-layer 2-port VNA targeting &gt;130 dB dynamic range. STM32H7, high-speed dual ADC, 100 Mbps Ethernet, USB-C. Full signal chain in Keysight ADS.</div>
+          <div class="pdesc">6-layer 2-port vector network analyzer targeting &gt;130 dB dynamic range. STM32H7, high-speed dual ADC, 100 Mbps Ethernet, USB-C. RF subsystems designed and simulated in Keysight ADS.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
           <div class="detail-grid">
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">S-parameter sim — add image</div></div>
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="pcb"></canvas><div class="img-label">6-layer stackup — add image</div></div>
+            <a class="shot" href="images/vna_3d.jpg" target="_blank"><img src="images/vna_3d.jpg" alt="KiCad 3D render of the 6-layer VNA motherboard, angled" loading="lazy"><span class="img-label">VNA motherboard — KiCad 3D</span></a>
+            <a class="shot" href="images/vna_top.jpg" target="_blank"><img src="images/vna_top.jpg" alt="KiCad 3D render of the VNA motherboard from the top" loading="lazy"><span class="img-label">Top view: MCU, Ethernet, downconverters</span></a>
           </div>
-          <ul class="detail-bullets">
-            <li>6-layer 2-port VNA targeting &gt;130 dB dynamic range across 0.5–10 GHz</li>
-            <li>STM32H7 digitizes downconverter outputs via dual ADC; 100 Mbps Ethernet for S-param transfer, USB-C Full Speed, SWD debug</li>
-            <li>2.3–2.8 GHz Colpitts VCO: −1.8 to −11 dBm into 50 Ω, phase noise −169 dBc/Hz at 1 MHz offset</li>
-            <li>90° hybrid coupler at 2.45 GHz: −3 dB coupling, −44 dB isolation; 180° rat-race: −3 dB over 2 GHz BW</li>
-            <li>Balanced mixer: −5.6 dB conversion loss; amplifier: S21 = 15.47 dB, S11 = −34.3 dB</li>
-            <li>Gap-coupled BPF: 6% fractional BW, S11 = −25.7 dB, S21 = −5.33 dB in passband</li>
-          </ul>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>2-port VNA covering 0.5–10 GHz on a 6-layer board; STM32H7 digitizes the downconverter IF through a dual high-speed ADC (AD8138 differential drivers) and streams S-parameters over 100 Mbps Ethernet or USB-C</li>
+                <li>2.3–2.8 GHz Colpitts VCO: −1.8 to −11 dBm into 50 Ω, phase noise −169 dBc/Hz at 1 MHz offset</li>
+                <li>90° hybrid at 2.45 GHz (−3 dB coupling, −44 dB isolation); 180° rat-race (−3 dB over 2 GHz BW)</li>
+                <li>Balanced mixer −5.6 dB conversion loss; amplifier S21 = 15.47 dB, S11 = −34.3 dB; gap-coupled BPF with 6% fractional BW</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>Sole designer — system architecture, ADS simulation of every RF subsystem, schematic capture, 6-layer stackup, and motherboard layout.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Heterodyne receiver architecture and dynamic-range budgeting</li>
+                <li>Oscillator, coupler, mixer, and filter design with EM co-simulation</li>
+                <li>Mixed-signal layout: split analog/digital supplies, ferrite isolation, controlled-impedance stackup</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>Keysight ADS, KiCad 9, Pozar's <em>Microwave Engineering</em>, Analog Devices / ST datasheets and application notes, EE 414/514 lab equipment.</p>
+            </div>
+          </div>
           <div class="detail-footer">
-            <span class="detail-meta">Updated Dec 1, 2025</span>
+            <span class="detail-meta">Ongoing · last update Dec 2025</span>
             <a class="gh-link" href="https://github.com/fdreshaj/VNA_Design" target="_blank" rel="noopener">github.com/fdreshaj/VNA_Design ↗</a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- FMCW -->
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-hw">STM32</span></div>
-          <div class="ptitle">PCB Design Workshop — STM32</div>
-          <div class="pdesc">STM32-based PCB design workshop. Schematic capture, layout, and bring-up of an STM32 development board.</div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB</span><span class="ptag t-py">EE 418</span></div>
+          <div class="ptitle">FMCW Radar — 26.5 to 40 GHz</div>
+          <div class="pdesc">Ka-band frequency-modulated continuous-wave radar. Full TX/RX chain, up/down-converter board, and power delivery board for EE 418.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
           <div class="detail-grid">
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="pcb"></canvas><div class="img-label">schematic — add image</div></div>
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="radar"></canvas><div class="img-label">3D render — add image</div></div>
+            <a class="shot" href="images/fmcw_3d.jpg" target="_blank"><img src="images/fmcw_3d.jpg" alt="KiCad 3D render of the FMCW radar main board" loading="lazy"><span class="img-label">Radar main board — KiCad 3D</span></a>
+            <a class="shot" href="images/fmcw_power_3d.jpg" target="_blank"><img src="images/fmcw_power_3d.jpg" alt="KiCad 3D render of the USB-C power delivery board" loading="lazy"><span class="img-label">USB-C PD power board — KiCad 3D</span></a>
+            <a class="shot wide" href="images/fmcw_block.png" target="_blank"><img src="images/fmcw_block.png" alt="Bistatic FMCW radar block diagram" loading="lazy"><span class="img-label">Bistatic block diagram</span></a>
           </div>
-          <ul class="detail-bullets">
-            <li>Full STM32 board from scratch: schematic capture in KiCad, component placement, and routed PCB layout</li>
-            <li>Power regulation, decoupling network, SWD debug header, and GPIO breakout</li>
-            <li>Board bring-up: continuity checks, power sequencing, firmware flash over SWD</li>
-          </ul>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>Linear-chirp FMCW radar across 26.5–40 GHz; the beat frequency between TX and RX gives target range</li>
+                <li>Chain: ADF4371 synthesizer → ADAR2001 upconverter → PA → 20 dB coupler → TX antenna; RX antenna → LNA → ADAR2004 downconverter → IF filter/amp → AD4080 20-bit ADC → STM32H730</li>
+                <li>Separate USB-C Power Delivery board (60–100 W input) generating the 2.5 V / 1.8 V / 3.3 V analog and digital rails, plus a differential Vivaldi antenna</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>System architect and board designer — part selection, block diagrams (bistatic and monostatic), schematics, and layout of all three boards.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Millimeter-wave part selection and link-budget trade-offs</li>
+                <li>Differential IF routing, ESD protection, and multi-rail power sequencing</li>
+                <li>Splitting a large design into hierarchical boards</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>KiCad 9, STM32CubeIDE, Analog Devices / MACOM / Mini-Circuits datasheets, EE 418 course material.</p>
+            </div>
+          </div>
           <div class="detail-footer">
-            <span class="detail-meta">Updated Oct 22, 2025</span>
+            <span class="detail-meta">EE 418 · 2026</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/fmcw_radar_EE418" target="_blank" rel="noopener">github.com/fdreshaj/fmcw_radar_EE418 ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PWM Phased Array -->
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">Hardware</span></div>
+          <div class="ptitle">PWM Phased Array Radar</div>
+          <div class="pdesc">Phased array radar steered by phase-shifted PWM signals, with printed Vivaldi antenna elements on the same board.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <a class="shot" href="images/pwm_radar_3d.jpg" target="_blank"><img src="images/pwm_radar_3d.jpg" alt="KiCad 3D render of the PWM radar phase-control board" loading="lazy"><span class="img-label">Phase-control board — KiCad 3D</span></a>
+            <a class="shot" href="images/pwm_radar_ant_3d.jpg" target="_blank"><img src="images/pwm_radar_ant_3d.jpg" alt="KiCad 3D render of PWM Radar V1 with integrated antenna" loading="lazy"><span class="img-label">V1 with integrated antenna — KiCad 3D</span></a>
+          </div>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>PWM signals with controlled phase offsets drive each antenna element; the relative phase sets where the array's beam points, with no moving parts</li>
+                <li>Printed Vivaldi elements and coax feeds integrated on the board; several layout revisions tracked in the repo</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>Sole designer — beam-steering concept, antenna design, schematic, and PCB revisions.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Array factor and phase-steering theory applied to real hardware</li>
+                <li>Printed antenna (Vivaldi) layout and feed design</li>
+                <li>Iterating a board across revisions and documenting changes</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>KiCad 9, Balanis' <em>Antenna Theory</em>, EM simulation, online application notes on phased arrays.</p>
+            </div>
+          </div>
+          <div class="detail-footer">
+            <span class="detail-meta">Ongoing · 2026</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/PWM-Phased-Array-Radar" target="_blank" rel="noopener">github.com/fdreshaj/PWM-Phased-Array-Radar ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESP32 -->
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-rf">GNSS</span><span class="ptag t-py">ESP32-S3</span></div>
+          <div class="ptitle">ESP32 Scan Position Monitor</div>
+          <div class="pdesc">ESP32-S3 sensor board with GNSS and a 6-axis IMU for tracking the position of a scanning probe. Wireless, USB-C powered.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <a class="shot" href="images/esp32_3d.jpg" target="_blank"><img src="images/esp32_3d.jpg" alt="KiCad 3D render of the ESP32 scan position monitor, top" loading="lazy"><span class="img-label">Top — KiCad 3D</span></a>
+            <a class="shot" href="images/esp32_3d_iso.jpg" target="_blank"><img src="images/esp32_3d_iso.jpg" alt="KiCad 3D render of the ESP32 scan position monitor, angled" loading="lazy"><span class="img-label">Angled view — KiCad 3D</span></a>
+          </div>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>ESP32-S3 with external flash/PSRAM, Teseo-LIV3R GNSS receiver, and BMI323 IMU</li>
+                <li>GNSS RF front end: chip antenna → SAW filter → BGA725 LNA</li>
+                <li>USB-C with ESD protection, TLV62569 buck and LDO rails</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>Sole designer — schematic, RF front end, and 4-layer layout for the lab's scanning setup.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Laying out an RF receive path next to a noisy MCU</li>
+                <li>Sensor fusion requirements (GNSS + IMU)</li>
+                <li>USB-C power and ESD design practices</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>KiCad, Espressif hardware design guidelines, ST Teseo and Bosch BMI323 datasheets, Infineon LNA application notes.</p>
+            </div>
+          </div>
+          <div class="detail-footer">
+            <span class="detail-meta">2025</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/ESP32-Scan-Position-Monitor" target="_blank" rel="noopener">github.com/fdreshaj/ESP32-Scan-Position-Monitor ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAR Imager -->
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-py">Python</span><span class="ptag t-ml">Research</span></div>
+          <div class="ptitle">SAR Microwave Imager &amp; Scan Controller</div>
+          <div class="pdesc">Desktop app that moves an RF probe across a raster grid, triggers a VNA at every point, and reconstructs a synthetic aperture radar image.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="raster"></canvas><div class="img-label">raster scan pattern</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">S-parameter capture</div></div>
+          </div>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>PySide6 GUI coordinating XY motion with VNA measurements at each point of a generated raster pattern</li>
+                <li>Plugin architecture: G-code (BigTreeTech) and Gecko motion drivers; Anritsu ShockLine / 37397C VNA drivers over PyVISA</li>
+                <li>Data saved to HDF5 and processed with a SAR reconstruction algorithm; live S-parameter and 3D views</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>Lead developer for the lab — architecture, instrument drivers, GUI, data pipeline, and user manual.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Instrument control (SCPI / VISA) and motion control</li>
+                <li>SAR imaging fundamentals and handling large measurement datasets</li>
+                <li>Writing software other researchers depend on: documentation, plugins, testing</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>Python (NumPy, SciPy, scikit-rf, h5py, PyVista), Anritsu programming manuals, lab mentors and published SAR imaging papers.</p>
+            </div>
+          </div>
+          <div class="detail-footer">
+            <span class="detail-meta">Applied Microwave Testing Lab · 2025–26</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/SAR-Microwave-Imager" target="_blank" rel="noopener">github.com/fdreshaj/SAR-Microwave-Imager ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STM32 -->
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-hw">PCB</span><span class="ptag t-hw">STM32</span></div>
+          <div class="ptitle">PCB Design Workshop — STM32</div>
+          <div class="pdesc">STM32F103 "2D6 Dice Roller" board — schematic to fabrication-ready layout in KiCad, built through the Fall 2025 STM32 PCB Design Workshop.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="detail-grid">
+            <a class="shot" href="images/stm32_3d.jpg" target="_blank"><img src="images/stm32_3d.jpg" alt="KiCad 3D render of the STM32 workshop board, top" loading="lazy"><span class="img-label">Top — KiCad 3D</span></a>
+            <a class="shot" href="images/stm32_3d_iso.jpg" target="_blank"><img src="images/stm32_3d_iso.jpg" alt="KiCad 3D render of the STM32 workshop board, angled" loading="lazy"><span class="img-label">Angled view — KiCad 3D</span></a>
+          </div>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>Press "Roll!" and two LED dice (14 LEDs) show a random 2D6 result</li>
+                <li>STM32F103C8T6 with 16 MHz crystal, AP63203 buck regulator (3.8–32 V input), battery/USB power select, boot switch, and SWD header</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>Workshop participant — built the board from the workshop's reference design (by M. Smith, C. Van Weelden, and E. Strohm), doing the schematic capture, footprint assignment, placement, routing, and DRC myself against the workshop checklist.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>KiCad workflow from schematic to fabrication outputs</li>
+                <li>Switching regulator layout, decoupling, and crystal placement</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>KiCad 9, workshop checklist and layout reference guide, ST and Diodes Inc. datasheets.</p>
+            </div>
+          </div>
+          <div class="detail-footer">
+            <span class="detail-meta">Fall 2025</span>
             <a class="gh-link" href="https://github.com/fdreshaj/PCB_DESIGN_WORKSHOP_STM32" target="_blank" rel="noopener">github.com/fdreshaj/PCB_DESIGN_WORKSHOP_STM32 ↗</a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- EE414 -->
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
           <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-ml">ADS</span></div>
-          <div class="ptitle">EE414/514 Microwave Lab Design Files</div>
-          <div class="pdesc">Fall 2025 lab design files for EE414/514. Filters, amplifiers, couplers, and transmission line designs in ADS.</div>
+          <div class="ptitle">EE 414/514 Microwave Lab Design Files</div>
+          <div class="pdesc">Filters, amplifiers, oscillators, and couplers designed in ADS and measured on the bench, Fall 2025.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
           <div class="detail-grid">
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">filter response — add image</div></div>
-            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">amplifier S-params — add image</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">filter response</div></div>
+            <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">amplifier S-parameters</div></div>
           </div>
-          <ul class="detail-bullets">
-            <li>Bandpass and lowpass filter designs: coupled resonator and stub topologies, ADS layout and EM co-simulation</li>
-            <li>Amplifier design: load-pull, stability circles, S-parameter matching network synthesis</li>
-            <li>Directional coupler and Wilkinson divider with isolation measurements</li>
-            <li>Transmission line experiments: stub matching, quarter-wave transformer, Smith chart verification</li>
-          </ul>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>Coupled-resonator and stub filters with ADS layout and EM co-simulation</li>
+                <li>Amplifier design with stability circles and matching networks; 2.45 GHz oscillator</li>
+                <li>Directional coupler, Wilkinson divider, stub matching, and quarter-wave transformers</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>Designed, simulated, fabricated, and measured each lab circuit; several became the starting point for the VNA subsystems.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Smith chart matching and S-parameter measurement</li>
+                <li>Comparing simulation with measurement and explaining the difference</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>Keysight ADS, VNA and spectrum analyzer, Pozar's <em>Microwave Engineering</em>, course lab manuals.</p>
+            </div>
+          </div>
           <div class="detail-footer">
-            <span class="detail-meta">Updated Oct 15, 2025</span>
+            <span class="detail-meta">Fall 2025</span>
             <a class="gh-link" href="https://github.com/fdreshaj/EE414-514-Lab-Design-Files" target="_blank" rel="noopener">github.com/fdreshaj/EE414-514-Lab-Design-Files ↗</a>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 
+  <!-- ───────────── EXPERIENCE ───────────── -->
+  <div id="experience" class="sec-lbl reveal">research &amp; work experience</div>
+  <div class="panel reveal">
+    <div class="xp-head">
+      <div>
+        <h3>Undergraduate Researcher — Applied Microwave Testing Lab</h3>
+        <div class="xp-meta">Iowa State University · Ames, IA</div>
+      </div>
+      <span class="todo inline">To add: start date – present</span>
+    </div>
+    <div class="summary-grid">
+      <div class="sblock">
+        <h5>Duties &amp; projects</h5>
+        <ul>
+          <li>Built the SAR microwave imaging scanner software: motion control, VNA integration, HDF5 data pipeline</li>
+          <li>Designed RF hardware for the lab: VNA motherboard and ESP32 probe position monitor</li>
+          <li>Wrote a user manual so other researchers can run scans independently</li>
+        </ul>
+      </div>
+      <div class="sblock">
+        <h5>Technical skills</h5>
+        <ul>
+          <li>VNA measurement and calibration, SAR imaging</li>
+          <li>Python instrument automation (PyVISA, SCPI)</li>
+          <li>RF PCB design in KiCad and ADS</li>
+        </ul>
+      </div>
+      <div class="sblock">
+        <h5>Soft skills</h5>
+        <ul>
+          <li>Turning loosely defined research needs into working tools</li>
+          <li>Explaining design choices to faculty and graduate students</li>
+          <li>Managing my own schedule across research and coursework</li>
+        </ul>
+      </div>
+      <div class="sblock">
+        <h5>Evaluations &amp; presentations</h5>
+        <p class="todo">To add: supervisor evaluation or feedback, and any lab meetings, posters, or talks you presented.</p>
+      </div>
+    </div>
+    <p class="todo" style="margin-top:1rem">To add: any internship or co-op (company, dates, duties, skills learned, evaluation).</p>
+  </div>
+
+  <!-- ───────────── SKILLS ───────────── -->
   <div id="skills" class="sec-lbl reveal">skills</div>
   <div class="skills reveal">
     <div class="scol">
@@ -335,7 +666,15 @@
       <div class="si"><span class="sd"></span>Python</div>
       <div class="si"><span class="sd"></span>MATLAB</div>
       <div class="si"><span class="sd"></span>C</div>
+      <div class="si"><span class="sd"></span>VHDL</div>
       <div class="si"><span class="sd"></span>Tcl</div>
+    </div>
+    <div class="scol">
+      <h4>Lab</h4>
+      <div class="si"><span class="sd"></span>VNA / spectrum analyzer</div>
+      <div class="si"><span class="sd"></span>Board bring-up &amp; rework</div>
+      <div class="si"><span class="sd"></span>PyVISA automation</div>
+      <div class="si"><span class="sd"></span>STM32 / ESP32 firmware</div>
     </div>
     <div class="scol">
       <h4>Relevant coursework</h4>
@@ -343,34 +682,125 @@
       <div class="si"><span class="sd"></span>High Speed Systems Design</div>
       <div class="si"><span class="sd"></span>Communication Systems</div>
       <div class="si"><span class="sd"></span>Wave Propagation &amp; T-Lines</div>
+      <div class="si"><span class="sd"></span>Machine Learning for ECE</div>
     </div>
   </div>
 
-  <div id="about" class="sec-lbl reveal">about</div>
+  <!-- ───────────── RESUME ───────────── -->
+  <div id="resume" class="sec-lbl reveal">resume</div>
+  <div class="panel reveal">
+    <div class="summary-grid">
+      <div class="sblock">
+        <h5>Education</h5>
+        <p>B.S. Electrical Engineering, Iowa State University — expected May 2027 · GPA 3.55</p>
+      </div>
+      <div class="sblock">
+        <h5>Research</h5>
+        <p>Applied Microwave Testing Lab — SAR imaging systems, VNA hardware, RF PCBs.</p>
+        <p class="todo">To add: published papers or conference submissions, if any.</p>
+      </div>
+      <div class="sblock">
+        <h5>Awards</h5>
+        <p class="todo">To add: scholarships, Dean's List semesters, competitions.</p>
+      </div>
+      <div class="sblock">
+        <h5>Activities</h5>
+        <p class="todo">To add: student organizations, workshops, volunteering.</p>
+      </div>
+    </div>
+    <div class="hero-btns" style="margin-top:1.5rem">
+      <a class="btn-p" href="docs/Flatrim_Dreshaj_Resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a>
+    </div>
+    <p class="todo" style="margin-top:.75rem">To add: put your resume at <code>docs/Flatrim_Dreshaj_Resume.pdf</code>.</p>
+  </div>
+
+  <!-- ───────────── REFLECTIONS ───────────── -->
+  <div id="reflections" class="sec-lbl reveal">reflections &amp; ethics</div>
+  <div class="projects reveal">
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptitle">General Education Reflection</div>
+          <div class="pdesc">How general education courses shaped the way I approach engineering problems beyond the technical solution.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner prose">
+          <!-- Write your reflection here in your own words (submitted to Canvas for an integrity check). -->
+          <p class="todo">To add: your General Education Reflection. It should answer:</p>
+          <ol class="prompts">
+            <li>What have your general education electives taught you that helps you evaluate and formulate engineering solutions beyond the technical side? How do they change how you think about an engineering problem?</li>
+            <li>Using at least two specific classes, what other dimensions (economic, global, societal) do you now consider, and what impact do they have?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptitle">Cumulative Reflection</div>
+          <div class="pdesc">Looking back on my time at Iowa State: growth, learning strategies, and where I go next.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner prose">
+          <!-- Write your reflection here in your own words (submitted to Canvas for an integrity check). -->
+          <p class="todo">To add: your Cumulative Reflection. It should cover:</p>
+          <ol class="prompts">
+            <li>The bigger picture — designing systems, teamwork, communication, and ethical responsibility</li>
+            <li>Resources beyond the classroom — journals, experts, peers, libraries</li>
+            <li>Lifelong learning outside class — research, student orgs, career fairs</li>
+            <li>Adapting what you learned to new tasks and challenges</li>
+            <li>What you would change if you started over</li>
+            <li>How you learned a recent engineering topic, start to finish</li>
+            <li>Turning theory into a practical result, and a time creativity solved a problem</li>
+            <li>How your learning strategies have changed over time</li>
+            <li>Where you want to keep growing as an engineer</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptitle">Engineering Ethics Paper — EE 394</div>
+          <div class="pdesc">Ethics paper written for EE 394.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner prose">
+          <p class="todo">To add: a short summary of the paper's topic and conclusion, and put the PDF at <code>docs/Ethics_Paper_EE394.pdf</code>.</p>
+          <a class="gh-link" href="docs/Ethics_Paper_EE394.pdf" target="_blank" rel="noopener">Read the paper (PDF) ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────── CONTACT ───────────── -->
+  <div id="contact" class="sec-lbl reveal">about &amp; contact</div>
   <div class="about reveal">
     <div class="about-text">
       <h3>Flatrim Dreshaj</h3>
       <p>
-        BS Electrical Engineering, Iowa State University (GPA 3.55, exp. May 2027).
+        B.S. Electrical Engineering, Iowa State University (GPA 3.55, exp. May 2027).
         Researcher at the Applied Microwave Testing Lab building SAR imaging systems,
-        VNA hardware, and RF PCBs. Tools: Keysight ADS, KiCad, Microwave CST, Python, MATLAB.
-        Coursework: Microwave Engineering, High Speed Systems Design, Communication Systems,
-        Wave Propagation and Transmission Lines.
+        VNA hardware, and RF PCBs. I'm looking for RF / microwave hardware roles — reach out by email.
       </p>
     </div>
     <div class="about-links">
-      <a class="alink" href="https://github.com/fdreshaj" target="_blank" rel="noopener">github.com/fdreshaj ↗</a>
       <a class="alink" href="mailto:fdreshaj@iastate.edu">fdreshaj@iastate.edu ↗</a>
+      <a class="alink" href="https://github.com/fdreshaj" target="_blank" rel="noopener">github.com/fdreshaj ↗</a>
       <a class="alink" href="https://www.ece.iastate.edu/" target="_blank" rel="noopener">Iowa State ECE ↗</a>
     </div>
   </div>
-
   <footer>
     <span class="ft">Flatrim Dreshaj — ECE @ Iowa State</span>
     <span class="ft">fdreshaj@iastate.edu</span>
   </footer>
 </div>
-
 <script>
 /* ── RF background flow field ── */
 (function(){
@@ -391,7 +821,7 @@
 function toggle(header){
   var item=header.parentElement;
   var wasOpen=item.classList.contains('open');
-  document.querySelectorAll('.proj-item.open').forEach(function(el){el.classList.remove('open');});
+  item.parentElement.querySelectorAll('.proj-item.open').forEach(function(el){el.classList.remove('open');});
   if(!wasOpen){item.classList.add('open');setTimeout(function(){startAnims(item);},20);}
 }
 
