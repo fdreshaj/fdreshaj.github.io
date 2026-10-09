@@ -137,6 +137,26 @@
     .detail-grid .shot.fig{grid-column:1/-1;aspect-ratio:auto;}
     .detail-grid .shot.fig img{height:auto;}
     .xp-date{font-family:var(--mono);font-size:11px;color:var(--accent);}
+    .pcb3d{border:1px solid var(--border);background:radial-gradient(ellipse at 50% 40%,#101626,#05070c 70%);margin-bottom:1.25rem;}
+    .pcb3d-stage{position:relative;aspect-ratio:16/10;}
+    .pcb3d-stage canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:none;}
+    .pcb3d-stage canvas:active{cursor:grabbing;}
+    .pcb3d-status,.pcb3d-hint{position:absolute;font-family:var(--mono);font-size:11px;color:var(--muted);pointer-events:none;}
+    .pcb3d-status{inset:0;display:flex;align-items:center;justify-content:center;}
+    .pcb3d-hint{right:.75rem;top:.6rem;opacity:.7;}
+    @media(max-width:600px){.pcb3d-hint{display:none;}}
+    .pcb3d-bar{border-top:1px solid var(--border);padding:.75rem 1rem;display:flex;flex-direction:column;gap:.65rem;}
+    .pcb3d-tabs{display:flex;flex-wrap:wrap;gap:.4rem;}
+    .pcb3d-tabs button,.pcb3d-play{font-family:var(--mono);font-size:11px;background:transparent;color:var(--muted);border:1px solid #1e2d45;padding:.3rem .65rem;cursor:pointer;}
+    .pcb3d-tabs button.on,.pcb3d-tabs button:hover,.pcb3d-play:hover{color:var(--accent);border-color:var(--accent);}
+    .pcb3d-ctrl{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:11px;color:var(--muted);flex-wrap:wrap;}
+    .pcb3d-ctrl label{display:flex;align-items:center;gap:.6rem;}
+    .pcb3d-ctrl input{width:min(220px,40vw);accent-color:var(--accent);}
+    .pcb3d-legend{list-style:none;display:flex;flex-wrap:wrap;gap:.3rem .9rem;}
+    .pcb3d-legend li{font-size:12px;color:#8a9bb4;display:flex;align-items:center;gap:.4rem;cursor:pointer;user-select:none;}
+    .pcb3d-legend li span{width:10px;height:10px;display:inline-block;border:1px solid #0006;}
+    .pcb3d-legend li.off{opacity:.35;text-decoration:line-through;}
+    .pcb3d-legend li.pcb3d-meta{width:100%;cursor:default;font-family:var(--mono);font-size:10px;color:var(--muted);}
     .xp-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;}
     .xp-head h3{font-size:1rem;font-weight:500;color:#c8d6ef;}
     .xp-meta{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:.2rem;}
@@ -296,6 +316,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="vna:HUBRIS VNA motherboard (6-layer)"></div>
           <div class="detail-grid">
             <a class="shot" href="images/vna_3d.jpg" target="_blank"><img src="images/vna_3d.jpg" alt="KiCad 3D render of the 6-layer VNA motherboard, angled" loading="lazy"><span class="img-label">VNA motherboard — KiCad 3D</span></a>
             <a class="shot" href="images/vna_top.jpg" target="_blank"><img src="images/vna_top.jpg" alt="KiCad 3D render of the VNA motherboard from the top" loading="lazy"><span class="img-label">Top view: MCU, Ethernet, downconverters</span></a>
@@ -377,6 +398,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="updown:Up/down converter,sweep:VCO sweep board,power:USB-C PD board"></div>
           <div class="detail-grid">
             <a class="shot wide" href="images/fmcw_updown_3d.jpg" target="_blank"><img src="images/fmcw_updown_3d.jpg" alt="KiCad 3D render of the up/down converter board" loading="lazy"><span class="img-label">Up/down converter board — KiCad 3D</span></a>
             <a class="shot" href="images/fmcw_updown_iso.jpg" target="_blank"><img src="images/fmcw_updown_iso.jpg" alt="KiCad 3D render of the up/down converter board, angled" loading="lazy"><span class="img-label">Up/down converter — angled</span></a>
@@ -432,6 +454,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="pwm:Phase-control board,pwmant:V1 with antenna,vivaldi:Generated Vivaldi"></div>
           <div class="detail-grid">
             <a class="shot" href="images/pwm_radar_3d.jpg" target="_blank"><img src="images/pwm_radar_3d.jpg" alt="KiCad 3D render of the PWM radar phase-control board" loading="lazy"><span class="img-label">Phase-control board (4-layer)</span></a>
             <a class="shot" href="images/pwm_radar_ant_3d.jpg" target="_blank"><img src="images/pwm_radar_ant_3d.jpg" alt="KiCad 3D render of PWM Radar V1 with integrated antenna" loading="lazy"><span class="img-label">V1 with integrated antenna</span></a>
@@ -486,6 +509,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="esp32:Motion Tracker V1"></div>
           <div class="detail-grid">
             <a class="shot" href="images/esp32_3d.jpg" target="_blank"><img src="images/esp32_3d.jpg" alt="KiCad 3D render of the ESP32 scan position monitor, top" loading="lazy"><span class="img-label">Top — KiCad 3D</span></a>
             <a class="shot" href="images/esp32_3d_iso.jpg" target="_blank"><img src="images/esp32_3d_iso.jpg" alt="KiCad 3D render of the ESP32 scan position monitor, angled" loading="lazy"><span class="img-label">Angled view — KiCad 3D</span></a>
@@ -588,6 +612,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="stm32:2D6 dice roller"></div>
           <div class="detail-grid">
             <a class="shot" href="images/stm32_3d.jpg" target="_blank"><img src="images/stm32_3d.jpg" alt="KiCad 3D render of the STM32 workshop board, top" loading="lazy"><span class="img-label">Top — KiCad 3D</span></a>
             <a class="shot" href="images/stm32_3d_iso.jpg" target="_blank"><img src="images/stm32_3d_iso.jpg" alt="KiCad 3D render of the STM32 workshop board, angled" loading="lazy"><span class="img-label">Angled view — KiCad 3D</span></a>
@@ -908,6 +933,9 @@ function toggle(header){
   var wasOpen=item.classList.contains('open');
   item.parentElement.querySelectorAll('.proj-item.open').forEach(function(el){el.classList.remove('open');});
   if(!wasOpen){item.classList.add('open');setTimeout(function(){startAnims(item);},20);}
+  if(window.pcb3dOnToggle){
+    item.parentElement.querySelectorAll('.proj-item').forEach(function(el){window.pcb3dOnToggle(el,el.classList.contains('open'));});
+  }
 }
 
 /* ── Placeholder animations ── */
@@ -1014,5 +1042,6 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
+<script src="js/pcb-explode.js" defer></script>
 </body>
 </html>
