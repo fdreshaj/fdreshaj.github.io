@@ -10,6 +10,11 @@
   var canvas = document.getElementById('bg');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
+  // a second, transparent canvas at device resolution for crisp vector overlays (strokes, cursor)
+  var ink2 = document.createElement('canvas');
+  ink2.id = 'bg-ink'; ink2.setAttribute('aria-hidden', 'true');
+  canvas.parentNode.insertBefore(ink2, canvas.nextSibling);
+  var ink2ctx = ink2.getContext('2d'), octx = ctx, sep = false;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var CELL = 7;                 // css px per Yee cell
@@ -40,6 +45,7 @@
   var FADE_S = 2.5;           // seconds a stroke takes to fade once its lifetime is up
   var brush = { size: 2.6, life: 3, mat: 0, tool: 'free', sym: 'none' };
   var strokeId = 0, strokeStack = [], sources = [], preview = null;
+  var vstrokes = [], dpr = 1;   // vector copy of every stroke, drawn at screen resolution
   var mouse = { x: -1, y: -1 };
   var step = 0, phase = 0, gain = 30;
   var rxBuf = new Float32Array(N), txBuf = new Float32Array(N), bi = 0;
@@ -47,6 +53,13 @@
   function setup() {
     var vw = window.innerWidth, vh = window.innerHeight;
     canvas.width = vw; canvas.height = vh;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // high-DPI screens get the separate device-resolution layer; at 1x the main canvas is already sharp
+    sep = dpr > 1;
+    ink2.style.display = sep ? '' : 'none';
+    octx = sep ? ink2ctx : ctx;
+    ink2.width = sep ? Math.round(vw * dpr) : 1; ink2.height = sep ? Math.round(vh * dpr) : 1;
+    lastBox = null;
     W = Math.ceil(vw / CELL) + 2; H = Math.ceil(vh / CELL) + 2; n = W * H;
     Ez = new Float32Array(n); Hx = new Float32Array(n); Hy = new Float32Array(n);
     Hz = new Float32Array(n); Ex = new Float32Array(n); Ey = new Float32Array(n);
@@ -163,6 +176,12 @@
       else { ce[i] = 1 / (1 + (EPS_GLASS - 1) * s); glassList.push(i); }
     }
     inkList = live;
+    var vs = [];
+    for (k = 0; k < vstrokes.length; k++) {
+      var st = vstrokes[k]; st.life -= st.decay; st.age++;
+      if (st.life > 0) vs.push(st);
+    }
+    vstrokes = vs;
     var ls = [];
     for (k = 0; k < sources.length; k++) { sources[k].life -= sources[k].decay; if (sources[k].life > 0) ls.push(sources[k]); }
     sources = ls;
@@ -189,7 +208,42 @@
     return [1 + brush.life / FADE_S, 1 / (FADE_S * 60)];
   }
 
+  function vstroke(id) {
+    var s = vstrokes[vstrokes.length - 1];
+    if (s && s.id === id) return s;
+    var lp = lifeParams();
+    s = { id: id, mat: brush.mat, w: brush.size * CELL * 1.7, segs: [], life: lp[0], decay: lp[1], age: 0,
+          box: [Infinity, Infinity, -Infinity, -Infinity] };
+    vstrokes.push(s);
+    return s;
+  }
+
+  // smooth, full-resolution rendering of the drawn material (the solver itself works on the grid)
+  function drawStrokes(fade) {
+    octx.lineCap = 'round'; octx.lineJoin = 'round';
+    for (var k = 0; k < vstrokes.length; k++) {
+      var s = vstrokes[k], c = MAT_RGB[s.mat], a = Math.min(1, s.life) * Math.min(1, s.age / 12) * fade;
+      if (a <= 0.01) continue;
+      octx.beginPath();
+      for (var j = 0; j < s.segs.length; j++) {
+        var g = s.segs[j];
+        if (j === 0 || g[0] !== s.segs[j - 1][2] || g[1] !== s.segs[j - 1][3]) octx.moveTo(g[0], g[1]);
+        octx.lineTo(g[2], g[3]);
+      }
+      var rgb = 'rgb(' + c.join(',') + ')';
+      // soft halo, translucent body, bright thin core
+      octx.strokeStyle = rgb; octx.globalAlpha = 0.10 * a; octx.lineWidth = s.w + 8; octx.stroke();
+      octx.globalAlpha = (s.mat === MAT.glass ? 0.22 : 0.38) * a; octx.lineWidth = s.w; octx.stroke();
+      octx.globalAlpha = (s.mat === MAT.glass ? 0.5 : 0.85) * a; octx.lineWidth = Math.max(1, s.w * 0.18); octx.stroke();
+    }
+    octx.globalAlpha = 1; octx.lineWidth = 1.2;
+  }
+
   function paintRaw(ax, ay, bx, by, id) {
+    var vs_ = vstroke(id), bx_ = vs_.box;
+    vs_.segs.push([ax, ay, bx, by]);
+    bx_[0] = Math.min(bx_[0], ax, bx); bx_[1] = Math.min(bx_[1], ay, by);
+    bx_[2] = Math.max(bx_[2], ax, bx); bx_[3] = Math.max(bx_[3], ay, by);
     var x0 = ax / CELL, y0 = ay / CELL, x1 = bx / CELL, y1 = by / CELL, lp = lifeParams();
     var len = Math.hypot(x1 - x0, y1 - y0), R = brush.size, steps = Math.max(1, Math.ceil(len * 2));
     var taper = Math.min(1.8, Math.max(0.8, R * 0.6));
@@ -269,11 +323,12 @@
     if (id === undefined) return;
     for (var k = 0; k < inkList.length; k++) if (inkStroke[inkList[k]] === id) ink[inkList[k]] = 0;
     sources = sources.filter(function (s) { return s.stroke !== id; });
+    vstrokes = vstrokes.filter(function (s) { return s.id !== id; });
   }
 
   function clearAll() {
     for (var k = 0; k < inkList.length; k++) ink[inkList[k]] = 0;
-    sources = []; strokeStack = [];
+    sources = []; strokeStack = []; vstrokes = [];
   }
 
   function solve() {
@@ -315,10 +370,6 @@
     gain = Math.max(1, Math.min(400, gain));
     for (i = 0, p = 0; i < n; i++, p += 4) {
       if (wall[i]) { d[p] = 210; d[p + 1] = 225; d[p + 2] = 255; d[p + 3] = 80 * fade; continue; }
-      if (ink[i] > 0 && inkW[i] > 0.3) {
-        var c = MAT_RGB[inkMat[i]], vis = inkW[i] * Math.min(1, ink[i]);
-        d[p] = c[0]; d[p + 1] = c[1]; d[p + 2] = c[2]; d[p + 3] = (inkMat[i] === MAT.glass ? 60 : 95) * vis * fade; continue;
-      }
       if (sc) {
         v = sc[i];
         m = Math.tanh(Math.abs(v) * gain);
@@ -364,29 +415,66 @@
       ctx.beginPath(); ctx.moveTo(X - 6, Y - 9); ctx.lineTo(X, Y); ctx.lineTo(X + 6, Y - 9); ctx.moveTo(X, Y); ctx.lineTo(X, Y + 9); ctx.stroke();
       ctx.fillStyle = a[2]; ctx.fillText(a[1], X + 9, Y + 4);
     });
+    ctx.globalAlpha = 1;
+  }
+
+  // crisp overlay at device resolution: drawn material, antennas, shape preview, cursor ring
+  // Only the region that changed is cleared each frame: the union of this frame's and last frame's
+  // bounding boxes, so a cursor ring alone costs a few hundred pixels instead of the whole screen.
+  var lastBox = null;
+  function overlayBox() {
+    var b = [Infinity, Infinity, -Infinity, -Infinity], k;
+    function add(x0, y0, x1, y1, pad) {
+      b[0] = Math.min(b[0], x0 - pad); b[1] = Math.min(b[1], y0 - pad);
+      b[2] = Math.max(b[2], x1 + pad); b[3] = Math.max(b[3], y1 + pad);
+    }
+    for (k = 0; k < vstrokes.length; k++) { var s = vstrokes[k]; add(s.box[0], s.box[1], s.box[2], s.box[3], s.w / 2 + 8); }
+    for (k = 0; k < sources.length; k++) { var X = sources[k].x * CELL, Y = sources[k].y * CELL; add(X, Y, X, Y, 14); }
+    if (preview) shapePoints(preview.tool, preview.a, preview.b).forEach(function (q) {
+      symmetric(q).forEach(function (r) { add(r[0], r[1], r[0], r[1], brush.size * CELL + 8); });
+    });
+    if (refl.on) { var rx_ = refl.x * CELL, ry_ = refl.y * CELL, rr = refl.r * CELL; add(rx_, ry_, rx_, ry_, rr + 4); }
+    return b[0] === Infinity ? null : b;
+  }
+  function drawOverlay(fade) {
+    if (!sep) { octx.setTransform(1, 0, 0, 1, 0, 0); paintOverlay(fade); return; }
+    var box = overlayBox();
+    if (!box && !lastBox) return;
+    var c = lastBox && box ? [Math.min(box[0], lastBox[0]), Math.min(box[1], lastBox[1]), Math.max(box[2], lastBox[2]), Math.max(box[3], lastBox[3])] : (box || lastBox);
+    octx.setTransform(1, 0, 0, 1, 0, 0);
+    octx.clearRect(Math.floor(c[0] * dpr) - 2, Math.floor(c[1] * dpr) - 2, Math.ceil((c[2] - c[0]) * dpr) + 4, Math.ceil((c[3] - c[1]) * dpr) + 4);
+    lastBox = box;
+    if (!box) return;
+    octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    paintOverlay(fade);
+  }
+
+  function paintOverlay(fade) {
+    drawStrokes(fade);
+    octx.lineWidth = 1.2;
     sources.forEach(function (s) {
       var X = s.x * CELL + CELL / 2, Y = s.y * CELL + CELL / 2;
-      ctx.strokeStyle = '#facc15'; ctx.globalAlpha = 0.85 * fade * Math.min(1, s.life);
-      ctx.beginPath(); ctx.moveTo(X - 5, Y - 8); ctx.lineTo(X, Y); ctx.lineTo(X + 5, Y - 8); ctx.moveTo(X, Y); ctx.lineTo(X, Y + 8); ctx.stroke();
+      octx.strokeStyle = '#facc15'; octx.globalAlpha = 0.85 * fade * Math.min(1, s.life);
+      octx.beginPath(); octx.moveTo(X - 5, Y - 8); octx.lineTo(X, Y); octx.lineTo(X + 5, Y - 8); octx.moveTo(X, Y); octx.lineTo(X, Y + 8); octx.stroke();
     });
     if (preview) {
       var col = MAT_RGB[brush.mat];
-      ctx.strokeStyle = preview.tool === 'antenna' ? '#facc15' : 'rgb(' + col.join(',') + ')';
-      ctx.globalAlpha = 0.8; ctx.lineWidth = Math.max(1, brush.size * CELL * 0.6); ctx.setLineDash([6, 6]);
+      octx.strokeStyle = preview.tool === 'antenna' ? '#facc15' : 'rgb(' + col.join(',') + ')';
+      octx.globalAlpha = 0.8; octx.lineWidth = Math.max(1, brush.size * CELL * 0.6); octx.setLineDash([6, 6]);
       var pts = shapePoints(preview.tool, preview.a, preview.b);
       pts[0] && symmetric(pts[0]).forEach(function (_, j) {
-        ctx.beginPath();
-        pts.forEach(function (q, k) { var r = symmetric(q)[j]; if (k) ctx.lineTo(r[0], r[1]); else ctx.moveTo(r[0], r[1]); });
-        ctx.stroke();
+        octx.beginPath();
+        pts.forEach(function (q, k) { var r = symmetric(q)[j]; if (k) octx.lineTo(r[0], r[1]); else octx.moveTo(r[0], r[1]); });
+        octx.stroke();
       });
-      ctx.setLineDash([]); ctx.lineWidth = 1.2;
+      octx.setLineDash([]); octx.lineWidth = 1.2;
     }
     if (refl.on) {
-      ctx.globalAlpha = 0.9 * fade;
-      ctx.strokeStyle = '#e2e8f0';
-      ctx.beginPath(); ctx.arc(refl.x * CELL, refl.y * CELL, refl.r * CELL, 0, Math.PI * 2); ctx.stroke();
+      octx.globalAlpha = 0.9 * fade;
+      octx.strokeStyle = '#e2e8f0';
+      octx.beginPath(); octx.arc(refl.x * CELL, refl.y * CELL, refl.r * CELL, 0, Math.PI * 2); octx.stroke();
     }
-    ctx.globalAlpha = 1;
+    octx.globalAlpha = 1;
   }
 
   /* ── spectrum panel ── */
@@ -612,6 +700,7 @@
       else if (solveMs < 4.5 && STEPS < MAX_STEPS) STEPS++;
     }
     draw(fade);
+    drawOverlay(fade);
     if (++frame % 4 === 0 && window.scrollY < window.innerHeight * 1.5) analyze();
   })();
   window.rfField = state;   // handy for debugging from the console
