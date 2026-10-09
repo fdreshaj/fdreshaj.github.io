@@ -157,6 +157,7 @@
     .detail-grid .shot.fig img{height:auto;}
     .xp-date{font-family:var(--mono);font-size:11px;color:var(--accent);}
     .pcb3d{border:1px solid var(--border);background:radial-gradient(ellipse at 50% 40%,#101626,#05070c 70%);margin-bottom:1.25rem;}
+    .pcb3d-title{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;font-weight:400;margin:.25rem 0 .6rem;opacity:.85;}
     .pcb3d-stage{position:relative;aspect-ratio:16/10;}
     .pcb3d-stage canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:none;}
     .pcb3d-stage canvas:active{cursor:grabbing;}
@@ -356,7 +357,9 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
-          <div class="pcb3d" data-boards="vna:HUBRIS VNA motherboard (6-layer),vcog:2.3–2.8 GHz VCO board (Gerbers)"></div>
+          <div class="pcb3d" data-boards="vna:HUBRIS VNA motherboard (6-layer)"></div>
+          <h5 class="pcb3d-title">2.3–2.8 GHz VCO board — exploded from the fab Gerbers</h5>
+          <div class="pcb3d" data-boards="vcog:VNA VCO board"></div>
           <div class="detail-grid">
             <a class="shot" href="images/vna_3d.jpg" target="_blank"><img src="images/vna_3d.jpg" alt="KiCad 3D render of the 6-layer VNA motherboard, angled" loading="lazy"><span class="img-label">VNA motherboard — KiCad 3D</span></a>
             <a class="shot" href="images/vna_top.jpg" target="_blank"><img src="images/vna_top.jpg" alt="KiCad 3D render of the VNA motherboard from the top" loading="lazy"><span class="img-label">Top view: MCU, Ethernet, downconverters</span></a>
@@ -421,6 +424,53 @@
           </div>
           <div class="detail-footer">
             <span class="detail-meta">Aug 2025 – present</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OSC -->
+    <div class="proj-item">
+      <div class="proj-header" onclick="toggle(this)">
+        <div>
+          <div class="ptags"><span class="ptag t-rf">RF</span><span class="ptag t-hw">PCB / ADS</span><span class="ptag t-ml">EE 514</span></div>
+          <div class="ptitle">Microwave Oscillator Board — four topologies</div>
+          <div class="pdesc">Common-base, common-emitter, common-collector and reflection oscillators side by side on one fabricated 2-layer panel, designed in Keysight ADS with Matthew Smith and Ryan Teen.</div>
+        </div>
+        <div class="parr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="osc:Oscillator board"></div>
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Description</h5>
+              <ul>
+                <li>Four transistor oscillators on one 117 × 42 mm board, each with its own +5 V / GND feed and RF output, so the topologies can be measured against each other</li>
+                <li>Common base, common emitter and common collector feedback oscillators, plus a reflection (negative-resistance) oscillator</li>
+                <li>Laid out in ADS and exported as fabrication Gerbers — the exploded view above is built straight from those files (63 plated holes)</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>My role</h5>
+              <p>One of three designers with Matthew Smith and Ryan Teen — oscillator design and simulation in ADS and the board layout for fabrication. The common-base design led directly to the VNA's VCO.</p>
+            </div>
+            <div class="sblock">
+              <h5>Skills &amp; knowledge gained</h5>
+              <ul>
+                <li>Oscillation start-up conditions and negative-resistance design</li>
+                <li>How the choice of grounded terminal changes gain, stability and tuning</li>
+                <li>Preparing an RF layout for fabrication from ADS</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Resources used</h5>
+              <p>Keysight ADS, Pozar's <em>Microwave Engineering</em>, EE 514 lectures and lab equipment.</p>
+            </div>
+          </div>
+          <div class="detail-footer">
+            <span class="detail-meta">EE 514 · Fall 2025</span>
+            <a class="gh-link" href="https://github.com/fdreshaj/EE414-514-Lab-Design-Files" target="_blank" rel="noopener">github.com/fdreshaj/EE414-514-Lab-Design-Files ↗</a>
           </div>
         </div>
       </div>
@@ -701,7 +751,6 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
-          <div class="pcb3d" data-boards="osc:Oscillator board (Gerbers)"></div>
           <div class="detail-grid">
             <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">filter response</div></div>
             <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">amplifier S-parameters</div></div>
@@ -713,7 +762,7 @@
                 <li>Coupled-resonator and stub filters with ADS layout and EM co-simulation</li>
                 <li>Amplifier design with stability circles and matching networks; 2.45 GHz oscillator</li>
                 <li>Directional coupler, Wilkinson divider, stub matching, and quarter-wave transformers</li>
-                <li>Oscillator board (with Matthew Smith and Ryan Teen): common-base, common-emitter, common-collector and reflection oscillators side by side on one 2-layer fab panel, shown above from the ADS Gerbers</li>
+                <li>Oscillator board (with Matthew Smith and Ryan Teen): common-base, common-emitter, common-collector and reflection oscillators side by side on one 2-layer fab panel, see the Oscillator Board project for its exploded layers</li>
               </ul>
             </div>
             <div class="sblock">
@@ -1069,7 +1118,7 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
-<script src="js/rf-field.js"></script>
-<script src="js/pcb-explode.js" defer></script>
+<script src="js/rf-field.js?v=20261009b"></script>
+<script src="js/pcb-explode.js?v=20261009b" defer></script>
 </body>
 </html>

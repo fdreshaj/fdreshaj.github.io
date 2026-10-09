@@ -12,9 +12,10 @@
   var ctx = canvas.getContext('2d');
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var CELL = 6;                 // css px per Yee cell
+  var CELL = 7;                 // css px per Yee cell
   var S = 0.5;                  // Courant number c·dt/dx (2D limit is 1/sqrt 2)
-  var STEPS = reduce ? 1 : 2;   // solver steps per frame
+  var STEPS = reduce ? 1 : 3;   // solver steps per frame (adapts to the machine below)
+  var MAX_STEPS = STEPS, solveMs = 0;
   var SPONGE = 30;              // graded absorbing border (cells)
   var F0 = 1 / 36;              // carrier, cycles per step  ->  lambda = S/F0 = 18 cells
   var N = 1024;                 // RX record length for the FFT
@@ -330,7 +331,14 @@
     requestAnimationFrame(loop);
     if (document.hidden) return;
     var fade = Math.max(0.35, 1 - window.scrollY / (window.innerHeight * 1.2));
+    var t0 = performance.now();
     solve();
+    // keep frames on time: fewer solver steps per frame on slow machines, more when there is room
+    solveMs += (performance.now() - t0 - solveMs) * 0.05;
+    if (frame % 60 === 59) {
+      if (solveMs > 10 && STEPS > 1) STEPS--;
+      else if (solveMs < 4.5 && STEPS < MAX_STEPS) STEPS++;
+    }
     draw(fade);
     if (++frame % 4 === 0 && window.scrollY < window.innerHeight * 1.5) analyze();
   })();
