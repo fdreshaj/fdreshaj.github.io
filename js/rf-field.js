@@ -29,9 +29,17 @@
   var Ez, Hx, Hy, Hz, Ex, Ey;
   var tx = {}, rx = {}, posts = [];
   var refl = { x: 0, y: 0, r: 4.5, on: false };
-  var ink, inkW, inkAge, inkList = [], drawing = null;   // right-click-drawn walls: life, brush weight, age
-  var soft, softList = [];   // per-cell conductor strength 0..1 for the cursor disc and drawn walls
-  var INK0 = 2.2, INK_DECAY = 0.0065;      // ~3 s as a solid conductor, then ~2.5 s fading out
+  // Drawn material, per cell: remaining life, brush weight, age, material, decay rate and stroke id
+  var ink, inkW, inkAge, inkMat, inkDecay, inkStroke, inkList = [], drawing = null;
+  var soft, softList = [];   // conductor strength 0..1 (cursor disc + metal ink)
+  var loss, lossList = [];   // absorber strength 0..1
+  var ce, glassList = [];    // E-update coefficient 1/eps_r (glass ink)
+  var MAT = { metal: 0, absorb: 1, glass: 2 };
+  var MAT_RGB = [[225, 235, 255], [240, 173, 78], [74, 222, 128]];
+  var EPS_GLASS = 4;          // relative permittivity of the glass brush (n = 2)
+  var FADE_S = 2.5;           // seconds a stroke takes to fade once its lifetime is up
+  var brush = { size: 2.6, life: 3, mat: 0, tool: 'free', sym: 'none' };
+  var strokeId = 0, strokeStack = [], sources = [], preview = null;
   var mouse = { x: -1, y: -1 };
   var step = 0, phase = 0, gain = 30;
   var rxBuf = new Float32Array(N), txBuf = new Float32Array(N), bi = 0;
@@ -43,7 +51,9 @@
     Ez = new Float32Array(n); Hx = new Float32Array(n); Hy = new Float32Array(n);
     Hz = new Float32Array(n); Ex = new Float32Array(n); Ey = new Float32Array(n);
     damp = new Float32Array(n); wall = new Uint8Array(n); ink = new Float32Array(n); inkW = new Float32Array(n); inkAge = new Uint8Array(n); inkList = [];
-    soft = new Float32Array(n); softList = [];
+    inkMat = new Uint8Array(n); inkDecay = new Float32Array(n); inkStroke = new Int32Array(n);
+    soft = new Float32Array(n); softList = []; loss = new Float32Array(n); lossList = [];
+    ce = new Float32Array(n).fill(1); glassList = []; sources = [];
     for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
       var d = Math.min(x, y, W - 1 - x, H - 1 - y);
       damp[y * W + x] = d < SPONGE ? 1 - 0.06 * Math.pow((SPONGE - d) / SPONGE, 3) : 1;
@@ -92,10 +102,11 @@
     for (y = 1; y < H - 1; y++) for (x = 1; x < W - 1; x++) {
       i = y * W + x;
       if (wall[i]) { Ez[i] = 0; continue; }   // PEC: tangential E vanishes
-      Ez[i] = (Ez[i] + S * ((Hy[i] - Hy[i - 1]) - (Hx[i] - Hx[i - W]))) * damp[i];
+      Ez[i] = (Ez[i] + S * ce[i] * ((Hy[i] - Hy[i - 1]) - (Hx[i] - Hx[i - W]))) * damp[i];
     }
     var t = tx.y * W + tx.x;
     Ez[t] += src; Ez[t + 1] += src * 0.5; Ez[t - 1] += src * 0.5;
+    for (var k = 0; k < sources.length; k++) Ez[sources[k].i] += src * Math.min(1, sources[k].life);
   }
 
   function stepTE(src) {
@@ -103,8 +114,8 @@
     for (y = 1; y < H - 1; y++) for (x = 1; x < W - 1; x++) {
       i = y * W + x;
       if (wall[i]) { Ex[i] = Ey[i] = 0; continue; }   // PEC: in-plane E vanishes
-      Ex[i] = (Ex[i] + S * (Hz[i] - Hz[i - W])) * damp[i];
-      Ey[i] = (Ey[i] - S * (Hz[i] - Hz[i - 1])) * damp[i];
+      Ex[i] = (Ex[i] + S * ce[i] * (Hz[i] - Hz[i - W])) * damp[i];
+      Ey[i] = (Ey[i] - S * ce[i] * (Hz[i] - Hz[i - 1])) * damp[i];
     }
     for (y = 0; y < H - 1; y++) for (x = 0; x < W - 1; x++) {
       i = y * W + x;
@@ -112,6 +123,7 @@
     }
     var t = tx.y * W + tx.x;
     Hz[t] += src; Hz[t + 1] += src * 0.5; Hz[t - 1] += src * 0.5;
+    for (var k = 0; k < sources.length; k++) Hz[sources[k].i] += src * Math.min(1, sources[k].life);
   }
 
   // The cursor disc and drawn walls are soft-edged conductors: each cell has a strength s in
@@ -121,7 +133,9 @@
   function buildSoft() {
     var k, i;
     for (k = 0; k < softList.length; k++) soft[softList[k]] = 0;
-    softList = [];
+    for (k = 0; k < lossList.length; k++) loss[lossList[k]] = 0;
+    for (k = 0; k < glassList.length; k++) ce[glassList[k]] = 1;
+    softList = []; lossList = []; glassList = [];
     function put(i, s) {
       if (s <= 0) return;
       if (soft[i] === 0) softList.push(i);
@@ -135,41 +149,131 @@
         put(y * W + x, Math.max(0, Math.min(1, (refl.r + 1 - d) / 2)));
       }
     }
-    // drawn walls: ~3 s at full strength, then fade out; new strokes ramp in over a few frames
+    // drawn material: full strength for its lifetime, then fades; new strokes ramp in over a few frames
     var live = [];
     for (k = 0; k < inkList.length; k++) {
       i = inkList[k];
-      ink[i] -= INK_DECAY;
+      ink[i] -= inkDecay[i];
       if (inkAge[i] < 255) inkAge[i]++;
-      if (ink[i] > 0) { live.push(i); put(i, inkW[i] * Math.min(1, ink[i]) * Math.min(1, inkAge[i] / 12)); }
-      else { ink[i] = 0; inkW[i] = 0; }
+      if (ink[i] <= 0) { ink[i] = 0; inkW[i] = 0; continue; }
+      live.push(i);
+      var s = inkW[i] * Math.min(1, ink[i]) * Math.min(1, inkAge[i] / 12);
+      if (inkMat[i] === MAT.metal) put(i, s);
+      else if (inkMat[i] === MAT.absorb) { if (loss[i] === 0) lossList.push(i); loss[i] = Math.max(loss[i], s); }
+      else { ce[i] = 1 / (1 + (EPS_GLASS - 1) * s); glassList.push(i); }
     }
     inkList = live;
+    var ls = [];
+    for (k = 0; k < sources.length; k++) { sources[k].life -= sources[k].decay; if (sources[k].life > 0) ls.push(sources[k]); }
+    sources = ls;
   }
 
   function applySoft(tm, te) {
-    for (var k = 0; k < softList.length; k++) {
-      var i = softList[k], keep = 1 - soft[i];
+    var k, i, keep;
+    for (k = 0; k < softList.length; k++) {
+      i = softList[k]; keep = 1 - soft[i];
+      if (tm) Ez[i] *= keep;
+      if (te) { Ex[i] *= keep; Ey[i] *= keep; }
+    }
+    // absorber: a strong but gradual loss each step, so waves die inside instead of bouncing off
+    for (k = 0; k < lossList.length; k++) {
+      i = lossList[k]; keep = 1 - 0.18 * loss[i];
       if (tm) Ez[i] *= keep;
       if (te) { Ex[i] *= keep; Ey[i] *= keep; }
     }
   }
 
-  function paint(ax, ay, bx, by) {
-    var x0 = ax / CELL, y0 = ay / CELL, x1 = bx / CELL, y1 = by / CELL;
-    var len = Math.hypot(x1 - x0, y1 - y0), steps = Math.max(1, Math.ceil(len * 2)), R = 2.6;
+  function lifeParams() {
+    // full strength for brush.life seconds, then FADE_S seconds of fading (decay is per frame)
+    if (!isFinite(brush.life)) return [1, 0];
+    return [1 + brush.life / FADE_S, 1 / (FADE_S * 60)];
+  }
+
+  function paintRaw(ax, ay, bx, by, id) {
+    var x0 = ax / CELL, y0 = ay / CELL, x1 = bx / CELL, y1 = by / CELL, lp = lifeParams();
+    var len = Math.hypot(x1 - x0, y1 - y0), R = brush.size, steps = Math.max(1, Math.ceil(len * 2));
+    var taper = Math.min(1.8, Math.max(0.8, R * 0.6));
     for (var s = 0; s <= steps; s++) {
       var cx = x0 + ((x1 - x0) * s) / steps, cy = y0 + ((y1 - y0) * s) / steps;
       for (var y = Math.floor(cy - R); y <= Math.ceil(cy + R); y++) for (var x = Math.floor(cx - R); x <= Math.ceil(cx + R); x++) {
         if (x < 2 || y < 2 || x > W - 3 || y > H - 3) continue;
-        var w = Math.min(1, (R - Math.hypot(x - cx, y - cy)) / 1.8);   // solid core, tapered edge
+        var w = Math.min(1, (R - Math.hypot(x - cx, y - cy)) / taper);   // solid core, tapered edge
         if (w <= 0) continue;
         var i = y * W + x;
-        if (ink[i] <= 0) { inkList.push(i); inkAge[i] = 0; }
-        ink[i] = INK0;
+        if (ink[i] <= 0 || inkMat[i] !== brush.mat) { if (ink[i] <= 0) inkList.push(i); inkAge[i] = 0; inkW[i] = 0; }
+        ink[i] = lp[0]; inkDecay[i] = lp[1]; inkMat[i] = brush.mat; inkStroke[i] = id;
         if (w > inkW[i]) inkW[i] = w;
       }
     }
+  }
+
+  // symmetry copies about the centre of the viewport
+  function symmetric(pt) {
+    var cx = window.innerWidth / 2, cy = window.innerHeight / 2, x = pt[0] - cx, y = pt[1] - cy, out = [];
+    if (brush.sym === 'mirror') out = [[x, y], [-x, y]];
+    else if (brush.sym === 'quad') out = [[x, y], [-x, y], [x, -y], [-x, -y]];
+    else if (brush.sym === 'radial') for (var k = 0; k < 6; k++) {
+      var a = (k * Math.PI) / 3; out.push([x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)]);
+    }
+    else out = [[x, y]];
+    return out.map(function (q) { return [q[0] + cx, q[1] + cy]; });
+  }
+
+  function paintPath(pts, id) {
+    for (var k = 0; k < pts.length - 1 || k === 0; k++) {
+      var A = symmetric(pts[k]), B = symmetric(pts[Math.min(k + 1, pts.length - 1)]);
+      for (var j = 0; j < A.length; j++) paintRaw(A[j][0], A[j][1], B[j][0], B[j][1], id);
+      if (pts.length === 1) break;
+    }
+  }
+
+  function addSource(pt, id) {
+    var lp = lifeParams();
+    symmetric(pt).forEach(function (q) {
+      var x = Math.round(q[0] / CELL), y = Math.round(q[1] / CELL);
+      if (x < 3 || y < 3 || x > W - 4 || y > H - 4) return;
+      sources.push({ i: y * W + x, x: x, y: y, life: lp[0], decay: lp[1], stroke: id });
+    });
+  }
+
+  // outline of a shape tool between press point a and current point b (page px)
+  function shapePoints(tool, a, b) {
+    var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), pts = [], k;
+    if (tool === 'line') return [a, b];
+    if (tool === 'ring') {
+      for (k = 0; k <= 72; k++) { var t = (k / 72) * 2 * Math.PI; pts.push([a[0] + L * Math.cos(t), a[1] + L * Math.sin(t)]); }
+      return pts;
+    }
+    if (tool === 'dish') {
+      // parabolic reflector: a = focus, b = vertex, focal length f = |ab|; rim level with the focus
+      var f = Math.max(L, 8), ux = (a[0] - b[0]) / (L || 1), uy = (a[1] - b[1]) / (L || 1), vx = -uy, vy = ux;
+      for (k = -40; k <= 40; k++) {
+        var s = (k / 40) * 2 * f, along = (s * s) / (4 * f);
+        pts.push([b[0] + vx * s + ux * along, b[1] + vy * s + uy * along]);
+      }
+      return pts;
+    }
+    return [a];
+  }
+
+  function commitShape(tool, a, b) {
+    var id = ++strokeId;
+    strokeStack.push(id);
+    if (tool === 'antenna') { addSource(a, id); return; }
+    paintPath(shapePoints(tool, a, b), id);
+    if (tool === 'dish') addSource(a, id);   // a feed at the focus: the dish turns it into a plane wave
+  }
+
+  function undo() {
+    var id = strokeStack.pop();
+    if (id === undefined) return;
+    for (var k = 0; k < inkList.length; k++) if (inkStroke[inkList[k]] === id) ink[inkList[k]] = 0;
+    sources = sources.filter(function (s) { return s.stroke !== id; });
+  }
+
+  function clearAll() {
+    for (var k = 0; k < inkList.length; k++) ink[inkList[k]] = 0;
+    sources = []; strokeStack = [];
   }
 
   function solve() {
@@ -211,7 +315,10 @@
     gain = Math.max(1, Math.min(400, gain));
     for (i = 0, p = 0; i < n; i++, p += 4) {
       if (wall[i]) { d[p] = 210; d[p + 1] = 225; d[p + 2] = 255; d[p + 3] = 80 * fade; continue; }
-      if (soft[i] > 0.5 && inkW[i] > 0) { d[p] = 225; d[p + 1] = 235; d[p + 2] = 255; d[p + 3] = 95 * soft[i] * fade; continue; }
+      if (ink[i] > 0 && inkW[i] > 0.3) {
+        var c = MAT_RGB[inkMat[i]], vis = inkW[i] * Math.min(1, ink[i]);
+        d[p] = c[0]; d[p + 1] = c[1]; d[p + 2] = c[2]; d[p + 3] = (inkMat[i] === MAT.glass ? 60 : 95) * vis * fade; continue;
+      }
       if (sc) {
         v = sc[i];
         m = Math.tanh(Math.abs(v) * gain);
@@ -257,6 +364,23 @@
       ctx.beginPath(); ctx.moveTo(X - 6, Y - 9); ctx.lineTo(X, Y); ctx.lineTo(X + 6, Y - 9); ctx.moveTo(X, Y); ctx.lineTo(X, Y + 9); ctx.stroke();
       ctx.fillStyle = a[2]; ctx.fillText(a[1], X + 9, Y + 4);
     });
+    sources.forEach(function (s) {
+      var X = s.x * CELL + CELL / 2, Y = s.y * CELL + CELL / 2;
+      ctx.strokeStyle = '#facc15'; ctx.globalAlpha = 0.85 * fade * Math.min(1, s.life);
+      ctx.beginPath(); ctx.moveTo(X - 5, Y - 8); ctx.lineTo(X, Y); ctx.lineTo(X + 5, Y - 8); ctx.moveTo(X, Y); ctx.lineTo(X, Y + 8); ctx.stroke();
+    });
+    if (preview) {
+      var col = MAT_RGB[brush.mat];
+      ctx.strokeStyle = preview.tool === 'antenna' ? '#facc15' : 'rgb(' + col.join(',') + ')';
+      ctx.globalAlpha = 0.8; ctx.lineWidth = Math.max(1, brush.size * CELL * 0.6); ctx.setLineDash([6, 6]);
+      var pts = shapePoints(preview.tool, preview.a, preview.b);
+      pts[0] && symmetric(pts[0]).forEach(function (_, j) {
+        ctx.beginPath();
+        pts.forEach(function (q, k) { var r = symmetric(q)[j]; if (k) ctx.lineTo(r[0], r[1]); else ctx.moveTo(r[0], r[1]); });
+        ctx.stroke();
+      });
+      ctx.setLineDash([]); ctx.lineWidth = 1.2;
+    }
     if (refl.on) {
       ctx.globalAlpha = 0.9 * fade;
       ctx.strokeStyle = '#e2e8f0';
@@ -379,20 +503,94 @@
   }
   window.addEventListener('mousemove', function (e) {
     point(e.clientX, e.clientY);
-    if (drawing) { paint(drawing.x, drawing.y, e.clientX, e.clientY); drawing = { x: e.clientX, y: e.clientY }; }
+    if (drawing) { paintPath([[drawing.x, drawing.y], [e.clientX, e.clientY]], drawing.id); drawing.x = e.clientX; drawing.y = e.clientY; }
+    if (preview) preview.b = [e.clientX, e.clientY];
   }, { passive: true });
 
-  // Right-click and drag on the page background draws a temporary reflector.
-  var INTERACTIVE = 'a,button,input,textarea,select,label,img,video,canvas,.pcb3d,.rf-spec';
+  // Right-click and drag on the page background draws; with the draw palette open, left-drag does too.
+  var INTERACTIVE = 'a,button,input,textarea,select,label,img,video,canvas,.pcb3d,.rf-spec,.rf-draw';
+  var paletteOpen = false;
   function onBackground(el) { return !(el && el.closest && el.closest(INTERACTIVE)); }
   window.addEventListener('mousedown', function (e) {
-    if (e.button !== 2 || !onBackground(e.target)) return;
-    drawing = { x: e.clientX, y: e.clientY };
-    paint(e.clientX, e.clientY, e.clientX, e.clientY);
+    var ok = (e.button === 2 || (e.button === 0 && paletteOpen)) && onBackground(e.target);
+    if (!ok) return;
+    if (e.button === 0) e.preventDefault();   // no text selection while drawing
+    var pt = [e.clientX, e.clientY];
+    if (brush.tool === 'free') {
+      drawing = { x: pt[0], y: pt[1], id: ++strokeId, btn: e.button };
+      strokeStack.push(drawing.id);
+      paintPath([pt], drawing.id);
+    } else preview = { tool: brush.tool, a: pt, b: pt, btn: e.button };
   });
-  window.addEventListener('mouseup', function (e) { if (e.button === 2) drawing = null; });
-  window.addEventListener('blur', function () { drawing = null; });
+  window.addEventListener('mouseup', function (e) {
+    if (drawing && e.button === drawing.btn) drawing = null;
+    if (preview && e.button === preview.btn) { commitShape(preview.tool, preview.a, preview.b); preview = null; }
+  });
+  window.addEventListener('blur', function () { drawing = null; preview = null; });
   window.addEventListener('contextmenu', function (e) { if (onBackground(e.target)) e.preventDefault(); });
+
+  /* ── draw palette ── */
+  var LIVES = [[1, '1 s'], [3, '3 s'], [8, '8 s'], [20, '20 s'], [Infinity, '∞']];
+  var pal = document.createElement('div');
+  pal.className = 'rf-draw';
+  pal.innerHTML =
+    '<button type="button" class="rf-draw-toggle" aria-expanded="false" title="Draw into the field (right-drag works any time)">✎ draw</button>' +
+    '<div class="rf-draw-panel" hidden>' +
+    '<div class="rf-draw-row"><span>tool</span><div class="seg" data-g="tool">' +
+    '<button data-v="free" class="on" title="Freehand">free</button><button data-v="line" title="Straight line">line</button>' +
+    '<button data-v="ring" title="Ring: drag out the radius">ring</button><button data-v="dish" title="Parabolic dish: press at the focus, drag to the vertex. Comes with a feed antenna.">dish</button>' +
+    '<button data-v="antenna" title="Drop an extra antenna that radiates the TX waveform">antenna</button></div></div>' +
+    '<div class="rf-draw-row"><span>material</span><div class="seg" data-g="mat">' +
+    '<button data-v="0" class="on" title="Perfect conductor: reflects">metal</button><button data-v="1" title="Lossy absorber: soaks waves up">absorber</button>' +
+    '<button data-v="2" title="Dielectric, εr = 4: slows waves, so it refracts and focuses">glass</button></div></div>' +
+    '<div class="rf-draw-row"><span>size</span><input type="range" min="1" max="8" step="0.2" value="2.6" data-g="size"><em data-r="size"></em></div>' +
+    '<div class="rf-draw-row"><span>lifetime</span><div class="seg" data-g="life">' +
+    LIVES.map(function (l) { return '<button data-v="' + l[0] + '"' + (l[0] === 3 ? ' class="on"' : '') + '>' + l[1] + '</button>'; }).join('') + '</div></div>' +
+    '<div class="rf-draw-row"><span>symmetry</span><div class="seg" data-g="sym">' +
+    '<button data-v="none" class="on">off</button><button data-v="mirror">mirror</button><button data-v="quad">4-way</button><button data-v="radial">6-way</button></div></div>' +
+    '<div class="rf-draw-row rf-draw-act"><button type="button" data-act="undo">undo (Z)</button><button type="button" data-act="clear">clear (C)</button></div>' +
+    '<p>Left- or right-drag on the background. Keys: [ ] size · 1 2 3 material · Z undo · C clear · Esc close.</p>' +
+    '</div>';
+  document.body.appendChild(pal);
+  var panelEl = pal.querySelector('.rf-draw-panel'), toggleEl = pal.querySelector('.rf-draw-toggle');
+  var sizeEl = pal.querySelector('[data-g="size"]'), sizeOut = pal.querySelector('[data-r="size"]');
+  function showSize() { sizeOut.textContent = Math.round(brush.size * 2 * CELL) + ' px'; sizeEl.value = brush.size; }
+  function setOpen(o) {
+    paletteOpen = o; panelEl.hidden = !o; toggleEl.setAttribute('aria-expanded', o);
+    document.body.classList.toggle('rf-drawing', o);
+  }
+  function pick(group, v) {
+    pal.querySelectorAll('[data-g="' + group + '"] button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === String(v)); });
+  }
+  toggleEl.onclick = function () { setOpen(!paletteOpen); };
+  pal.querySelectorAll('.seg[data-g] button').forEach(function (b) {
+    b.type = 'button';
+    b.onclick = function () {
+      var g = b.parentNode.dataset.g, v = b.dataset.v;
+      if (g === 'tool') brush.tool = v;
+      if (g === 'mat') brush.mat = +v;
+      if (g === 'life') brush.life = v === 'Infinity' ? Infinity : +v;
+      if (g === 'sym') brush.sym = v;
+      pick(g, v);
+    };
+  });
+  sizeEl.oninput = function () { brush.size = +sizeEl.value; showSize(); };
+  pal.querySelector('[data-act="undo"]').onclick = undo;
+  pal.querySelector('[data-act="clear"]').onclick = clearAll;
+  showSize();
+  window.addEventListener('keydown', function (e) {
+    if (!paletteOpen || e.ctrlKey || e.metaKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    var k = e.key.toLowerCase();
+    if (k === '[') { brush.size = Math.max(1, brush.size - 0.4); showSize(); }
+    else if (k === ']') { brush.size = Math.min(8, brush.size + 0.4); showSize(); }
+    else if (k === '1' || k === '2' || k === '3') { brush.mat = +k - 1; pick('mat', brush.mat); }
+    else if (k === 'z') undo();
+    else if (k === 'c') clearAll();
+    else if (k === 'escape') setOpen(false);
+    else return;
+    e.preventDefault();
+  });
+
   window.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) point(t.clientX, t.clientY); }, { passive: true });
   document.documentElement.addEventListener('mouseleave', function () { refl.on = false; });
 
