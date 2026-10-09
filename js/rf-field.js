@@ -22,7 +22,7 @@
 
   var MODES = ['CW', 'FMCW', 'PULSE'];
   var POLS = { tm: 'TMz · E ⊥ screen', te: 'TEz · E in plane', circ: 'Circular · TM + TE at 90°' };
-  var state = { pol: 'tm', view: 'E', mode: 0 };
+  var state = { pol: 'tm', view: 'E', mode: 2 };
 
   var W, H, n, damp, wall, img, off, offCtx;
   var Ez, Hx, Hy, Hz, Ex, Ey;
@@ -79,12 +79,7 @@
     var dx = tx_ - refl.x, dy = ty_ - refl.y, dist = Math.hypot(dx, dy);
     if (dist < 0.05) return;
     stamp(refl, 0);
-    if (dist > 60) { refl.x = tx_; refl.y = ty_; }
-    else {
-      // eased chase, capped below the wave speed so the scattering stays physical
-      var mv = Math.min(dist * 0.25, 0.22 * STEPS);
-      refl.x += (dx / dist) * mv; refl.y += (dy / dist) * mv;
-    }
+    refl.x = tx_; refl.y = ty_;   // the reflector sits exactly under the cursor
     stamp(refl, 1);
   }
 
@@ -205,7 +200,7 @@
     if (refl.on) {
       ctx.globalAlpha = 0.9 * fade;
       ctx.strokeStyle = '#e2e8f0';
-      ctx.beginPath(); ctx.arc(refl.x * CELL + CELL / 2, refl.y * CELL + CELL / 2, refl.r * CELL, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(refl.x * CELL, refl.y * CELL, refl.r * CELL, 0, Math.PI * 2); ctx.stroke();
     }
     ctx.globalAlpha = 1;
   }
@@ -284,7 +279,8 @@
     // bistatic Doppler: fd = -f0 · (dR/dt) / c,  R = |TX→reflector| + |reflector→RX|
     var R = refl.on ? Math.hypot(refl.x - tx.x, refl.y - tx.y) + Math.hypot(refl.x - rx.x, refl.y - rx.y) : null;
     if (R !== null && lastR !== null && step > lastStep) {
-      dopAvg += (-((R - lastR) / (step - lastStep)) / S - dopAvg) * 0.35;
+      var fd = Math.max(-0.9, Math.min(0.9, -((R - lastR) / (step - lastStep)) / S));
+      dopAvg += (fd - dopAvg) * 0.35;
     } else dopAvg *= 0.8;
     lastR = R; lastStep = step;
 

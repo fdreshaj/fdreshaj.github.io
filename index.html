@@ -239,7 +239,7 @@
       </div>
       </div>
     <aside class="rf-spec" id="rf-spectrum" aria-label="Live spectrum of the background RF simulation">
-      <div class="rf-spec-head"><span>RX spectrum · live</span><button type="button" data-act="wave">waveform: CW</button></div>
+      <div class="rf-spec-head"><span>RX spectrum · live</span><button type="button" data-act="wave">waveform: PULSE</button></div>
       <div class="rf-spec-ctl">
         <div class="seg" role="group" aria-label="Field shown"><button type="button" data-view="E" class="on">E field</button><button type="button" data-view="H">H field</button></div>
         <div class="seg" role="group" aria-label="Polarization"><button type="button" data-pol="tm" class="on" title="E perpendicular to the screen">TMz</button><button type="button" data-pol="te" title="E in the plane of the screen">TEz</button><button type="button" data-pol="circ" title="TM and TE driven 90° apart">Circ</button></div>
@@ -251,7 +251,7 @@
         <div><dt>|RX|</dt><dd data-r="amp">–</dd></div>
         <div><dt>∠ RX/TX</dt><dd data-r="ph">–</dd></div>
         <div><dt>Doppler</dt><dd data-r="dop">–</dd></div>
-        <div><dt>mode</dt><dd data-r="mode">CW</dd></div>
+        <div><dt>mode</dt><dd data-r="mode">PULSE</dd></div>
       </dl>
       <p class="rf-spec-hint">Live 2D Maxwell (FDTD) solve. Your cursor is a perfectly conducting reflector — move it through the waves. Colour is the field out of the screen; arrows are the field in the plane.</p>
     </aside>
@@ -356,7 +356,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
-          <div class="pcb3d" data-boards="vna:HUBRIS VNA motherboard (6-layer)"></div>
+          <div class="pcb3d" data-boards="vna:HUBRIS VNA motherboard (6-layer),vcog:2.3–2.8 GHz VCO board (Gerbers)"></div>
           <div class="detail-grid">
             <a class="shot" href="images/vna_3d.jpg" target="_blank"><img src="images/vna_3d.jpg" alt="KiCad 3D render of the 6-layer VNA motherboard, angled" loading="lazy"><span class="img-label">VNA motherboard — KiCad 3D</span></a>
             <a class="shot" href="images/vna_top.jpg" target="_blank"><img src="images/vna_top.jpg" alt="KiCad 3D render of the VNA motherboard from the top" loading="lazy"><span class="img-label">Top view: MCU, Ethernet, downconverters</span></a>
@@ -701,6 +701,7 @@
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner">
+          <div class="pcb3d" data-boards="osc:Oscillator board (Gerbers)"></div>
           <div class="detail-grid">
             <div class="img-placeholder"><canvas class="anim-canvas" data-type="sweep"></canvas><div class="img-label">filter response</div></div>
             <div class="img-placeholder"><canvas class="anim-canvas" data-type="sparam"></canvas><div class="img-label">amplifier S-parameters</div></div>
@@ -712,6 +713,7 @@
                 <li>Coupled-resonator and stub filters with ADS layout and EM co-simulation</li>
                 <li>Amplifier design with stability circles and matching networks; 2.45 GHz oscillator</li>
                 <li>Directional coupler, Wilkinson divider, stub matching, and quarter-wave transformers</li>
+                <li>Oscillator board (with Matthew Smith and Ryan Teen): common-base, common-emitter, common-collector and reflection oscillators side by side on one 2-layer fab panel, shown above from the ADS Gerbers</li>
               </ul>
             </div>
             <div class="sblock">
