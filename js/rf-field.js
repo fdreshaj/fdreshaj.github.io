@@ -44,7 +44,7 @@
       damp[y * W + x] = d < SPONGE ? 1 - 0.06 * Math.pow((SPONGE - d) / SPONGE, 3) : 1;
     }
     var wide = vw > 900;
-    tx = { x: Math.round(W * (wide ? 0.80 : 0.80)), y: Math.round(H * (wide ? 0.30 : 0.36)) };
+    tx = { x: Math.round(W * 0.80), y: Math.round(H * (wide ? 0.30 : 0.36)) };
     rx = { x: tx.x + (wide ? 6 : -6), y: tx.y + 7 };
     posts = (wide ? [[0.93, 0.62], [0.64, 0.80], [0.96, 0.14]] : [[0.18, 0.92], [0.86, 0.66]])
       .map(function (p) { return { x: Math.round(W * p[0]), y: Math.round(H * p[1]), r: 2.4 }; });
