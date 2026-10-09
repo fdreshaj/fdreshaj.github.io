@@ -104,6 +104,25 @@
 
 
     /* portfolio sections */
+    .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;}
+    .rf-spec{width:300px;border:1px solid #13233a;background:rgba(6,9,16,.78);backdrop-filter:blur(3px);padding:.7rem .8rem .6rem;}
+    .rf-spec-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem;}
+    .rf-spec-head button{font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:1px solid #1e2d45;padding:.15rem .4rem;cursor:pointer;text-transform:none;letter-spacing:0;}
+    .rf-spec-head button:hover{color:var(--accent);border-color:var(--accent);}
+    .rf-spec-ctl{display:flex;justify-content:space-between;gap:.4rem;margin-bottom:.35rem;}
+    .seg{display:flex;border:1px solid #1e2d45;}
+    .seg button{font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:0;border-right:1px solid #1e2d45;padding:.2rem .45rem;cursor:pointer;}
+    .seg button:last-child{border-right:0;}
+    .seg button.on{color:#04060b;background:var(--accent);}
+    .seg button:not(.on):hover{color:var(--accent);}
+    .rf-spec-pol{font-family:var(--mono);font-size:9.5px;color:#a78bfa;margin-bottom:.35rem;}
+    .rf-spec canvas{width:100%;height:95px;display:block;background:#04060b;border:1px solid #0d1728;}
+    .rf-spec-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:.2rem;}
+    .rf-spec-read{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem;margin-top:.5rem;}
+    .rf-spec-read dt{font-family:var(--mono);font-size:8.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+    .rf-spec-read dd{font-family:var(--mono);font-size:11px;color:#e2e8f0;}
+    .rf-spec-hint{font-size:11px;color:var(--muted);margin-top:.45rem;line-height:1.4;}
+    @media(max-width:700px){.rf-spec{width:100%;}}
     .hero-contact{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:.6rem;margin:-0.75rem 0 2rem;}
     .hero-contact a{color:var(--accent);text-decoration:none;}
     .hero-contact a:hover{text-decoration:underline;}
@@ -204,17 +223,38 @@
     <p class="hero-sub">
       Welcome — I'm Flatrim, an Electrical Engineering student at Iowa State (GPA 3.55, exp. May 2027) and a researcher at the Applied Microwave Testing Lab. I design radar front-ends, VNA hardware, and RF PCBs, then write the software that drives them on the bench. Open any project below to see the board, my role, and what I learned building it.
     </p>
-    <div class="hero-contact">
-      <a href="mailto:fdreshaj@iastate.edu">fdreshaj@iastate.edu</a>
-      <span>·</span>
-      <a href="https://github.com/fdreshaj" target="_blank" rel="noopener">github.com/fdreshaj</a>
-      <span>·</span>
-      <span>Ames, Iowa</span>
-    </div>
-    <div class="hero-btns">
-      <a class="btn-p" href="#projects">View projects ↓</a>
-      <a class="btn-s" href="#resume">Resume</a>
-      <a class="btn-s" href="https://github.com/fdreshaj" target="_blank" rel="noopener">GitHub ↗</a>
+    <div class="hero-foot">
+      <div>
+      <div class="hero-contact">
+        <a href="mailto:fdreshaj@iastate.edu">fdreshaj@iastate.edu</a>
+        <span>·</span>
+        <a href="https://github.com/fdreshaj" target="_blank" rel="noopener">github.com/fdreshaj</a>
+        <span>·</span>
+        <span>Ames, Iowa</span>
+      </div>
+      <div class="hero-btns">
+        <a class="btn-p" href="#projects">View projects ↓</a>
+        <a class="btn-s" href="#resume">Resume</a>
+        <a class="btn-s" href="https://github.com/fdreshaj" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      </div>
+    <aside class="rf-spec" id="rf-spectrum" aria-label="Live spectrum of the background RF simulation">
+      <div class="rf-spec-head"><span>RX spectrum · live</span><button type="button" data-act="wave">waveform: CW</button></div>
+      <div class="rf-spec-ctl">
+        <div class="seg" role="group" aria-label="Field shown"><button type="button" data-view="E" class="on">E field</button><button type="button" data-view="H">H field</button></div>
+        <div class="seg" role="group" aria-label="Polarization"><button type="button" data-pol="tm" class="on" title="E perpendicular to the screen">TMz</button><button type="button" data-pol="te" title="E in the plane of the screen">TEz</button><button type="button" data-pol="circ" title="TM and TE driven 90° apart">Circ</button></div>
+      </div>
+      <div class="rf-spec-pol" data-r="pol">TMz · E ⊥ screen</div>
+      <canvas width="560" height="190"></canvas>
+      <div class="rf-spec-axis"><span>4 GHz</span><span>f₀ = 10 GHz</span><span>16 GHz</span></div>
+      <dl class="rf-spec-read">
+        <div><dt>|RX|</dt><dd data-r="amp">–</dd></div>
+        <div><dt>∠ RX/TX</dt><dd data-r="ph">–</dd></div>
+        <div><dt>Doppler</dt><dd data-r="dop">–</dd></div>
+        <div><dt>mode</dt><dd data-r="mode">CW</dd></div>
+      </dl>
+      <p class="rf-spec-hint">Live 2D Maxwell (FDTD) solve. Your cursor is a perfectly conducting reflector — move it through the waves. Colour is the field out of the screen; arrows are the field in the plane.</p>
+    </aside>
     </div>
   </section>
 
@@ -912,21 +952,6 @@
   </footer>
 </div>
 <script>
-/* ── RF background flow field ── */
-(function(){
-  var canvas=document.getElementById('bg'),ctx=canvas.getContext('2d'),W,H,t=0,particles=[],NUM=240;
-  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  function noise(x,y,z){var v=Math.sin(x*1.3+z)*Math.cos(y*0.9-z*0.7);v+=Math.sin(x*0.6-z*0.4)*Math.sin(y*1.7+z*0.5)*0.5;v+=Math.cos(x*2.4+z*1.1)*Math.cos(y*2.1-z*0.3)*0.25;return v;}
-  function flowAngle(x,y,t){var nx=x/W*4.5,ny=y/H*4.5,wave=Math.sin(nx*2.1-t*1.1)*Math.cos(ny*1.4+t*0.6),field=noise(nx,ny,t*0.18);return(wave*0.65+field*0.35)*Math.PI*2;}
-  function rfColor(spd,life,maxLife,x){var f=Math.max(0,Math.min(1,x/W+Math.sin(t*0.2+x*0.003)*0.3)),r=Math.round(f*124),g=Math.round(229-f*152),b=255,a=Math.min((life/maxLife)*0.45*(0.4+spd*3),0.55);return'rgba('+r+','+g+','+b+','+a.toFixed(3)+')';}
-  function Particle(){this.reset=function(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=0;this.vy=0;this.life=0;this.maxLife=120+Math.random()*220;this.speed=0.55+Math.random()*1.5;this.width=0.4+Math.random()*1.1;if(Math.random()<0.2){this.x=Math.random()<0.5?0:W;this.y=Math.random()*H;}};this.reset();this.life=Math.random()*this.maxLife;}
-  Particle.prototype.step=function(){var angle=flowAngle(this.x,this.y,t)+Math.sin(t*2.5+this.x*0.008)*0.18;this.vx=this.vx*0.72+Math.cos(angle)*this.speed*0.28;this.vy=this.vy*0.72+Math.sin(angle)*this.speed*0.28;this.px=this.x;this.py=this.y;this.x+=this.vx;this.y+=this.vy;this.life++;if(this.life>this.maxLife||this.x<-10||this.x>W+10||this.y<-10||this.y>H+10)this.reset();};
-  Particle.prototype.draw=function(){var spd=Math.sqrt(this.vx*this.vx+this.vy*this.vy);ctx.strokeStyle=rfColor(spd,this.life,this.maxLife,this.x);ctx.lineWidth=this.width;ctx.beginPath();ctx.moveTo(this.px,this.py);ctx.lineTo(this.x,this.y);ctx.stroke();};
-  for(var i=0;i<NUM;i++)particles.push(new Particle());
-  function frame(){ctx.fillStyle='rgba(8,10,15,0.045)';ctx.fillRect(0,0,W,H);for(var i=0;i<particles.length;i++){particles[i].step();particles[i].draw();}t+=0.012;requestAnimationFrame(frame);}
-  resize();window.addEventListener('resize',function(){resize();ctx.fillStyle='#080a0f';ctx.fillRect(0,0,W,H);});ctx.fillStyle='#080a0f';ctx.fillRect(0,0,W,H);frame();
-})();
-
 /* ── Toggle ── */
 function toggle(header){
   var item=header.parentElement;
@@ -1042,6 +1067,7 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
+<script src="js/rf-field.js"></script>
 <script src="js/pcb-explode.js" defer></script>
 </body>
 </html>
