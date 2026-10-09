@@ -109,6 +109,22 @@
     .rf-spec-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem;}
     .rf-spec-head button{font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:1px solid #1e2d45;padding:.15rem .4rem;cursor:pointer;text-transform:none;letter-spacing:0;}
     .rf-spec-head button:hover{color:var(--accent);border-color:var(--accent);}
+    .rf-draw{position:fixed;left:1rem;bottom:1rem;z-index:20;font-family:var(--mono);}
+    .rf-draw-toggle{font-family:var(--mono);font-size:11px;color:var(--accent);background:rgba(6,9,16,.85);border:1px solid #1e2d45;padding:.4rem .75rem;cursor:pointer;backdrop-filter:blur(3px);}
+    .rf-draw-toggle:hover,.rf-draw-toggle[aria-expanded="true"]{border-color:var(--accent);}
+    .rf-draw-panel{margin-bottom:.5rem;width:330px;background:rgba(6,9,16,.9);border:1px solid #13233a;padding:.7rem .8rem;backdrop-filter:blur(4px);display:flex;flex-direction:column;gap:.5rem;position:absolute;bottom:100%;left:0;}
+    .rf-draw-panel[hidden]{display:none;}
+    .rf-draw-row{display:flex;align-items:center;gap:.6rem;}
+    .rf-draw-row>span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;width:62px;flex-shrink:0;}
+    .rf-draw-row input[type=range]{flex:1;accent-color:var(--accent);}
+    .rf-draw-row em{font-style:normal;font-size:10px;color:#e2e8f0;width:44px;text-align:right;}
+    .rf-draw-act{justify-content:flex-end;}
+    .rf-draw-act button{font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:1px solid #1e2d45;padding:.2rem .5rem;cursor:pointer;}
+    .rf-draw-act button:hover{color:var(--accent);border-color:var(--accent);}
+    .rf-draw-panel p{font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.4;}
+    .rf-draw .seg{flex-wrap:wrap;}
+    body.rf-drawing{cursor:crosshair;}
+    @media(hover:none){.rf-draw{display:none;}}
     .rf-spec-ctl{display:flex;justify-content:space-between;gap:.4rem;margin-bottom:.35rem;}
     .seg{display:flex;border:1px solid #1e2d45;}
     .seg button{font-family:var(--mono);font-size:10px;color:var(--muted);background:transparent;border:0;border-right:1px solid #1e2d45;padding:.2rem .45rem;cursor:pointer;}
@@ -254,7 +270,7 @@
         <div><dt>Doppler</dt><dd data-r="dop">–</dd></div>
         <div><dt>mode</dt><dd data-r="mode">PULSE</dd></div>
       </dl>
-      <p class="rf-spec-hint">Live 2D Maxwell (FDTD) solve. Your cursor is a perfectly conducting reflector — move it through the waves. Right-click and drag on the background to draw a temporary reflector. Colour is the field out of the screen; arrows are the field in the plane.</p>
+      <p class="rf-spec-hint">Live 2D Maxwell (FDTD) solve. Your cursor is a perfectly conducting reflector — move it through the waves. Right-click and drag on the background to draw a temporary reflector, or open ✎ draw (bottom left) for brushes, materials and shapes. Colour is the field out of the screen; arrows are the field in the plane.</p>
     </aside>
     </div>
   </section>
@@ -1118,7 +1134,7 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
-<script src="js/rf-field.js?v=20261010a"></script>
-<script src="js/pcb-explode.js?v=20261010a" defer></script>
+<script src="js/rf-field.js?v=20261010b"></script>
+<script src="js/pcb-explode.js?v=20261010b" defer></script>
 </body>
 </html>
