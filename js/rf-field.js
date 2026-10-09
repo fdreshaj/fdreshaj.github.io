@@ -29,6 +29,9 @@
   var Ez, Hx, Hy, Hz, Ex, Ey;
   var tx = {}, rx = {}, posts = [];
   var refl = { x: 0, y: 0, r: 4.5, on: false };
+  var ink, inkW, inkAge, inkList = [], drawing = null;   // right-click-drawn walls: life, brush weight, age
+  var soft, softList = [];   // per-cell conductor strength 0..1 for the cursor disc and drawn walls
+  var INK0 = 2.2, INK_DECAY = 0.0065;      // ~3 s as a solid conductor, then ~2.5 s fading out
   var mouse = { x: -1, y: -1 };
   var step = 0, phase = 0, gain = 30;
   var rxBuf = new Float32Array(N), txBuf = new Float32Array(N), bi = 0;
@@ -39,7 +42,8 @@
     W = Math.ceil(vw / CELL) + 2; H = Math.ceil(vh / CELL) + 2; n = W * H;
     Ez = new Float32Array(n); Hx = new Float32Array(n); Hy = new Float32Array(n);
     Hz = new Float32Array(n); Ex = new Float32Array(n); Ey = new Float32Array(n);
-    damp = new Float32Array(n); wall = new Uint8Array(n);
+    damp = new Float32Array(n); wall = new Uint8Array(n); ink = new Float32Array(n); inkW = new Float32Array(n); inkAge = new Uint8Array(n); inkList = [];
+    soft = new Float32Array(n); softList = [];
     for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
       var d = Math.min(x, y, W - 1 - x, H - 1 - y);
       damp[y * W + x] = d < SPONGE ? 1 - 0.06 * Math.pow((SPONGE - d) / SPONGE, 3) : 1;
@@ -50,7 +54,6 @@
     posts = (wide ? [[0.93, 0.62], [0.64, 0.80], [0.96, 0.14]] : [[0.18, 0.92], [0.86, 0.66]])
       .map(function (p) { return { x: Math.round(W * p[0]), y: Math.round(H * p[1]), r: 2.4 }; });
     posts.forEach(function (p) { stamp(p, 1); });
-    if (refl.on) stamp(refl, 1);
     off = document.createElement('canvas'); off.width = W; off.height = H;
     offCtx = off.getContext('2d');
     img = offCtx.createImageData(W, H);
@@ -65,7 +68,6 @@
         if (v) { wall[i] = 1; Ez[i] = Ex[i] = Ey[i] = 0; } else wall[i] = 0;
       }
     }
-    if (!v) posts.forEach(function (p) { if (p !== o) stamp(p, 1); });
   }
 
   function txSample(offset) {
@@ -77,11 +79,7 @@
   function moveReflector() {
     if (!refl.on) return;
     var tx_ = mouse.x / CELL, ty_ = mouse.y / CELL;
-    var dx = tx_ - refl.x, dy = ty_ - refl.y, dist = Math.hypot(dx, dy);
-    if (dist < 0.05) return;
-    stamp(refl, 0);
     refl.x = tx_; refl.y = ty_;   // the reflector sits exactly under the cursor
-    stamp(refl, 1);
   }
 
   function stepTM(src) {
@@ -116,8 +114,67 @@
     Hz[t] += src; Hz[t + 1] += src * 0.5; Hz[t - 1] += src * 0.5;
   }
 
+  // The cursor disc and drawn walls are soft-edged conductors: each cell has a strength s in
+  // 0..1 and E is scaled by (1 - s) after every update — s = 1 is a perfect conductor, smaller s a
+  // lossy, partly reflecting sheet. Tapering s over ~1.5 cells at the edges keeps a moving or
+  // fading boundary from exciting grid-scale (checkerboard) noise the way a hard edge does.
+  function buildSoft() {
+    var k, i;
+    for (k = 0; k < softList.length; k++) soft[softList[k]] = 0;
+    softList = [];
+    function put(i, s) {
+      if (s <= 0) return;
+      if (soft[i] === 0) softList.push(i);
+      if (s > soft[i]) soft[i] = s;
+    }
+    if (refl.on) {
+      var R = refl.r + 2, cx = refl.x, cy = refl.y;
+      for (var y = Math.floor(cy - R); y <= Math.ceil(cy + R); y++) for (var x = Math.floor(cx - R); x <= Math.ceil(cx + R); x++) {
+        if (x < 2 || y < 2 || x > W - 3 || y > H - 3) continue;
+        var d = Math.hypot(x - cx, y - cy);
+        put(y * W + x, Math.max(0, Math.min(1, (refl.r + 1 - d) / 2)));
+      }
+    }
+    // drawn walls: ~3 s at full strength, then fade out; new strokes ramp in over a few frames
+    var live = [];
+    for (k = 0; k < inkList.length; k++) {
+      i = inkList[k];
+      ink[i] -= INK_DECAY;
+      if (inkAge[i] < 255) inkAge[i]++;
+      if (ink[i] > 0) { live.push(i); put(i, inkW[i] * Math.min(1, ink[i]) * Math.min(1, inkAge[i] / 12)); }
+      else { ink[i] = 0; inkW[i] = 0; }
+    }
+    inkList = live;
+  }
+
+  function applySoft(tm, te) {
+    for (var k = 0; k < softList.length; k++) {
+      var i = softList[k], keep = 1 - soft[i];
+      if (tm) Ez[i] *= keep;
+      if (te) { Ex[i] *= keep; Ey[i] *= keep; }
+    }
+  }
+
+  function paint(ax, ay, bx, by) {
+    var x0 = ax / CELL, y0 = ay / CELL, x1 = bx / CELL, y1 = by / CELL;
+    var len = Math.hypot(x1 - x0, y1 - y0), steps = Math.max(1, Math.ceil(len * 2)), R = 2.6;
+    for (var s = 0; s <= steps; s++) {
+      var cx = x0 + ((x1 - x0) * s) / steps, cy = y0 + ((y1 - y0) * s) / steps;
+      for (var y = Math.floor(cy - R); y <= Math.ceil(cy + R); y++) for (var x = Math.floor(cx - R); x <= Math.ceil(cx + R); x++) {
+        if (x < 2 || y < 2 || x > W - 3 || y > H - 3) continue;
+        var w = Math.min(1, (R - Math.hypot(x - cx, y - cy)) / 1.8);   // solid core, tapered edge
+        if (w <= 0) continue;
+        var i = y * W + x;
+        if (ink[i] <= 0) { inkList.push(i); inkAge[i] = 0; }
+        ink[i] = INK0;
+        if (w > inkW[i]) inkW[i] = w;
+      }
+    }
+  }
+
   function solve() {
     moveReflector();
+    buildSoft();
     var tm = state.pol !== 'te', te = state.pol !== 'tm';
     for (var s = 0; s < STEPS; s++) {
       var f = state.mode === 1 ? F0 * (0.75 + 0.5 * ((step % 900) / 900)) : F0;   // FMCW: sawtooth chirp
@@ -125,6 +182,7 @@
       var a = txSample(0), b = txSample(Math.PI / 2);
       if (tm) stepTM(a * 0.5);
       if (te) stepTE((state.pol === 'circ' ? b : a) * 0.5);
+      applySoft(tm, te);
       var r = rx.y * W + rx.x;
       // RX antenna: co-polar E (Ez for TM, Ey for TE)
       rxBuf[bi] = (tm ? Ez[r] : 0) + (te ? Ey[r] * 2 : 0);
@@ -153,6 +211,7 @@
     gain = Math.max(1, Math.min(400, gain));
     for (i = 0, p = 0; i < n; i++, p += 4) {
       if (wall[i]) { d[p] = 210; d[p + 1] = 225; d[p + 2] = 255; d[p + 3] = 80 * fade; continue; }
+      if (soft[i] > 0.5 && inkW[i] > 0) { d[p] = 225; d[p + 1] = 235; d[p + 2] = 255; d[p + 3] = 95 * soft[i] * fade; continue; }
       if (sc) {
         v = sc[i];
         m = Math.tanh(Math.abs(v) * gain);
@@ -316,11 +375,26 @@
   /* ── input ── */
   function point(x, y) {
     mouse.x = x; mouse.y = y;
-    if (!refl.on) { refl.x = x / CELL; refl.y = y / CELL; refl.on = true; stamp(refl, 1); }
+    if (!refl.on) { refl.x = x / CELL; refl.y = y / CELL; refl.on = true; }
   }
-  window.addEventListener('mousemove', function (e) { point(e.clientX, e.clientY); }, { passive: true });
+  window.addEventListener('mousemove', function (e) {
+    point(e.clientX, e.clientY);
+    if (drawing) { paint(drawing.x, drawing.y, e.clientX, e.clientY); drawing = { x: e.clientX, y: e.clientY }; }
+  }, { passive: true });
+
+  // Right-click and drag on the page background draws a temporary reflector.
+  var INTERACTIVE = 'a,button,input,textarea,select,label,img,video,canvas,.pcb3d,.rf-spec';
+  function onBackground(el) { return !(el && el.closest && el.closest(INTERACTIVE)); }
+  window.addEventListener('mousedown', function (e) {
+    if (e.button !== 2 || !onBackground(e.target)) return;
+    drawing = { x: e.clientX, y: e.clientY };
+    paint(e.clientX, e.clientY, e.clientX, e.clientY);
+  });
+  window.addEventListener('mouseup', function (e) { if (e.button === 2) drawing = null; });
+  window.addEventListener('blur', function () { drawing = null; });
+  window.addEventListener('contextmenu', function (e) { if (onBackground(e.target)) e.preventDefault(); });
   window.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) point(t.clientX, t.clientY); }, { passive: true });
-  document.documentElement.addEventListener('mouseleave', function () { if (refl.on) { stamp(refl, 0); refl.on = false; } });
+  document.documentElement.addEventListener('mouseleave', function () { refl.on = false; });
 
   var resizeT;
   window.addEventListener('resize', function () { clearTimeout(resizeT); resizeT = setTimeout(setup, 150); });
