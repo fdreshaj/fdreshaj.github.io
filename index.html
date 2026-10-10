@@ -3,12 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flatrim Dreshaj — RF &amp; Hardware Engineer</title>
-  <meta name="description" content="ECE student at Iowa State University. Researcher at the Applied Microwave Testing Lab." />
-  <meta property="og:title" content="Flatrim Dreshaj — RF &amp; Hardware Engineer" />
+  <title>Flatrim Dreshaj — Electromagnetics &amp; Microwave Engineering</title>
+  <meta name="description" content="Flatrim Dreshaj — Electrical Engineering at Iowa State University, undergraduate researcher in microwave imaging and nondestructive evaluation. VNA design, FMCW radar, phased arrays and PCB design." />
+  <meta property="og:title" content="Flatrim Dreshaj — Electromagnetics &amp; Microwave Engineering" />
   <meta property="og:type" content="website" />
   <link rel="preload" href="fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#080a0f" />
+  <meta property="og:description" content="RF and microwave hardware portfolio: VNA, FMCW radar, phased arrays and PCB design, with live electromagnetic simulations." />
+  <meta property="og:image" content="https://fdreshaj.github.io/images/vna_3d.jpg" />
+  <script>
+    /* author notes ("To add" boxes) only show on a review link: ?review */
+    if (/[?&]review\b/.test(location.search) || /^(localhost|127\.)/.test(location.hostname)) document.documentElement.classList.add('review');
+  </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     :root{
@@ -43,7 +51,7 @@
     .btn-s{font-family:var(--mono);font-size:11px;padding:.65rem 1.4rem;background:transparent;color:var(--accent);border:1px solid #00e5ff33;cursor:pointer;letter-spacing:.08em;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .2s,color .2s;}
     .btn-s:hover{border-color:var(--accent);color:#fff;}
 
-    .sec-lbl{font-family:var(--mono);font-size:10px;color:#4f7fa8;letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
+    .sec-lbl{font-weight:400;font-family:var(--mono);font-size:10px;color:#4f7fa8;letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
     .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
 
     .projects{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);}
@@ -158,6 +166,9 @@
     .doclinks h5{margin:0;width:100%;}
     .todo{font-size:12px !important;color:#f0ad4e !important;border:1px dashed #f0ad4e55;background:#f0ad4e0a;padding:.5rem .75rem;line-height:1.6;}
     .todo.inline{display:inline-block;padding:.25rem .6rem;font-family:var(--mono);font-size:10px !important;}
+    html:not(.review) .todo,html:not(.review) .review-only{display:none !important;}
+    .pending{font-size:12.5px;color:var(--muted);font-style:italic;border-left:2px solid #1e3a5a;padding-left:.75rem;}
+    html.review .pending{display:none;}
     .todo code{font-family:var(--mono);font-size:11px;}
     .shot{position:relative;display:block;background:#060810;border:1px solid var(--border);overflow:hidden;aspect-ratio:16/10;}
     .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
@@ -232,14 +243,14 @@
   </nav>
 
   <section class="hero">
-    <div class="eyebrow">Flatrim Dreshaj · RF &amp; Hardware Engineer · Iowa State University</div>
+    <div class="eyebrow">Flatrim Dreshaj · Electromagnetics &amp; Microwave Engineering · Iowa State University</div>
     <h1>
       Microwave circuit hardware<br>
       <em>design from scratch</em>,<br>
       <strong>built to transmit, receive, and match</strong>
     </h1>
     <p class="hero-sub">
-      Welcome — I'm Flatrim, an Electrical Engineering student at Iowa State (GPA 3.55, exp. May 2027) and a researcher at the Applied Microwave Testing Lab. I design radar front-ends, VNA hardware, and RF PCBs, then write the software that drives them on the bench. Open any project below to see the board, my role, and what I learned building it.
+      Welcome — I'm Flatrim, an Electrical Engineering student at Iowa State (GPA 3.55, exp. May 2027) and an undergraduate researcher in the Applied Microwave Nondestructive Evaluation Laboratory under Professor Tayeb Al Qaseer. What drives me is the science — and art — of electromagnetism: I build microwave imaging systems, RF circuits, antennas and the software that runs them, and I'm heading to graduate school to do research in electromagnetics, microwave engineering and imaging. Open any project below to see the hardware, my role, and what I learned building it.
     </p>
     <div class="hero-foot">
       <div>
@@ -277,21 +288,21 @@
   </section>
 
   <!-- ───────────── CAREER OBJECTIVE ───────────── -->
-  <div id="objective" class="sec-lbl reveal">career objective</div>
+  <h2 id="objective" class="sec-lbl reveal">career objective</h2>
   <div class="panel reveal">
     <p class="lead">
-      I want to build the hardware that lets systems see and talk at microwave frequencies — radar front-ends, test instruments, and the mixed-signal boards that connect them to software.
+      I want to get to the edge of what we understand about electromagnetics — and push a little past it.
     </p>
     <p>
-      Most of what I've learned has come from carrying a design the whole way: block diagram, simulation in ADS, schematic and stackup in KiCad, layout, and then the slow part — bring-up and measurement in the lab. After graduating I want to join an RF/microwave hardware team (radar, test &amp; measurement, or wireless) where I can keep doing that full loop on harder problems and learn from engineers who have shipped real products.
+      Graduate school has been on my mind since I started my undergraduate degree. My goal is a master's degree followed by a Ph.D., building both the technical depth and the research judgment it takes to become a scientist. I'd like to continue at Iowa State in Professor Tayeb Al Qaseer's group, where I've spent the past year working on microwave imaging platforms, RF and microwave circuits, antennas, measurement systems, and the software that controls the instruments and processes the data.
     </p>
     <p>
-      Longer term I'd like to grow toward graduate-level depth in electromagnetics and microwave circuit design and lead the design of measurement systems — like the VNA and SAR imaging scanner I work on now — that make high-frequency hardware cheaper and easier to test.
+      I've learned how to pick up technical material quickly and turn it into working systems. What I want to develop next is the way a researcher thinks: recognizing which unanswered questions matter, stating them precisely, designing the experiments that answer them, and drawing real insight from the results. Long term, I want a research career in electromagnetics, microwave engineering and imaging.
     </p>
   </div>
 
   <!-- ───────────── SENIOR DESIGN ───────────── -->
-  <div id="senior-design" class="sec-lbl reveal">senior design project</div>
+  <h2 id="senior-design" class="sec-lbl reveal">senior design project</h2>
   <div class="projects reveal">
     <div class="proj-item open">
       <div class="proj-header" onclick="toggle(this)">
@@ -342,7 +353,7 @@
             </div>
             <div class="sblock">
               <h5>Big-picture contribution</h5>
-              <p class="todo">Draft — please check: Wideband mm-wave radars are expensive and closed. This project gives the lab an open, millimeter-resolution 24–40 GHz radar built from off-the-shelf parts that future teams can extend to more channels and MIMO imaging.</p>
+              <p>Wideband mm-wave radars are expensive and closed. This project gives the lab an open, millimeter-resolution 24–40 GHz radar built from off-the-shelf parts that future teams can extend to more channels and MIMO imaging.</p>
             </div>
           </div>
           <div class="doclinks">
@@ -359,7 +370,7 @@
   </div>
 
   <!-- ───────────── PROJECTS ───────────── -->
-  <div id="projects" class="sec-lbl reveal">featured projects</div>
+  <h2 id="projects" class="sec-lbl reveal">featured projects</h2>
   <div class="projects reveal">
 
     <!-- VNA -->
@@ -632,7 +643,7 @@
             </div>
             <div class="sblock">
               <h5>My role</h5>
-              <p>Sole designer — schematic, RF front end, and 4-layer layout for the AMNTL scanning setup.</p>
+              <p>Sole designer — schematic, RF front end, and 4-layer layout for the lab's scanning setup.</p>
             </div>
             <div class="sblock">
               <h5>Skills &amp; knowledge gained</h5>
@@ -700,7 +711,7 @@
             </div>
           </div>
           <div class="detail-footer">
-            <span class="detail-meta">AMNTL · May 2025 – present</span>
+            <span class="detail-meta">Microwave NDE Lab · May 2025 – present</span>
             <a class="gh-link" href="https://github.com/fdreshaj/SAR-Microwave-Imager" target="_blank" rel="noopener">github.com/fdreshaj/SAR-Microwave-Imager ↗</a>
           </div>
         </div>
@@ -808,11 +819,11 @@
   </div>
 
   <!-- ───────────── EXPERIENCE ───────────── -->
-  <div id="experience" class="sec-lbl reveal">research &amp; work experience</div>
+  <h2 id="experience" class="sec-lbl reveal">research &amp; work experience</h2>
   <div class="panel reveal">
     <div class="xp-head">
       <div>
-        <h3>Undergraduate Researcher — Applied Microwave Testing Lab (AMNTL)</h3>
+        <h3>Undergraduate Researcher — Applied Microwave Nondestructive Evaluation Laboratory</h3>
         <div class="xp-meta">Center for Nondestructive Evaluation, Iowa State University · Ames, IA</div>
       </div>
       <span class="xp-date">May 2025 – present</span>
@@ -853,7 +864,7 @@
         </ul>
       </div>
     </div>
-    <div class="summary-grid" style="margin-top:1.5rem">
+    <div class="summary-grid review-only" style="margin-top:1.5rem">
       <div class="sblock">
         <h5>Evaluations</h5>
         <p class="todo">To add: supervisor evaluation or feedback.</p>
@@ -866,7 +877,7 @@
   </div>
 
   <!-- ───────────── SKILLS ───────────── -->
-  <div id="skills" class="sec-lbl reveal">skills</div>
+  <h2 id="skills" class="sec-lbl reveal">skills</h2>
   <div class="skills reveal">
     <div class="scol">
       <h4>EDA / Simulation</h4>
@@ -901,7 +912,7 @@
   </div>
 
   <!-- ───────────── RESUME ───────────── -->
-  <div id="resume" class="sec-lbl reveal">resume</div>
+  <h2 id="resume" class="sec-lbl reveal">resume</h2>
   <div class="panel reveal">
     <div class="summary-grid">
       <div class="sblock">
@@ -911,7 +922,7 @@
       </div>
       <div class="sblock">
         <h5>Experience</h5>
-        <p>Researcher, Applied Microwave Testing Lab — May 2025 to present</p>
+        <p>Undergraduate Researcher, Applied Microwave Nondestructive Evaluation Laboratory (Prof. Tayeb Al Qaseer) — May 2025 to present</p>
         <p>Team Leader, sdmay27-11 MIMO FMCW Radar senior design — 2026–27</p>
       </div>
       <div class="sblock">
@@ -922,7 +933,7 @@
         <h5>Skills</h5>
         <p>Keysight ADS, KiCad, CST Microwave Studio, Python, MATLAB.</p>
       </div>
-      <div class="sblock">
+      <div class="sblock review-only">
         <h5>Awards &amp; activities</h5>
         <p class="todo">To add: scholarships, Dean's List, student organizations, published papers (none are on the current resume).</p>
       </div>
@@ -933,7 +944,7 @@
   </div>
 
   <!-- ───────────── REFLECTIONS ───────────── -->
-  <div id="reflections" class="sec-lbl reveal">reflections &amp; ethics</div>
+  <h2 id="reflections" class="sec-lbl reveal">reflections &amp; ethics</h2>
   <div class="projects reveal">
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
@@ -946,8 +957,9 @@
       <div class="proj-detail">
         <div class="proj-detail-inner prose">
           <!-- Write your reflection here in your own words (submitted to Canvas for an integrity check). -->
+          <p class="pending">This reflection is being written and will be posted here.</p>
           <p class="todo">To add: your General Education Reflection. It should answer:</p>
-          <ol class="prompts">
+          <ol class="prompts review-only">
             <li>What have your general education electives taught you that helps you evaluate and formulate engineering solutions beyond the technical side? How do they change how you think about an engineering problem?</li>
             <li>Using at least two specific classes, what other dimensions (economic, global, societal) do you now consider, and what impact do they have?</li>
           </ol>
@@ -965,8 +977,9 @@
       <div class="proj-detail">
         <div class="proj-detail-inner prose">
           <!-- Write your reflection here in your own words (submitted to Canvas for an integrity check). -->
+          <p class="pending">This reflection is being written and will be posted here.</p>
           <p class="todo">To add: your Cumulative Reflection. It should cover:</p>
-          <ol class="prompts">
+          <ol class="prompts review-only">
             <li>The bigger picture — designing systems, teamwork, communication, and ethical responsibility</li>
             <li>Resources beyond the classroom — journals, experts, peers, libraries</li>
             <li>Lifelong learning outside class — research, student orgs, career fairs</li>
@@ -983,29 +996,54 @@
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptitle">Engineering Ethics Paper — EE 394</div>
-          <div class="pdesc">Ethics paper written for EE 394.</div>
+          <div class="ptags"><span class="ptag t-hw">Ethics</span><span class="ptag t-py">EE/CprE 2320</span></div>
+          <div class="ptitle">Engineering Ethics Paper — The Chernobyl Disaster</div>
+          <div class="pdesc">An ethical case study of the 1986 Chernobyl reactor explosion: the engineering decisions in the RBMK reactor's design, who they affected, and what the designers should have done.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
-        <div class="proj-detail-inner prose">
-          <p class="todo">To add: a short summary of the paper's topic and conclusion, and put the PDF at <code>docs/Ethics_Paper_EE394.pdf</code>.</p>
-          <a class="gh-link" href="docs/Ethics_Paper_EE394.pdf" target="_blank" rel="noopener">Read the paper (PDF) ↗</a>
+        <div class="proj-detail-inner">
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Summary</h5>
+              <p>I traced the disaster back to two design decisions in the RBMK-1000 reactor: a positive void coefficient, which made the reaction speed up as cooling water turned to steam, and graphite-tipped control rods, which briefly increased reactivity at the moment they were meant to reduce it. The designers knew about the instability and the operators were never told — and the April 26 safety test, run under grid-schedule pressure, set it off.</p>
+            </div>
+            <div class="sblock">
+              <h5>Frameworks</h5>
+              <ul>
+                <li><strong>Agent- and patient-centered deontology:</strong> the engineers' duties — including to their own families under the Soviet system — against the public's right not to be put in danger without a say</li>
+                <li><strong>Reflexive principlism:</strong> weighing beneficence, nonmaleficence, justice and respect for autonomy for each decision</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Stakeholders</h5>
+              <p>Reactor designers, plant operators, Soviet leadership, the public near Chernobyl and across Europe, and future generations.</p>
+            </div>
+            <div class="sblock">
+              <h5>Conclusion</h5>
+              <p>I compared three options — instituting better failsafes, whistleblowing, and arguing with or deceiving superiors — and argued that, given the real danger to the engineers themselves, telling leadership the cheaper design would not work was the most defensible choice: the gain in nonmaleficence far outweighs the small loss in benefit, even though a strict Kantian would reject the lie. The same questions about duty, pressure and public risk apply to the technology we build today, AI included.</p>
+            </div>
+          </div>
+          <div class="doclinks">
+            <h5>Paper</h5>
+            <a class="gh-link" href="docs/Ethics_Paper_Chernobyl_EE2320.pdf" target="_blank" rel="noopener">Ethical Case Study of the Chernobyl Nuclear Disaster (PDF) ↗</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ───────────── CONTACT ───────────── -->
-  <div id="contact" class="sec-lbl reveal">about &amp; contact</div>
+  <h2 id="contact" class="sec-lbl reveal">about &amp; contact</h2>
   <div class="about reveal">
     <div class="about-text">
       <h3>Flatrim Dreshaj</h3>
       <p>
         B.S. Electrical Engineering, Iowa State University (GPA 3.55, exp. May 2027).
-        Researcher at the Applied Microwave Testing Lab building SAR imaging systems,
-        VNA hardware, and RF PCBs. I'm looking for RF / microwave hardware roles — reach out by email.
+        Undergraduate researcher in the Applied Microwave Nondestructive Evaluation Laboratory, building
+        microwave imaging systems, VNA hardware and RF PCBs. Planning to continue to graduate school
+        (M.S., then Ph.D.) in electromagnetics, microwave engineering and imaging — reach out by email.
       </p>
     </div>
     <div class="about-links">
@@ -1135,7 +1173,7 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
-<script src="js/rf-field.js?v=20261010c"></script>
-<script src="js/pcb-explode.js?v=20261010c" defer></script>
+<script src="js/rf-field.js?v=20261010f"></script>
+<script src="js/pcb-explode.js?v=20261010f" defer></script>
 </body>
 </html>
