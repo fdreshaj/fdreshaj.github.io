@@ -996,15 +996,39 @@
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
         <div>
-          <div class="ptitle">Engineering Ethics Paper — EE 394</div>
-          <div class="pdesc">Ethics paper written for EE 394: an engineering situation, the responsibilities involved, and the judgment it calls for.</div>
+          <div class="ptags"><span class="ptag t-hw">Ethics</span><span class="ptag t-py">EE/CprE 2320</span></div>
+          <div class="ptitle">Engineering Ethics Paper — The Chernobyl Disaster</div>
+          <div class="pdesc">An ethical case study of the 1986 Chernobyl reactor explosion: the engineering decisions in the RBMK reactor's design, who they affected, and what the designers should have done.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
-        <div class="proj-detail-inner prose">
-          <p class="todo">To add: a short summary of the paper's topic and conclusion, and put the PDF at <code>docs/Ethics_Paper_EE394.pdf</code>.</p>
-          <p class="pending">The paper and a short summary will be posted here.</p>
+        <div class="proj-detail-inner">
+          <div class="summary-grid">
+            <div class="sblock">
+              <h5>Summary</h5>
+              <p>I traced the disaster back to two design decisions in the RBMK-1000 reactor: a positive void coefficient, which made the reaction speed up as cooling water turned to steam, and graphite-tipped control rods, which briefly increased reactivity at the moment they were meant to reduce it. The designers knew about the instability and the operators were never told — and the April 26 safety test, run under grid-schedule pressure, set it off.</p>
+            </div>
+            <div class="sblock">
+              <h5>Frameworks</h5>
+              <ul>
+                <li><strong>Agent- and patient-centered deontology:</strong> the engineers' duties — including to their own families under the Soviet system — against the public's right not to be put in danger without a say</li>
+                <li><strong>Reflexive principlism:</strong> weighing beneficence, nonmaleficence, justice and respect for autonomy for each decision</li>
+              </ul>
+            </div>
+            <div class="sblock">
+              <h5>Stakeholders</h5>
+              <p>Reactor designers, plant operators, Soviet leadership, the public near Chernobyl and across Europe, and future generations.</p>
+            </div>
+            <div class="sblock">
+              <h5>Conclusion</h5>
+              <p>I compared three options — instituting better failsafes, whistleblowing, and arguing with or deceiving superiors — and argued that, given the real danger to the engineers themselves, telling leadership the cheaper design would not work was the most defensible choice: the gain in nonmaleficence far outweighs the small loss in benefit, even though a strict Kantian would reject the lie. The same questions about duty, pressure and public risk apply to the technology we build today, AI included.</p>
+            </div>
+          </div>
+          <div class="doclinks">
+            <h5>Paper</h5>
+            <a class="gh-link" href="docs/Ethics_Paper_Chernobyl_EE2320.pdf" target="_blank" rel="noopener">Ethical Case Study of the Chernobyl Nuclear Disaster (PDF) ↗</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1148,7 +1172,7 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
-<script src="js/rf-field.js?v=20261010d"></script>
-<script src="js/pcb-explode.js?v=20261010d" defer></script>
+<script src="js/rf-field.js?v=20261010e"></script>
+<script src="js/pcb-explode.js?v=20261010e" defer></script>
 </body>
 </html>
