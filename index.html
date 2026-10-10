@@ -4,11 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flatrim Dreshaj — RF &amp; Hardware Engineer</title>
-  <meta name="description" content="ECE student at Iowa State University. Researcher at the Applied Microwave Testing Lab." />
+  <meta name="description" content="Flatrim Dreshaj — Electrical Engineering at Iowa State University. RF and microwave hardware: VNA design, FMCW radar, phased arrays, PCB design, and microwave imaging research." />
   <meta property="og:title" content="Flatrim Dreshaj — RF &amp; Hardware Engineer" />
   <meta property="og:type" content="website" />
   <link rel="preload" href="fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#080a0f" />
+  <meta property="og:description" content="RF and microwave hardware portfolio: VNA, FMCW radar, phased arrays and PCB design, with live electromagnetic simulations." />
+  <meta property="og:image" content="https://fdreshaj.github.io/images/vna_3d.jpg" />
+  <script>
+    /* author notes ("To add" boxes) only show on a review link: ?review */
+    if (/[?&]review\b/.test(location.search) || /^(localhost|127\.)/.test(location.hostname)) document.documentElement.classList.add('review');
+  </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     :root{
@@ -43,7 +51,7 @@
     .btn-s{font-family:var(--mono);font-size:11px;padding:.65rem 1.4rem;background:transparent;color:var(--accent);border:1px solid #00e5ff33;cursor:pointer;letter-spacing:.08em;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .2s,color .2s;}
     .btn-s:hover{border-color:var(--accent);color:#fff;}
 
-    .sec-lbl{font-family:var(--mono);font-size:10px;color:#4f7fa8;letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
+    .sec-lbl{font-weight:400;font-family:var(--mono);font-size:10px;color:#4f7fa8;letter-spacing:.22em;text-transform:uppercase;margin:3.5rem 0 1.5rem;display:flex;align-items:center;gap:.65rem;}
     .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
 
     .projects{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);}
@@ -158,6 +166,9 @@
     .doclinks h5{margin:0;width:100%;}
     .todo{font-size:12px !important;color:#f0ad4e !important;border:1px dashed #f0ad4e55;background:#f0ad4e0a;padding:.5rem .75rem;line-height:1.6;}
     .todo.inline{display:inline-block;padding:.25rem .6rem;font-family:var(--mono);font-size:10px !important;}
+    html:not(.review) .todo,html:not(.review) .review-only{display:none !important;}
+    .pending{font-size:12.5px;color:var(--muted);font-style:italic;border-left:2px solid #1e3a5a;padding-left:.75rem;}
+    html.review .pending{display:none;}
     .todo code{font-family:var(--mono);font-size:11px;}
     .shot{position:relative;display:block;background:#060810;border:1px solid var(--border);overflow:hidden;aspect-ratio:16/10;}
     .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
@@ -277,7 +288,7 @@
   </section>
 
   <!-- ───────────── CAREER OBJECTIVE ───────────── -->
-  <div id="objective" class="sec-lbl reveal">career objective</div>
+  <h2 id="objective" class="sec-lbl reveal">career objective</h2>
   <div class="panel reveal">
     <p class="lead">
       I want to build the hardware that lets systems see and talk at microwave frequencies — radar front-ends, test instruments, and the mixed-signal boards that connect them to software.
@@ -291,7 +302,7 @@
   </div>
 
   <!-- ───────────── SENIOR DESIGN ───────────── -->
-  <div id="senior-design" class="sec-lbl reveal">senior design project</div>
+  <h2 id="senior-design" class="sec-lbl reveal">senior design project</h2>
   <div class="projects reveal">
     <div class="proj-item open">
       <div class="proj-header" onclick="toggle(this)">
@@ -342,7 +353,7 @@
             </div>
             <div class="sblock">
               <h5>Big-picture contribution</h5>
-              <p class="todo">Draft — please check: Wideband mm-wave radars are expensive and closed. This project gives the lab an open, millimeter-resolution 24–40 GHz radar built from off-the-shelf parts that future teams can extend to more channels and MIMO imaging.</p>
+              <p>Wideband mm-wave radars are expensive and closed. This project gives the lab an open, millimeter-resolution 24–40 GHz radar built from off-the-shelf parts that future teams can extend to more channels and MIMO imaging.</p>
             </div>
           </div>
           <div class="doclinks">
@@ -359,7 +370,7 @@
   </div>
 
   <!-- ───────────── PROJECTS ───────────── -->
-  <div id="projects" class="sec-lbl reveal">featured projects</div>
+  <h2 id="projects" class="sec-lbl reveal">featured projects</h2>
   <div class="projects reveal">
 
     <!-- VNA -->
@@ -808,7 +819,7 @@
   </div>
 
   <!-- ───────────── EXPERIENCE ───────────── -->
-  <div id="experience" class="sec-lbl reveal">research &amp; work experience</div>
+  <h2 id="experience" class="sec-lbl reveal">research &amp; work experience</h2>
   <div class="panel reveal">
     <div class="xp-head">
       <div>
@@ -853,7 +864,7 @@
         </ul>
       </div>
     </div>
-    <div class="summary-grid" style="margin-top:1.5rem">
+    <div class="summary-grid review-only" style="margin-top:1.5rem">
       <div class="sblock">
         <h5>Evaluations</h5>
         <p class="todo">To add: supervisor evaluation or feedback.</p>
@@ -866,7 +877,7 @@
   </div>
 
   <!-- ───────────── SKILLS ───────────── -->
-  <div id="skills" class="sec-lbl reveal">skills</div>
+  <h2 id="skills" class="sec-lbl reveal">skills</h2>
   <div class="skills reveal">
     <div class="scol">
       <h4>EDA / Simulation</h4>
@@ -901,7 +912,7 @@
   </div>
 
   <!-- ───────────── RESUME ───────────── -->
-  <div id="resume" class="sec-lbl reveal">resume</div>
+  <h2 id="resume" class="sec-lbl reveal">resume</h2>
   <div class="panel reveal">
     <div class="summary-grid">
       <div class="sblock">
@@ -922,7 +933,7 @@
         <h5>Skills</h5>
         <p>Keysight ADS, KiCad, CST Microwave Studio, Python, MATLAB.</p>
       </div>
-      <div class="sblock">
+      <div class="sblock review-only">
         <h5>Awards &amp; activities</h5>
         <p class="todo">To add: scholarships, Dean's List, student organizations, published papers (none are on the current resume).</p>
       </div>
@@ -933,7 +944,7 @@
   </div>
 
   <!-- ───────────── REFLECTIONS ───────────── -->
-  <div id="reflections" class="sec-lbl reveal">reflections &amp; ethics</div>
+  <h2 id="reflections" class="sec-lbl reveal">reflections &amp; ethics</h2>
   <div class="projects reveal">
     <div class="proj-item">
       <div class="proj-header" onclick="toggle(this)">
@@ -946,8 +957,9 @@
       <div class="proj-detail">
         <div class="proj-detail-inner prose">
           <!-- Write your reflection here in your own words (submitted to Canvas for an integrity check). -->
+          <p class="pending">This reflection is being written and will be posted here.</p>
           <p class="todo">To add: your General Education Reflection. It should answer:</p>
-          <ol class="prompts">
+          <ol class="prompts review-only">
             <li>What have your general education electives taught you that helps you evaluate and formulate engineering solutions beyond the technical side? How do they change how you think about an engineering problem?</li>
             <li>Using at least two specific classes, what other dimensions (economic, global, societal) do you now consider, and what impact do they have?</li>
           </ol>
@@ -965,8 +977,9 @@
       <div class="proj-detail">
         <div class="proj-detail-inner prose">
           <!-- Write your reflection here in your own words (submitted to Canvas for an integrity check). -->
+          <p class="pending">This reflection is being written and will be posted here.</p>
           <p class="todo">To add: your Cumulative Reflection. It should cover:</p>
-          <ol class="prompts">
+          <ol class="prompts review-only">
             <li>The bigger picture — designing systems, teamwork, communication, and ethical responsibility</li>
             <li>Resources beyond the classroom — journals, experts, peers, libraries</li>
             <li>Lifelong learning outside class — research, student orgs, career fairs</li>
@@ -984,21 +997,21 @@
       <div class="proj-header" onclick="toggle(this)">
         <div>
           <div class="ptitle">Engineering Ethics Paper — EE 394</div>
-          <div class="pdesc">Ethics paper written for EE 394.</div>
+          <div class="pdesc">Ethics paper written for EE 394: an engineering situation, the responsibilities involved, and the judgment it calls for.</div>
         </div>
         <div class="parr">→</div>
       </div>
       <div class="proj-detail">
         <div class="proj-detail-inner prose">
           <p class="todo">To add: a short summary of the paper's topic and conclusion, and put the PDF at <code>docs/Ethics_Paper_EE394.pdf</code>.</p>
-          <a class="gh-link" href="docs/Ethics_Paper_EE394.pdf" target="_blank" rel="noopener">Read the paper (PDF) ↗</a>
+          <p class="pending">The paper and a short summary will be posted here.</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ───────────── CONTACT ───────────── -->
-  <div id="contact" class="sec-lbl reveal">about &amp; contact</div>
+  <h2 id="contact" class="sec-lbl reveal">about &amp; contact</h2>
   <div class="about reveal">
     <div class="about-text">
       <h3>Flatrim Dreshaj</h3>
@@ -1135,7 +1148,7 @@ function startAnims(item){
   els.forEach(function(el){io.observe(el);});
 })();
 </script>
-<script src="js/rf-field.js?v=20261010c"></script>
-<script src="js/pcb-explode.js?v=20261010c" defer></script>
+<script src="js/rf-field.js?v=20261010d"></script>
+<script src="js/pcb-explode.js?v=20261010d" defer></script>
 </body>
 </html>
