@@ -5,6 +5,7 @@
 (function () {
   var THREE_URL = 'js/vendor/three-r128.min.js';
   var threeReady = null;
+  var LAYERS_V = '2';   // bump when board layer data is regenerated, so browsers refetch it
 
   function loadThree() {
     if (window.THREE) return Promise.resolve();
@@ -100,12 +101,12 @@
     this.root.querySelectorAll('.pcb3d-tabs button').forEach(function (bt, k) { bt.classList.toggle('on', k === i); });
     this.status.style.display = ''; this.status.textContent = 'loading layers…';
     var base = 'layers/' + b.id + '/';
-    fetch(base + 'board.json').then(function (r) { return r.json(); }).then(function (j) {
+    fetch(base + 'board.json?v=' + LAYERS_V).then(function (r) { return r.json(); }).then(function (j) {
       var loader = new T.TextureLoader(), cache = {};
       var jobs = j.layers.map(function (l) {
         if (!cache[l.img]) {
           cache[l.img] = new Promise(function (res) {
-            loader.load(base + l.img, function (tx) {
+            loader.load(base + l.img + '?v=' + LAYERS_V, function (tx) {
               tx.encoding = T.sRGBEncoding;
               tx.anisotropy = self.renderer.capabilities.getMaxAnisotropy();
               res(tx);
